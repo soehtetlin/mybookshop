@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.ListSelectionModel;
 
 public class EmployeeForm extends JPanel {
 
@@ -224,6 +225,7 @@ public class EmployeeForm extends JPanel {
 		showtablepanel.setLayout(null);
 
 		tblshowEmployee = new JTable();
+		tblshowEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblshowEmployee.setSize(new Dimension(789, 288));
 		tblshowEmployee.setRowHeight(30);
 		tblshowEmployee.setFont(new Font("Tahoma", Font.BOLD, 14));

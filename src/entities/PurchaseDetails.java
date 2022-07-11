@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class PurchaseDetails {
 
-	private int id;
+	private String id;
 
 	private Purchase purchase;
 
@@ -17,7 +17,7 @@ public class PurchaseDetails {
 	public PurchaseDetails() {
 	}
 
-	public PurchaseDetails(int id, Purchase purchase, Book book, int quantity, int price) {
+	public PurchaseDetails(String id, Purchase purchase, Book book, int quantity, int price) {
 		super();
 		this.id = id;
 		this.purchase = purchase;
@@ -26,11 +26,11 @@ public class PurchaseDetails {
 		this.price = price;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -42,7 +42,7 @@ public class PurchaseDetails {
 		this.purchase = purchase;
 	}
 
-	public Book getProduct() {
+	public Book getBook() {
 		return book;
 	}
 

@@ -14,11 +14,14 @@ import database_config.DBconnector;
 import entities.Author;
 import entities.Book;
 import entities.Category;
+import repositories.*;
 import entities.Publisher;
+import shared.mapper.*;
 
-public class BookService {
+public class BookService implements BookRepo{
 
 	private final DBconnector dbConfig = new DBconnector();
+	private final BookMapper bookMapper = new BookMapper();
 	
 
 	public void saveBooks(Book book) {
@@ -99,27 +102,61 @@ public class BookService {
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
-				Book b = new Book();
-				b.setId(rs.getString("id"));
-				b.setPhoto(rs.getString("photo"));
-				b.setName(rs.getString("name"));
+				Book book = new Book();
+//				System.out.println("ID " + rs.getString("id"));
+//				System.out.println("Name " + rs.getString("name"));
+//				System.out.println("Price " + rs.getString("price"));
+//				System.out.println("stockMount" + rs.getString("stockamount"));
+//				System.out.println("shelf" + rs.getString("shelf_number"));
+//				System.out.println("phtoo" + rs.getString("photo"));
+//				System.out.println("author id " + rs.getString("author.id"));
+//				System.out.println("atuhor nae " + rs.getString("author.name"));
+//				System.out.println("cateid " + rs.getString("category.id"));
+//				System.out.println("ca name " + rs.getString("category.name"));
+//				System.out.println("pu id " + rs.getString("publisher.id"));
+//				System.out.println("pu name " + rs.getString("publisher.name"));
 				
-				Author author=new Author();
-				b.setAuthor(author);
+				bookList.add(this.bookMapper.mapToProduct(book, rs));
 				
-				Category category=new Category();
-				b.setCategory(category);
-				
-				Publisher publisher=new Publisher();
-				b.setPublisher(publisher);
-				
-				b.setPrice(rs.getInt("price"));
-				b.setSale_price(rs.getInt("sale_price"));
-				b.setStockamount(rs.getInt("stockamount"));
-				b.setShelf_number(rs.getInt("shelf_number"));
-				b.setRemark(rs.getString("remark"));
-				
-				bookList.add(b);
+//				book.setId(rs.getString("id"));
+//				book.setName(rs.getString("name"));
+//				book.setPrice(rs.getInt("price"));
+//				book.setStockamount(rs.getInt("stockamount"));
+//				book.setShelf_number(rs.getInt("shelf_number"));
+//				book.setPhoto(rs.getString("photo"));
+//
+//				Author author = new Author();
+//				author.setId(rs.getString("author.id"));
+//				author.setName(rs.getString("author.name"));
+//				Category category = new Category();
+//				category.setId(rs.getString("category.id"));
+//				category.setName(rs.getString("category.name"));
+//				Publisher publisher =new Publisher();
+//				publisher.setId(rs.getString("publisher.id"));
+//				publisher.setName(rs.getString("publisher.name"));
+			//	bookList.add(book);
+
+//				Book b = new Book();
+//				b.setId(rs.getString("id"));
+//				b.setPhoto(rs.getString("photo"));
+//				b.setName(rs.getString("name"));
+//				
+//				Author author=new Author();
+//				b.setAuthor(author);
+//				
+//				Category category=new Category();
+//				b.setCategory(category);
+//				
+//				Publisher publisher=new Publisher();
+//				b.setPublisher(publisher);
+//				
+//				b.setPrice(rs.getInt("price"));
+//				b.setSale_price(rs.getInt("sale_price"));
+//				b.setStockamount(rs.getInt("stockamount"));
+//				b.setShelf_number(rs.getInt("shelf_number"));
+//				b.setRemark(rs.getString("remark"));
+//				
+//				bookList.add(b);
 				
 			}
 			
@@ -154,21 +191,71 @@ public class BookService {
 //
 //		return publisher;
 //	}
-//
+	
+	public Book findById(String bookID) {
+		Book book = new Book();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM book\n" + "INNER JOIN category\n"
+					+ "ON category.id = book.category_id\n" + "INNER JOIN publisher\n"
+					+ "ON publisher.id = book.publisher_id\n"+  "INNER JOIN author\n"
+					+ "ON author.id = book.author_id\n"+ "WHERE book.id = '" + bookID + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				book = this.bookMapper.mapToProduct(book, rs);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return book;
+	}
+
+	@Override
+	public List<Book> findBookByCategoryID(String categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Book> findBookByPublisherID(String publisherId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createBooks(Book book) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletBooks(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 //	public void delete(String id) {
 //		try {
 //
-////			List<Product> productsByCategoryId = this.productRepo.findProductsByBrandId(id);
-////
-////			if (productsByCategoryId.size() > 0) {
-////				throw new AppException("This brand cannot be deleted");
-////			}
+//			List<Product> productsByCategoryId = this.productRepo.findProductsByBrandId(id);
+//
+//			if (productsByCategoryId.size() > 0) {
+//				throw new AppException("This brand cannot be deleted");
+//			}
 //
 //			String query = "DELETE FROM brand WHERE brand_id = ?";
 //
 //			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(query);
 //			ps.setString(1, id);
-//
+//  
 //			ps.executeUpdate();
 //			ps.close();
 //

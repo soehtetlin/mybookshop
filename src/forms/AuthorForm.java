@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
+import javax.swing.ListSelectionModel;
 
 public class AuthorForm extends JPanel {
 
@@ -78,7 +79,7 @@ public class AuthorForm extends JPanel {
 	private void initialize() {
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setLayout(null);
-		setBounds(42, 11, 809, 450);
+		setBounds(42, 11, 170, 720);
 
 		JLabel lblAuthorName = new JLabel("Author Name");
 		lblAuthorName.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -199,11 +200,12 @@ public class AuthorForm extends JPanel {
 
 		JPanel showtablepanel = new JPanel();
 		showtablepanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		showtablepanel.setBounds(10, 154, 789, 285);
+		showtablepanel.setBounds(10, 154, 1170, 400);
 		add(showtablepanel);
 		showtablepanel.setLayout(null);
 
 		tblshowAuthor = new JTable();
+		tblshowAuthor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblshowAuthor.setSize(new Dimension(789, 288));
 		tblshowAuthor.setRowHeight(30);
 		tblshowAuthor.setFont(new Font("Tahoma", Font.BOLD, 14));

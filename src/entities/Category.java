@@ -8,15 +8,17 @@ public class Category {
 	private String id;
 
 	private String name;
-	
+	private List<Book> books = new ArrayList<>();
+
 	public Category() {
 	}
 
-	public Category(String id, String name) {
+	public Category(String id, String name,List<Book> books ) {
 		super();
 		this.id = id;
 		this.name = name;
-	
+		this.books = books;
+
 	}
 
 	public String getId() {
@@ -35,6 +37,13 @@ public class Category {
 		this.name = name;
 	}
 
+	public List<Book> getBooks(){
+		return books;
+	}
+	
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 
 
 }

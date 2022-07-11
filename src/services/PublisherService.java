@@ -145,5 +145,30 @@ public class PublisherService {
 				e.printStackTrace();
 		}
 	}
+	
+	public Publisher findByName(String name) {
+		Publisher publisher = new Publisher();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM publisher WHERE name = '" + name + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				publisher.setId(rs.getString("id"));
+				publisher.setName(rs.getString("name"));
+				publisher.setContact_no(rs.getString("contact_no"));
+				publisher.setAddress(rs.getString("address"));
+				publisher.setEmail(rs.getString("email"));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return publisher;
+	}
 
 }

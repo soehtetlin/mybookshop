@@ -127,5 +127,26 @@ public class EmployeeService implements EmployeeRepo {
 
 		return employee;
 	}
+	
+	public Employee findEmployeeByName(String name) {
+		Employee employee = new Employee();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+			
+			String query = "SELECT id,name,username,password,age,gender,contact_no,address,email FROM employee WHERE name = '" + name + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				this.employeeMapper.mapToEmployee(employee, rs);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return employee;
+	}
+
 
 }

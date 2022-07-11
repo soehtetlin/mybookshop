@@ -28,6 +28,7 @@ package forms;
 	import services.PublisherService;
 
 	import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
 
 	public class PublisherForm extends JPanel {
 
@@ -175,6 +176,7 @@ package forms;
 			panel_1.add(scrollPane);
 
 			tblPublisher = new JTable();
+			tblPublisher.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tblPublisher.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			tblPublisher.setBackground(new Color(255, 250, 240));
 			tblPublisher.setForeground(Color.DARK_GRAY);
