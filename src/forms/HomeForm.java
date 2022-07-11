@@ -24,7 +24,7 @@ public class HomeForm extends JFrame {
 	private EmployeeForm employeeform = new EmployeeForm();
 	private BookForm bookform = new BookForm();
 	private PublisherForm publisherForm = new PublisherForm();
-
+	private PurchaseDetail purchaseDetailForm = new PurchaseDetail();
 	/**
 	 * Launch the application.
 	 */
@@ -33,8 +33,10 @@ public class HomeForm extends JFrame {
 			public void run() {
 				try {
 					HomeForm frame = new HomeForm();
-					frame.pack();
+					//frame.isOpaque();
 					frame.setVisible(true);
+					//frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+					//frame.setSize(830,500);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,23 +48,25 @@ public class HomeForm extends JFrame {
 	 * Create the frame.
 	 */
 	public HomeForm() {
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
+		//setPreferredSize(500,250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setOpaque(true);
+
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(10, 11, 156, 450);
+		panel.setBounds(10, 11, 170, 450);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JPanel panel_load = new JPanel();
 		panel_load.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_load.setBounds(176, 11, 809, 450);
+		panel_load.setBounds(176, 11, 809, 458);
 		contentPane.add(panel_load);
 		
 		JToggleButton tglbtnNewToggleButton = new JToggleButton("Home");
@@ -73,9 +77,10 @@ public class HomeForm extends JFrame {
 		JToggleButton tglbtnManageCategory = new JToggleButton("Sales");
 		tglbtnManageCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				jloader.jPanelLoader(panel_load, auform);
+				jloader.jPanelLoader(panel_load, purchaseDetailForm);
 			}
 		});
+		
 		tglbtnManageCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
 		tglbtnManageCategory.setBounds(10, 64, 136, 42);
 		panel.add(tglbtnManageCategory);

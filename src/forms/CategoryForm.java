@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
+import javax.swing.ListSelectionModel;
 
 public class CategoryForm extends JPanel {
 
@@ -204,6 +205,7 @@ public class CategoryForm extends JPanel {
 		showtablepanel.setLayout(null);
 
 		tblshowCategory = new JTable();
+		tblshowCategory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblshowCategory.setSize(new Dimension(789, 288));
 		tblshowCategory.setRowHeight(30);
 		tblshowCategory.setFont(new Font("Tahoma", Font.BOLD, 14));

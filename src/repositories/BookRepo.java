@@ -5,17 +5,17 @@ import entities.Book;
 import java.util.List;
 
 public interface BookRepo {
-	List<Book> findProductsByCategoryId(String categoryId);
+	List<Book> findBookByCategoryID(String categoryId);
 
-	List<Book> findProductsByBrandId(String brandId);
+	List<Book> findBookByPublisherID(String publisherId);
 
-	void createProduct(Book book);
+	void createBooks(Book book);
 
-	void updateProduct(String id, Book book);
+	void updateBooks(String id, Book book);
 
-	void deleteProduct(String id);
+	void deletBooks(String id);
 
-	Book findById(String productId);
+	Book findById(String bookID);
 
-	List<Book> findAllProducts();
+	List<Book> findAllBooks();
 }
