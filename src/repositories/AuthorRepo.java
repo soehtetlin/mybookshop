@@ -1,8 +1,6 @@
 package repositories;
 
 import entities.Author;
-
-
 import java.util.List;
 
 public interface AuthorRepo {

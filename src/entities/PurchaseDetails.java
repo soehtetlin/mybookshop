@@ -35,18 +35,22 @@ public class PurchaseDetails {
 	}
 
 	public Purchase getPurchase() {
+		System.out.println("Entities Purchase getMethod :" + purchase.getId());
+		
 		return purchase;
 	}
 
 	public void setPurchase(Purchase purchase) {
+		System.out.println("Entities Purchase :" + purchase.getId());
 		this.purchase = purchase;
 	}
 
 	public Book getBook() {
+		System.out.println("Entities purchasedetail get Book get name p:" + book.getName());
 		return book;
 	}
 
-	public void setProduct(Book book) {
+	public void setBook(Book book) {
 		this.book = book;
 	}
 

@@ -11,18 +11,23 @@ package forms;
 	import javax.swing.JOptionPane;
 
 	import java.awt.Font;
-	import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
 	import java.util.ArrayList;
 	import java.util.List;
 	import java.util.Optional;
 	import javax.swing.JTable;
 	import java.awt.Color;
-	import javax.swing.JTextField;
+import java.awt.Dimension;
+
+import javax.swing.JTextField;
 	import javax.swing.border.LineBorder;
-	import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
 	import javax.swing.table.DefaultTableModel;
-	import javax.swing.table.TableColumn;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 
 	import entities.Publisher;
 	import services.PublisherService;
@@ -32,7 +37,6 @@ import javax.swing.ListSelectionModel;
 
 	public class PublisherForm extends JPanel {
 
-		private JPanel contentPane;
 		private JTable tblPublisher;
 		private JTextField txtSupId;
 		private JTextField txtSupPhone;
@@ -46,25 +50,6 @@ import javax.swing.ListSelectionModel;
 
 	    private DefaultTableModel dtm = new DefaultTableModel();
 
-		/**
-		 * Launch the application.
-		 */
-		public static void main(String[] args) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						PublisherForm frame = new PublisherForm();
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-
-		/**
-		 * Create the frame.
-		 */
 		public PublisherForm() {
 			pubService = new PublisherService();
 			initialize();
@@ -172,15 +157,23 @@ import javax.swing.ListSelectionModel;
 			panel_1.setLayout(null);
 			
 			JScrollPane scrollPane = new JScrollPane();
-		    scrollPane.setBounds(0, 0, 764, 270);
+		    scrollPane.setBounds(0, 0, 764, 316);
 			panel_1.add(scrollPane);
 
 			tblPublisher = new JTable();
 			tblPublisher.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			tblPublisher.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			tblPublisher.setBackground(new Color(255, 250, 240));
 			tblPublisher.setForeground(Color.DARK_GRAY);
-			tblPublisher.setBounds(150, 251, 555, -184);
+			tblPublisher.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			tblPublisher.setFont(new Font("Tahoma", Font.BOLD, 12));
+			tblPublisher.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tblPublisher.setDefaultEditor(Object.class, null);
+			tblPublisher.setAutoCreateRowSorter(true);
+			JTableHeader jtableheader = tblPublisher.getTableHeader();
+			jtableheader.setBackground(SystemColor.textHighlight);
+			jtableheader.setForeground(Color.white);
+			jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
+			jtableheader.setPreferredSize(new Dimension(100,40));
 			scrollPane.setViewportView(tblPublisher);
 			
 			buttonOnClick();
@@ -192,18 +185,32 @@ import javax.swing.ListSelectionModel;
 		        dtm.addColumn("Phone");
 		        dtm.addColumn("Email");
 		        dtm.addColumn("Address");
+		        tblPublisher.setModel(dtm);
 		        
-		        this.tblPublisher.setModel(new DefaultTableModel(
-		        	new Object[][] {
-		        	},
-		        	new String[] {
-		        		"ID", "Name", "Phone", "Address", "Mail"
-		        	}
-		        ));
+		        tblPublisher.setRowHeight(40);
+				DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
+				dfcr.setHorizontalAlignment(JLabel.CENTER);
+				tblPublisher.getColumnModel().getColumn(0).setCellRenderer(dfcr);
+				tblPublisher.getColumnModel().getColumn(1).setCellRenderer(dfcr);
+				tblPublisher.getColumnModel().getColumn(2).setCellRenderer(dfcr);
+				tblPublisher.getColumnModel().getColumn(3).setCellRenderer(dfcr);
+				tblPublisher.getColumnModel().getColumn(4).setCellRenderer(dfcr);
+//				
+				tblPublisher.getColumnModel().getColumn(0).setPreferredWidth(120);
+				tblPublisher.getColumnModel().getColumn(1).setPreferredWidth(130);
+				tblPublisher.getColumnModel().getColumn(2).setPreferredWidth(150);
+				tblPublisher.getColumnModel().getColumn(3).setPreferredWidth(170);
+				tblPublisher.getColumnModel().getColumn(4).setPreferredWidth(175);
+//				
+//		        		        this.tblPublisher.setModel(new DefaultTableModel(
+//		        		        		new Object[][] {
+//		        		        		},
+//		        		        		new String[] {
+//		        		        				"ID", "Name", "Phone", "Address", "Mail"
+//		        		        		}
+//		        ));
 		        
-//		        DefaultTableColumnModel tcm=(DefaultTableColumnModel) tblPublisher.getColumnModel();
-//		        TableColumn tc= tcm.getColumn(0);
-//		        tc.setWidth(WIDTH);
+//		   
 		        
 		  }
 		
@@ -264,12 +271,15 @@ import javax.swing.ListSelectionModel;
 			this.originalPublisherList = this.pubService.findAllPublishers();
 			List<Publisher> pubList= optionalPublisher.orElseGet(() -> originalPublisherList);
 			pubList.forEach(e -> {
-			      Object[] row = new Object[7];
+			      Object[] row = new Object[5];
 			      row[0] = e.getId();
 			      row[1] = e.getName();
 			      row[2] = e.getContact_no();
+			      row[3] = e.getEmail();
 			      row[4] = e.getAddress();
-			      row[5] = e.getEmail();
+			    
+			      //System.out.println("Puliserh ofrm : " + e.getEmail() );
+			     
 			      dtm.addRow(row);
 			  });
 			

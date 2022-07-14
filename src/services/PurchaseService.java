@@ -253,6 +253,80 @@ public class PurchaseService implements PurchaseRepo {
 
 		return purchaseList;
 	}
+	
+	public List<PurchaseDetails> loadAllPurchaseDetails() {
+
+		List<PurchaseDetails> purchaseList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+//			String query = "select purchase_detail.id,purchase_detail.purchase_date,book.name,\r\n"
+//					+ "publisher.name as publisher_name,\r\n"
+//					+ "employee.name as employee_name,\r\n"
+//					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
+//					+ "purchase.description as purchase_description\r\n"
+//					+ "from purchase \r\n"
+//					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
+//					+ "inner join employee on employee.id = purchase.employee_id\r\n"
+//					+ "inner join book on book.id = purchase_detail.book_id\r\n"
+//					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
+//					+ "inner join author on author.id = book.author_id";
+			
+			String query = "select purchase.id,purchase.purchase_date,book.name,\r\n"
+					+ "publisher.name as publisher_name,\r\n"
+					+ "employee.name as employee_name,\r\n"
+					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
+					+ "category.name as category_name,\r\n"
+					+ "purchase.description as purchase_description\r\n"
+					+ "from purchase \r\n"
+					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
+					+ "inner join employee on employee.id = purchase.employee_id\r\n"
+					+ "inner join book on book.id = purchase_detail.book_id\r\n"
+					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
+					+ "inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id order by purchase.purchase_date desc;";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				PurchaseDetails purchase = new PurchaseDetails();
+				purchaseList.add(this.purchaseMapper.mapAllPurchaseDetails(purchase, rs));	
+				
+			}
+		
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return purchaseList;
+		
+		//System.out.println("inside purchse service purchase id : " + purchaseList);}
+		//System.out.println("sizeo of return purhasedetail : " + purchaseList.size());
+		//System.out.println(purchaseList.get(0));
+		
+		//String[] requestNos = new String[purchaseList.size()];
+
+//		for (int i = 0; i < purchaseList.size(); i++) {
+//		    requestNos[i] = purchaseList.get(i).getId();
+//		    System.out.println("Purchase sevice purcahseliest purchsseid : " + requestNos[i]);
+//		}
+//		purchaseList.forEach(e -> {
+//			Object[] row = new Object[10];
+//			row[0] = e.getPurchase().getId();
+//			System.out.println("Indside purchse servcie purchaselist loop purchase id : " + e.getPurchase().getId());
+//			row[1] = e.getPurchase().getPurchaseDate();
+//			row[2] = e.getBook().getName();
+//			row[3] = e.getBook().getPublisher().getName();
+//			row[4] = e.getPurchase().getEmployee().getName();
+//			row[5] = e.getQuantity();
+//			row[6] = e.getBook().getPrice();
+//			row[7] = e.getBook().getAuthor().getName();
+//			row[8] = e.getBook().getCategory().getName();
+//			row[9] = e.getPurchase().getDescription();
+//		});
+		
+	}
 
 	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
 
@@ -274,6 +348,29 @@ public class PurchaseService implements PurchaseRepo {
 		}
 
 		return purchaseDetailsList;
+	}
+
+	
+	public List<Purchase> loadAllPurchaseID() {
+
+		List<Purchase> purchaseList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM purchase ";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Purchase purchase = new Purchase();
+				purchaseList.add(this.purchaseMapper.mapPurchaseID(purchase, rs));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return purchaseList;
 	}
 
 	@Override

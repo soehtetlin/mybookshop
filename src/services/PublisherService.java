@@ -33,6 +33,7 @@ public class PublisherService {
             ps.setString(3, publisher.getContact_no());
             ps.setString(4, publisher.getAddress());
             ps.setString(5, publisher.getEmail());
+           
             ps.executeUpdate();
             ps.close();
             JOptionPane.showMessageDialog(null,"Record Saved Successfully.");
@@ -83,7 +84,7 @@ public class PublisherService {
 				p.setContact_no(rs.getString("contact_no"));
 				p.setAddress(rs.getString("address"));
 				p.setEmail(rs.getString("email"));
-				
+				 System.out.println("Publisher Service " + p.getEmail());
 				publisherList.add(p);
 				
 			}
