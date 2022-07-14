@@ -1,4 +1,4 @@
-//package forms;
+package forms;
 //
 //import entities.Purchase;
 //import entities.PurchaseDetails;
@@ -15,7 +15,7 @@
 //import javax.swing.JScrollPane;
 //import javax.swing.table.DefaultTableModel;
 //
-//public class PurchaseDetailsForm {
+public class PurchaseDetailsForm {
 //
 //	JFrame frmPurchasedetails;
 //	private JTable tblDetails;
@@ -126,4 +126,4 @@
 //		scrollPane.setViewportView(tblDetails);
 //		tblDetails.setFont(new Font("Tahoma", Font.PLAIN, 15));
 //	}
-//}
+}

@@ -83,7 +83,7 @@ public class PurchaseForm extends JPanel {
 	private JLabel lblBookID;
 	private Employee employee;
 	private PurchaseDetails purchaseDetail;
-	private PurchaseDetailForm purchaseDetailForm;
+	private PurchaseDetailsForm purchaseDetailForm;
 	private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 	private JLabel lblemployee, lblshowdate;
 	private JButton btnaddbook;

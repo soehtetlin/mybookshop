@@ -70,13 +70,13 @@ public class HomeForm extends JFrame {
 		panel.add(tglbtnNewToggleButton);
 
 		JToggleButton tglbtnManageCategory = new JToggleButton("Sales");
-		tglbtnManageCategory.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				PurchaseDetailForm purchaseDetailForm = new PurchaseDetailForm();
-				jloader.jPanelLoader(panel_load, purchaseDetailForm);
-
-			}
-		});
+//		tglbtnManageCategory.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				PurchaseDetailForm purchaseDetailForm = new PurchaseDetailForm();
+//				jloader.jPanelLoader(panel_load, purchaseDetailForm);
+//
+//			}
+//		});
 
 		tglbtnManageCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
 		tglbtnManageCategory.setBounds(10, 64, 136, 42);
@@ -109,8 +109,8 @@ public class HomeForm extends JFrame {
 		tglbtnManageAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				BookForm bookform = new BookForm();
-				jloader.jPanelLoader(panel_load, bookform);
+				BookListForm bookListform = new BookListForm();
+				jloader.jPanelLoader(panel_load, bookListform);
 			}
 		});
 		tglbtnManageAccount.setFont(new Font("Tahoma", Font.BOLD, 14));
