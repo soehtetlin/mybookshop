@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Color;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import entities.Author;
 import services.AuthorService;
@@ -69,7 +70,10 @@ public class AuthorForm extends JPanel {
 		dtm.addColumn("Author ID");
 		dtm.addColumn("Author Name");
 		tblshowAuthor.setModel(dtm);
-
+		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
+		dfcr.setHorizontalAlignment(JLabel.CENTER);
+		tblshowAuthor.getColumnModel().getColumn(0).setCellRenderer(dfcr);
+		tblshowAuthor.getColumnModel().getColumn(1).setCellRenderer(dfcr);
 	}
 
 	private void resetFormData() {

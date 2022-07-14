@@ -5,6 +5,7 @@ import entities.Category;
 import java.util.List;
 
 public interface CategoryRepo {
+	
 	void saveCategory(Category category);
 
 	void updateCategory(String id, Category category);

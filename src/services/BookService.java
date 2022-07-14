@@ -97,7 +97,7 @@ public class BookService implements BookRepo{
 	                    "INNER JOIN publisher\n" +
 	                    "ON publisher.id = book.publisher_id\n" +
 	                    "INNER JOIN author\n" +
-	                    "ON author.id = book.author_id;";
+	                    "ON author.id = book.author_id ORDER BY book.id ASC;";
 
 			ResultSet rs = st.executeQuery(query);
 

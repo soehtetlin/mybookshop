@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Color;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import entities.Category;
 import services.CategoryService;
@@ -69,6 +70,11 @@ public class CategoryForm extends JPanel {
 		dtm.addColumn("Category ID");
 		dtm.addColumn("Category Name");
 		tblshowCategory.setModel(dtm);
+		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
+		dfcr.setHorizontalAlignment(JLabel.CENTER);
+		tblshowCategory.getColumnModel().getColumn(0).setCellRenderer(dfcr);
+		tblshowCategory.getColumnModel().getColumn(1).setCellRenderer(dfcr);
+
 
 	}
 
