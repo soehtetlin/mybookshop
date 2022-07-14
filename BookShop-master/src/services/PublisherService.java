@@ -122,25 +122,29 @@ public class PublisherService {
 		return publisher;
 	}
 
-	public void deletePublisher(String pubId) {
-//		try {
+	public void delete(String id) {
+		try {
+
+//			List<Product> productsByCategoryId = this.productRepo.findProductsByBrandId(id);
 //
-//			List<Purchase> purchaseByPublisherId = findPurchaseListByPublisherId(pubId);
-//			
-//			if(purchaseByPublisherId.size() > 0) {
-//				throw new AppException("This publisher cannot be deleted");
+//			if (productsByCategoryId.size() > 0) {
+//				throw new AppException("This brand cannot be deleted");
 //			}
-////			String query = "DELETE FROM publisher WHERE id = ?";
-//
-//			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement("DELETE FROM publisher WHERE id = ?");
-//			ps.setString(1, pubId);
-//
-//			ps.executeUpdate();
-//			ps.close();
-//
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
-//		}
+
+			String query = "DELETE FROM brand WHERE brand_id = ?";
+
+			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(query);
+			ps.setString(1, id);
+
+			ps.executeUpdate();
+			ps.close();
+
+		} catch (Exception e) {
+			if (e instanceof AppException)
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			else
+				e.printStackTrace();
+		}
 	}
 	
 	public Publisher findByName(String name) {
