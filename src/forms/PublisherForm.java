@@ -11,34 +11,29 @@ package forms;
 	import javax.swing.JOptionPane;
 
 	import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
+	import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
 	import java.util.ArrayList;
 	import java.util.List;
 	import java.util.Optional;
 	import javax.swing.JTable;
 	import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JTextField;
+	import javax.swing.JTextField;
 	import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
+	import javax.swing.event.ListSelectionEvent;
+	import javax.swing.table.DefaultTableColumnModel;
 	import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
+	import javax.swing.table.TableColumn;
 
 	import entities.Publisher;
 	import services.PublisherService;
 
 	import javax.swing.JButton;
-import javax.swing.ListSelectionModel;
 
 	public class PublisherForm extends JPanel {
 
+		private JPanel contentPane;
 		private JTable tblPublisher;
-		private JTextField txtSupId;
 		private JTextField txtSupPhone;
 		private JTextField txtSupAddress;
 		private JTextField txtSupName;
@@ -50,6 +45,25 @@ import javax.swing.ListSelectionModel;
 
 	    private DefaultTableModel dtm = new DefaultTableModel();
 
+		/**
+		 * Launch the application.
+		 */
+		public static void main(String[] args) {
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						PublisherForm frame = new PublisherForm();
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+
+		/**
+		 * Create the frame.
+		 */
 		public PublisherForm() {
 			pubService = new PublisherService();
 			initialize();
@@ -70,84 +84,74 @@ import javax.swing.ListSelectionModel;
 			add(panel);
 			panel.setLayout(null);
 			
-			JLabel lblPublisherId = new JLabel("Publisher Id");
-			lblPublisherId.setFont(new Font("Tahoma", Font.BOLD, 14));
-			lblPublisherId.setEnabled(false);
-			lblPublisherId.setBounds(93, 21, 92, 28);
-			panel.add(lblPublisherId);
-			
 			JLabel lblPublisherPhNo = new JLabel("Phone No");
 			lblPublisherPhNo.setFont(new Font("Tahoma", Font.BOLD, 14));
 			lblPublisherPhNo.setEnabled(false);
-			lblPublisherPhNo.setBounds(93, 59, 113, 28);
+			lblPublisherPhNo.setBounds(429, 28, 113, 28);
 			panel.add(lblPublisherPhNo);
 			
 			JLabel lblPublisherAds = new JLabel("Address");
 			lblPublisherAds.setFont(new Font("Tahoma", Font.BOLD, 14));
 			lblPublisherAds.setEnabled(false);
-			lblPublisherAds.setBounds(93, 97, 92, 28);
+			lblPublisherAds.setBounds(93, 75, 92, 28);
 			panel.add(lblPublisherAds);
 			
 			JLabel lblPublisherName = new JLabel("Publisher Name");
 			lblPublisherName.setFont(new Font("Tahoma", Font.BOLD, 14));
 			lblPublisherName.setEnabled(false);
-			lblPublisherName.setBounds(429, 21, 107, 28);
+			lblPublisherName.setBounds(93, 28, 107, 28);
 			panel.add(lblPublisherName);
 			
 			JLabel lblPublisherMail = new JLabel("Mail");
 			lblPublisherMail.setFont(new Font("Tahoma", Font.BOLD, 14));
 			lblPublisherMail.setEnabled(false);
-			lblPublisherMail.setBounds(429, 59, 92, 28);
+			lblPublisherMail.setBounds(429, 75, 92, 28);
 			panel.add(lblPublisherMail);
-			
-			txtSupId = new JTextField();
-			txtSupId.setFont(new Font("Tahoma", Font.BOLD, 14));
-			txtSupId.setBounds(217, 23, 125, 25);
-			panel.add(txtSupId);
-			txtSupId.setColumns(10);
 			
 			txtSupPhone = new JTextField();
 			txtSupPhone.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtSupPhone.setColumns(10);
-			txtSupPhone.setBounds(217, 65, 125, 25);
+			txtSupPhone.setBounds(569, 30, 125, 25);
 			panel.add(txtSupPhone);
 			
 			txtSupAddress = new JTextField();
 			txtSupAddress.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtSupAddress.setColumns(10);
-			txtSupAddress.setBounds(217, 103, 125, 25);
+			txtSupAddress.setBounds(217, 77, 125, 25);
 			panel.add(txtSupAddress);
 			
 			txtSupName = new JTextField();
 			txtSupName.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtSupName.setColumns(10);
-			txtSupName.setBounds(569, 21, 125, 25);
+			txtSupName.setBounds(217, 30, 125, 25);
 			panel.add(txtSupName);
 			
 			txtSupMail = new JTextField();
 			txtSupMail.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtSupMail.setColumns(10);
-			txtSupMail.setBounds(569, 65, 125, 25);
+			txtSupMail.setBounds(569, 77, 125, 25);
 			panel.add(txtSupMail);
 			
 			btnDelete = new JButton("Delete");
 			btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
-			btnDelete.setBounds(580, 125, 91, 25);
+			btnDelete.setBounds(429, 125, 91, 25);
+			btnDelete.setVisible(false);
 			panel.add(btnDelete);
 			
 			btnUpdate = new JButton("Update");
 			btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
-			btnUpdate.setBounds(472, 125, 91, 25);
+			btnUpdate.setBounds(283, 125, 91, 25);
+			btnUpdate.setVisible(false);
 			panel.add(btnUpdate);
 			
 			btnSave = new JButton("Save");
 			btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
-			btnSave.setBounds(366, 125, 91, 25);
+			btnSave.setBounds(283, 125, 91, 25);
 			panel.add(btnSave);
 			
 			btnCancel = new JButton("Cancel");
 			btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
-			btnCancel.setBounds(683, 125, 91, 25);
+			btnCancel.setBounds(429, 125, 91, 25);
 			panel.add(btnCancel);
 			
 			JPanel panel_1 = new JPanel();
@@ -157,25 +161,35 @@ import javax.swing.ListSelectionModel;
 			panel_1.setLayout(null);
 			
 			JScrollPane scrollPane = new JScrollPane();
-		    scrollPane.setBounds(0, 0, 764, 316);
+		    scrollPane.setBounds(0, 0, 764, 270);
 			panel_1.add(scrollPane);
 
 			tblPublisher = new JTable();
-			tblPublisher.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tblPublisher.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			tblPublisher.setBackground(new Color(255, 250, 240));
 			tblPublisher.setForeground(Color.DARK_GRAY);
-			tblPublisher.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			tblPublisher.setFont(new Font("Tahoma", Font.BOLD, 12));
-			tblPublisher.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			tblPublisher.setDefaultEditor(Object.class, null);
-			tblPublisher.setAutoCreateRowSorter(true);
-			JTableHeader jtableheader = tblPublisher.getTableHeader();
-			jtableheader.setBackground(SystemColor.textHighlight);
-			jtableheader.setForeground(Color.white);
-			jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
-			jtableheader.setPreferredSize(new Dimension(100,40));
+			tblPublisher.setBounds(150, 251, 555, -184);
 			scrollPane.setViewportView(tblPublisher);
 			
+			this.tblPublisher.getSelectionModel().addListSelectionListener((ListSelectionEvent e) ->{
+				
+				if(!tblPublisher.getSelectionModel().isSelectionEmpty()) {
+					btnSave.setVisible(false);
+					btnUpdate.setVisible(true);
+					btnCancel.setVisible(false);
+					btnDelete.setVisible(true);
+					String id= tblPublisher.getValueAt(tblPublisher.getSelectedRow(), 0).toString();
+					
+					publisher = pubService.findById(id);
+					
+					txtSupName.setText(publisher.getName());
+//					txtSupId.setText(publisher.getId());
+					txtSupAddress.setText(publisher.getAddress());
+					txtSupMail.setText(publisher.getEmail());
+					txtSupPhone.setText(publisher.getContact_no());
+				}
+			});
+
 			buttonOnClick();
 		}
 		
@@ -183,34 +197,20 @@ import javax.swing.ListSelectionModel;
 		        dtm.addColumn("ID");
 		        dtm.addColumn("Name");
 		        dtm.addColumn("Phone");
-		        dtm.addColumn("Email");
 		        dtm.addColumn("Address");
-		        tblPublisher.setModel(dtm);
+		        dtm.addColumn("Mail");
 		        
-		        tblPublisher.setRowHeight(40);
-				DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
-				dfcr.setHorizontalAlignment(JLabel.CENTER);
-				tblPublisher.getColumnModel().getColumn(0).setCellRenderer(dfcr);
-				tblPublisher.getColumnModel().getColumn(1).setCellRenderer(dfcr);
-				tblPublisher.getColumnModel().getColumn(2).setCellRenderer(dfcr);
-				tblPublisher.getColumnModel().getColumn(3).setCellRenderer(dfcr);
-				tblPublisher.getColumnModel().getColumn(4).setCellRenderer(dfcr);
-//				
-				tblPublisher.getColumnModel().getColumn(0).setPreferredWidth(120);
-				tblPublisher.getColumnModel().getColumn(1).setPreferredWidth(130);
-				tblPublisher.getColumnModel().getColumn(2).setPreferredWidth(150);
-				tblPublisher.getColumnModel().getColumn(3).setPreferredWidth(170);
-				tblPublisher.getColumnModel().getColumn(4).setPreferredWidth(175);
-//				
-//		        		        this.tblPublisher.setModel(new DefaultTableModel(
-//		        		        		new Object[][] {
-//		        		        		},
-//		        		        		new String[] {
-//		        		        				"ID", "Name", "Phone", "Address", "Mail"
-//		        		        		}
-//		        ));
+		        this.tblPublisher.setModel(new DefaultTableModel(
+		        	new Object[][] {
+		        	},
+		        	new String[] {
+		        		"ID", "Name", "Phone", "Address", "Mail"
+		        	}
+		        ));
 		        
-//		   
+//		        DefaultTableColumnModel tcm=(DefaultTableColumnModel) tblPublisher.getColumnModel();
+//		        TableColumn tc= tcm.getColumn(0);
+//		        tc.setWidth(WIDTH);
 		        
 		  }
 		
@@ -222,18 +222,56 @@ import javax.swing.ListSelectionModel;
 
 		}
 		
+		private void buttonVisible() {
+			btnSave.setVisible(true);
+			btnCancel.setVisible(true);
+			
+			btnDelete.setVisible(false);
+			btnUpdate.setVisible(false);
+		}
+		
 		private void buttonOnClick() {
+			
 			btnSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-	                if (publisher != null && publisher.getId() != null) {
+					Publisher publisher = new Publisher();
+                    publisher.setName(txtSupName.getText());
+                    publisher.setName(txtSupName.getText());
+                    publisher.setContact_no(txtSupPhone.getText());
+                    publisher.setAddress(txtSupAddress.getText());
+                    publisher.setEmail(txtSupMail.getText());
+                    
+                    if (!publisher.getName().isBlank() && 
+                    		!publisher.getContact_no().isBlank() && 
+                    		!publisher.getEmail().isBlank() && 
+                    		!publisher.getAddress().isBlank()) {
+
+                        pubService.savePublisher(publisher);
+                        clearForm();
+                        loadAllPublishers(Optional.empty());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Enter Required Field!");
+                    }
+	            }
+			});
+			
+			btnUpdate.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					if (publisher != null && publisher.getId() != null) {
 
 	                    publisher.setName(txtSupName.getText());
 	                    publisher.setContact_no(txtSupPhone.getText());
 	                    publisher.setAddress(txtSupAddress.getText());
 	                    publisher.setEmail(txtSupMail.getText());
 	                    
-	                    if (!publisher.getName().isBlank()) {
+	                    if (!publisher.getName().isBlank() && 
+	                    		!publisher.getContact_no().isBlank() && 
+	                    		!publisher.getEmail().isBlank() && 
+	                    		!publisher.getAddress().isBlank()) {
 
 	                        pubService.updatePublisher(String.valueOf(publisher.getId()), publisher);
 	                        clearForm();
@@ -242,25 +280,39 @@ import javax.swing.ListSelectionModel;
 	                    } else {
 	                        JOptionPane.showMessageDialog(null, "Enter Required Field!");
 	                    }
-	                } else {
-	                    Publisher publisher = new Publisher();
-	                    publisher.setName(txtSupName.getText());
-	                    publisher.setName(txtSupName.getText());
-	                    publisher.setContact_no(txtSupPhone.getText());
-	                    publisher.setAddress(txtSupAddress.getText());
-	                    publisher.setEmail(txtSupMail.getText());
-	                    
-	                    if (null != publisher.getName() && !publisher.getName().isBlank()) {
-
-	                        pubService.savePublisher(publisher);
-	                        clearForm();
-	                        loadAllPublishers(Optional.empty());
-	                    } else {
-	                        JOptionPane.showMessageDialog(null, "Enter Required Field!");
-	                    }
 	                }
-	            }
+					buttonVisible();
+				}
+				
 			});
+
+			btnDelete.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(publisher != null) {
+						pubService.deletePublisher(String.valueOf(publisher.getId()));
+						clearForm();
+						buttonVisible();
+						loadAllPublishers(Optional.empty());
+						publisher=null;
+					} else {
+						JOptionPane.showMessageDialog(null, "Choose Publisher!");
+					}
+					
+				}
+				
+			});
+			
+			btnCancel.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					clearForm();					
+				}
+				
+			});
+
 		}
 		
 		private void loadAllPublishers(Optional<List<Publisher>> optionalPublisher) {
@@ -271,15 +323,12 @@ import javax.swing.ListSelectionModel;
 			this.originalPublisherList = this.pubService.findAllPublishers();
 			List<Publisher> pubList= optionalPublisher.orElseGet(() -> originalPublisherList);
 			pubList.forEach(e -> {
-			      Object[] row = new Object[5];
+			      Object[] row = new Object[7];
 			      row[0] = e.getId();
 			      row[1] = e.getName();
 			      row[2] = e.getContact_no();
-			      row[3] = e.getEmail();
-			      row[4] = e.getAddress();
-			    
-			      //System.out.println("Puliserh ofrm : " + e.getEmail() );
-			     
+			      row[3] = e.getAddress();
+			      row[4] = e.getEmail();
 			      dtm.addRow(row);
 			  });
 			

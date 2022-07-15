@@ -93,7 +93,6 @@ public class AuthorForm extends JPanel {
 		txtName = new JTextField();
 		txtName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				if (null != author && !author.getId().isBlank()) {
 					author.setName(txtName.getText());
 					if (!author.getName().isBlank()) {

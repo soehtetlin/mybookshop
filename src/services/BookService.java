@@ -16,12 +16,18 @@ import entities.Book;
 import entities.Category;
 import repositories.*;
 import entities.Publisher;
+import entities.Purchase;
+import entities.PurchaseDetails;
+import shared.exception.AppException;
 import shared.mapper.*;
 
-public class BookService implements BookRepo{
+public class BookService implements BookRepo, PurchaseRepo{
 
 	private final DBconnector dbConfig = new DBconnector();
 	private final BookMapper bookMapper = new BookMapper();
+	private final PurchaseMapper purchaseMapper= new PurchaseMapper();
+
+//	private PurchaseService purchaseService= new PurchaseService();
 	
 
 	public void saveBooks(Book book) {
@@ -103,60 +109,8 @@ public class BookService implements BookRepo{
 
 			while (rs.next()) {
 				Book book = new Book();
-//				System.out.println("ID " + rs.getString("id"));
-//				System.out.println("Name " + rs.getString("name"));
-//				System.out.println("Price " + rs.getString("price"));
-//				System.out.println("stockMount" + rs.getString("stockamount"));
-//				System.out.println("shelf" + rs.getString("shelf_number"));
-//				System.out.println("phtoo" + rs.getString("photo"));
-//				System.out.println("author id " + rs.getString("author.id"));
-//				System.out.println("atuhor nae " + rs.getString("author.name"));
-//				System.out.println("cateid " + rs.getString("category.id"));
-//				System.out.println("ca name " + rs.getString("category.name"));
-//				System.out.println("pu id " + rs.getString("publisher.id"));
-//				System.out.println("pu name " + rs.getString("publisher.name"));
 				
 				bookList.add(this.bookMapper.mapToProduct(book, rs));
-				
-//				book.setId(rs.getString("id"));
-//				book.setName(rs.getString("name"));
-//				book.setPrice(rs.getInt("price"));
-//				book.setStockamount(rs.getInt("stockamount"));
-//				book.setShelf_number(rs.getInt("shelf_number"));
-//				book.setPhoto(rs.getString("photo"));
-//
-//				Author author = new Author();
-//				author.setId(rs.getString("author.id"));
-//				author.setName(rs.getString("author.name"));
-//				Category category = new Category();
-//				category.setId(rs.getString("category.id"));
-//				category.setName(rs.getString("category.name"));
-//				Publisher publisher =new Publisher();
-//				publisher.setId(rs.getString("publisher.id"));
-//				publisher.setName(rs.getString("publisher.name"));
-			//	bookList.add(book);
-
-//				Book b = new Book();
-//				b.setId(rs.getString("id"));
-//				b.setPhoto(rs.getString("photo"));
-//				b.setName(rs.getString("name"));
-//				
-//				Author author=new Author();
-//				b.setAuthor(author);
-//				
-//				Category category=new Category();
-//				b.setCategory(category);
-//				
-//				Publisher publisher=new Publisher();
-//				b.setPublisher(publisher);
-//				
-//				b.setPrice(rs.getInt("price"));
-//				b.setSale_price(rs.getInt("sale_price"));
-//				b.setStockamount(rs.getInt("stockamount"));
-//				b.setShelf_number(rs.getInt("shelf_number"));
-//				b.setRemark(rs.getString("remark"));
-//				
-//				bookList.add(b);
 				
 			}
 			
@@ -166,31 +120,6 @@ public class BookService implements BookRepo{
 		}
 		return bookList;
 	}
-	
-//	public Publisher findById(String id) {
-//		Publisher publisher = new Publisher();
-//
-//		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-//
-//			String query = "SELECT * FROM publisher WHERE id = " + id + ";";
-//
-//			ResultSet rs = st.executeQuery(query);
-//
-//			while (rs.next()) {
-//				publisher.setId(rs.getString("id"));
-//				publisher.setName(rs.getString("name"));
-//				publisher.setContact_no(rs.getString("contact_no"));
-//				publisher.setAddress(rs.getString("address"));
-//				publisher.setEmail(rs.getString("email"));
-//
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return publisher;
-//	}
 	
 	public Book findById(String bookID) {
 		Book book = new Book();
@@ -209,7 +138,7 @@ public class BookService implements BookRepo{
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+        	JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 
 		return book;
@@ -236,35 +165,114 @@ public class BookService implements BookRepo{
 	@Override
 	public void deletBooks(String id) {
 		// TODO Auto-generated method stub
+		try {
+		
+			if(findPurchaseDetailsListByProductId(id).size() > 0) {
+				
+				throw new AppException("this book cannot be deleted");
+				}
+
+				PreparedStatement ps = this.dbConfig.getConnection()
+					.prepareStatement("DELETE FROM book where id = ?");
+
+				ps.setString(1, id);
+				ps.executeUpdate();
+				ps.close();
+
+				} catch(Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+	}
+
+	@Override
+	public void createPurchase(Purchase purchase) {
+		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void createPurchaseDetails(List<PurchaseDetails> purchaseDetailsList) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public Purchase findPurchaseById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public List<Purchase> findAllPurchases() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-//	public void delete(String id) {
-//		try {
+	@Override
+	public List<Purchase> findPurchaseListBySupplierId(String supplierId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Purchase> findPurchaseListByEmployeeId(String employeeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PurchaseDetails> findPurchaseDetailsListByProductId(String bookId) {
+		List<PurchaseDetails> purchaseDetailList= new ArrayList<>();
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+            String query = "SELECT * FROM purchase_detial WHERE book_id = " + bookId + ";";
+
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                
+                PurchaseDetails purchaseDetails = new PurchaseDetails();
+                purchaseDetailList.add(this.purchaseMapper.mapToPurchaseDetails(purchaseDetails, rs));
+                
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return purchaseDetailList;
+	}
+
+	@Override
+	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+//	
+//	   public Purchase findPurchaseById(String id) {
+//	        Purchase purchase = new Purchase();
 //
-//			List<Product> productsByCategoryId = this.productRepo.findProductsByBrandId(id);
+//	        try (Statement st = this.dbConfig.getConnection().createStatement()) {
 //
-//			if (productsByCategoryId.size() > 0) {
-//				throw new AppException("This brand cannot be deleted");
-//			}
+//	            String query = "SELECT * FROM purchase\n" +
+//	                    "INNER JOIN employee\n" +
+//	                    "on employee.emp_id = purchase.employee_id\n" +
+//	                    "INNER JOIN supplier\n" +
+//	                    "ON supplier.sup_id = purchase.supplier_id\n" +
+//	                    "WHERE purchase_id=" + id + ";";
 //
-//			String query = "DELETE FROM brand WHERE brand_id = ?";
+//	            ResultSet rs = st.executeQuery(query);
 //
-//			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(query);
-//			ps.setString(1, id);
-//  
-//			ps.executeUpdate();
-//			ps.close();
+//	            while (rs.next()) {
+////	                this.purchaseMapper.mapToPurchase(purchase, rs);
+//	            }
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
 //
-//		} catch (Exception e) {
-//			if (e instanceof AppException)
-//				JOptionPane.showMessageDialog(null, e.getMessage());
-//			else
-//				e.printStackTrace();
-//		}
-//	}
+//	        return purchase;
+//	    }
 
 }
