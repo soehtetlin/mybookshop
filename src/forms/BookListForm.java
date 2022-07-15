@@ -38,9 +38,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import java.awt.Insets;
 import java.awt.Rectangle;
+<<<<<<< HEAD
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+=======
+>>>>>>> 5de18dd01ed0a43a40b5e1c0bf4897ec55848f40
 
 public class BookListForm extends JPanel {
 	
@@ -54,28 +57,10 @@ public class BookListForm extends JPanel {
     private BookService bookService;
 	private List<Book> originalBookList = new ArrayList<>();
 	private JpanelLoader jloader = new JpanelLoader();
+<<<<<<< HEAD
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
+=======
 
-	private BookForm bookForm= new BookForm();
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BookListForm frame = new BookListForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	/**
-	 * Create the panel.
-	 */
 	public BookListForm() {
 		initialize();
 		setTableDesign();
@@ -86,6 +71,7 @@ public class BookListForm extends JPanel {
 	private void initialize() {
 		
         this.bookService= new BookService();
+
 
 		panel = new JPanel();
 		
@@ -151,7 +137,7 @@ public class BookListForm extends JPanel {
 //		gl_panel.setAutoCreateGaps(true);
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
-		
+
 		
 	}
 	
@@ -181,7 +167,9 @@ public class BookListForm extends JPanel {
         dtm.addColumn("Shelf No");
         dtm.addColumn("Remark");
         dtm.addColumn("Photo");
+
         table.setModel(dtm);
+
                
 		}
 	

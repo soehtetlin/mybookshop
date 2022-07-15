@@ -8,6 +8,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="mysql-connector-java-8.0.29.jar" sourcepath="mysql-connector-java-8.0.29.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/KMD/jcalendar-1.4/lib/jcalendar-1.4.jar"/>
+=======
+>>>>>>> 5de18dd01ed0a43a40b5e1c0bf4897ec55848f40
 	<classpathentry kind="output" path="bin"/>
 </classpath>
