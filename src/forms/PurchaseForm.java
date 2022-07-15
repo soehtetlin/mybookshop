@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import com.mysql.cj.util.StringUtils;
+//import com.mysql.cj.util.StringUtils;
 import entities.Author;
 import entities.Book;
 import entities.Category;
@@ -83,7 +83,7 @@ public class PurchaseForm extends JPanel {
 	private JLabel lblBookID;
 	private Employee employee;
 	private PurchaseDetails purchaseDetail;
-	private PurchaseDetailsForm purchaseDetailForm;
+	private PurchaseDetailForm purchaseDetailForm;
 	private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 	private JLabel lblemployee, lblshowdate;
 	private JButton btnaddbook;

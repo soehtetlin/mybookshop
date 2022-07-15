@@ -19,7 +19,8 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
-
+import forms.JpanelLoader;
+import forms.CreateLayoutProperties;
 public class HomeFormNew {
 
 	private JFrame frame;
