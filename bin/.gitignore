@@ -1,1 +1,6 @@
 /forms/
+/database_config/
+/entities/
+/repositories/
+/services/
+/shared/
