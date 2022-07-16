@@ -28,6 +28,8 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.ColorUIResource;
+import forms.CreateLayoutProperties;
+import forms.JpanelLoader;
 
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -38,6 +40,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
 
 public class BookListForm extends JPanel {
 	
@@ -51,27 +57,9 @@ public class BookListForm extends JPanel {
     private BookService bookService;
 	private List<Book> originalBookList = new ArrayList<>();
 	private JpanelLoader jloader = new JpanelLoader();
+	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
+	private BookForm bookForm = new BookForm();
 
-	private BookForm bookForm= new BookForm();
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BookListForm frame = new BookListForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	/**
-	 * Create the panel.
-	 */
 	public BookListForm() {
 		initialize();
 		setTableDesign();
@@ -83,63 +71,72 @@ public class BookListForm extends JPanel {
 		
         this.bookService= new BookService();
 
-		setLayout(null);
 
 		panel = new JPanel();
-//		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(0, 0, 787, 472);
-		add(panel);
-		panel.setLayout(null);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		scrollPane.setBounds(new Rectangle(10, 100, 780, 420));
-		scrollPane.setBounds(0, 50, 787, 422);
-		panel.add(scrollPane);
 		
 		JLabel lblFilter = new JLabel("Filter By : ");
-		lblFilter.setForeground(new Color(51, 51, 51));
-		lblFilter.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblFilter.setBounds(20, 15, 67, 24);
-		panel.add(lblFilter);
+		cLayout.setLabel(lblFilter);
 		
 		comboBooks = new JComboBox();
-		comboBooks.setBorder(null);
-		comboBooks.setBackground(new Color(255, 255, 255));
-		comboBooks.setModel(new DefaultComboBoxModel(new String[] {"All Books", "categor1", "Category2", ""}));
-		comboBooks.setFont(new Font("Tahoma", Font.BOLD, 13));
-		comboBooks.setForeground(new Color(153, 0, 255));
-		comboBooks.setBounds(130, 15, 85, 22);
-		comboBooks.setOpaque(true);
-
-		panel.add(comboBooks);
-		
+		cLayout.setComboBox(comboBooks);
+				
 		comboAuthors = new JComboBox();
-		comboAuthors.setModel(new DefaultComboBoxModel(new String[] {"All Authors"}));
-		comboAuthors.setOpaque(true);
-		comboAuthors.setForeground(new Color(153, 51, 204));
-		comboAuthors.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		comboAuthors.setBackground(Color.WHITE);
-		comboAuthors.setBounds(246, 15, 90, 22);
-		panel.add(comboAuthors);
+		cLayout.setComboBox(comboAuthors);
+		
 		
 		btnAdd = new JButton("Add New Book");
-		btnAdd.setBounds(new Rectangle(600, 0, 0, 0));
-		btnAdd.setMargin(new Insets(2, 1, 2, 1));
-		btnAdd.setIconTextGap(1);
-		btnAdd.setBorderPainted(false);
-
-		btnAdd.setForeground(SystemColor.textHighlightText);
-		btnAdd.setHorizontalAlignment(SwingConstants.CENTER);
-		btnAdd.setBackground(new Color(153, 51, 204));
-		Image img=new ImageIcon(this.getClass().getResource("/add-20.png")).getImage();
-		btnAdd.setIcon(new ImageIcon(img));
-		btnAdd.setAlignmentX(CENTER_ALIGNMENT);
-		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnAdd.setBounds(600, 13, 115, 29);
-		btnAdd.setOpaque(true);
-		panel.add(btnAdd);
+		cLayout.setButton(btnAdd);
 		
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 725, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 438, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addGap(20)
+					.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addComponent(comboBooks, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+					.addGap(29)
+					.addComponent(comboAuthors, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
+					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
+					.addGap(19))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(15)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBooks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboAuthors, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
+		);
+//		gl_panel.setAutoCreateContainerGaps(true);
+//		gl_panel.setAutoCreateGaps(true);
+		panel.setLayout(gl_panel);
+		setLayout(groupLayout);
+
 		
 	}
 	
@@ -169,14 +166,9 @@ public class BookListForm extends JPanel {
         dtm.addColumn("Shelf No");
         dtm.addColumn("Remark");
         dtm.addColumn("Photo");
-        
-        this.table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        	},
-        	new String[] {
-	        		"ID", "Name", "Price", "Quantity", "Shelf No","Remark","Photo"
-        	}
-        ));
+
+        table.setModel(dtm);
+
                
 		}
 	

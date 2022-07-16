@@ -26,6 +26,9 @@ import java.awt.Dimension;
 import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ListSelectionModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class EmployeeForm extends JPanel {
 
@@ -98,13 +101,10 @@ public class EmployeeForm extends JPanel {
 
 	private void initialize() {
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		setLayout(null);
 		setBounds(42, 11, 809, 450);
 
 		JLabel lblAuthorName = new JLabel("Employee Name");
 		lblAuthorName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAuthorName.setBounds(10, 52, 116, 39);
-		add(lblAuthorName);
 
 		txtName = new JTextField();
 		txtName.addActionListener(new ActionListener() {
@@ -135,29 +135,19 @@ public class EmployeeForm extends JPanel {
 
 			}
 		});
-		txtName.setBounds(136, 52, 222, 39);
-		add(txtName);
 		txtName.setColumns(10);
 
 		lblEmployeeID = new JLabel("Employee ID");
 		lblEmployeeID.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmployeeID.setBounds(10, 2, 116, 39);
-		add(lblEmployeeID);
 
 		lblEmployee = new JLabel("Show Employee ID");
 		lblEmployee.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmployee.setBounds(136, 2, 173, 39);
-		add(lblEmployee);
 
 		JLabel lblSearch = new JLabel("Search");
 		lblSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblSearch.setBounds(422, 9, 62, 39);
-		add(lblSearch);
 
 		txtSearch = new JTextField();
 		txtSearch.setColumns(10);
-		txtSearch.setBounds(484, 11, 173, 39);
-		add(txtSearch);
 
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
@@ -177,8 +167,6 @@ public class EmployeeForm extends JPanel {
 			}
 		});
 		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSave.setBounds(10, 398, 116, 41);
-		add(btnSave);
 
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
@@ -194,8 +182,6 @@ public class EmployeeForm extends JPanel {
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnDelete.setBounds(149, 398, 116, 41);
-		add(btnDelete);
 
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
@@ -215,13 +201,9 @@ public class EmployeeForm extends JPanel {
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnUpdate.setBounds(285, 398, 116, 41);
-		add(btnUpdate);
 
 		JPanel showtablepanel = new JPanel();
 		showtablepanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		showtablepanel.setBounds(411, 58, 388, 374);
-		add(showtablepanel);
 		showtablepanel.setLayout(null);
 
 		tblshowEmployee = new JTable();
@@ -271,68 +253,141 @@ public class EmployeeForm extends JPanel {
 			}
 		});
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSearch.setBounds(667, 8, 108, 41);
-		add(btnSearch);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblUsername.setBounds(10, 102, 116, 39);
-		add(lblUsername);
 		
 		txtusername = new JTextField();
 		txtusername.setColumns(10);
-		txtusername.setBounds(136, 102, 222, 39);
-		add(txtusername);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPassword.setBounds(10, 150, 116, 39);
-		add(lblPassword);
 		
 		txtpwd = new JTextField();
 		txtpwd.setColumns(10);
-		txtpwd.setBounds(136, 150, 222, 39);
-		add(txtpwd);
 		
 		JLabel lblEmplevel = new JLabel("Emp_Level");
 		lblEmplevel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmplevel.setBounds(10, 200, 116, 39);
-		add(lblEmplevel);
 		
 		txtlevel = new JTextField();
 		txtlevel.setColumns(10);
-		txtlevel.setBounds(136, 200, 222, 39);
-		add(txtlevel);
 		
 		JLabel lblAge = new JLabel("Gender");
 		lblAge.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAge.setBounds(10, 246, 116, 39);
-		add(lblAge);
 		
 		txtgender = new JTextField();
 		txtgender.setColumns(10);
-		txtgender.setBounds(136, 246, 222, 39);
-		add(txtgender);
 		
 		JLabel lblPhoneNo = new JLabel("Phone No");
 		lblPhoneNo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPhoneNo.setBounds(10, 296, 116, 39);
-		add(lblPhoneNo);
 		
 		txtphonno = new JTextField();
 		txtphonno.setColumns(10);
-		txtphonno.setBounds(136, 296, 222, 39);
-		add(txtphonno);
 		
 		JLabel lblAddress = new JLabel("Address");
 		lblAddress.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAddress.setBounds(10, 348, 116, 39);
-		add(lblAddress);
 		
 		txtaddress = new JTextField();
 		txtaddress.setColumns(10);
-		txtaddress.setBounds(136, 348, 222, 39);
-		add(txtaddress);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(8)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblEmployeeID, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+							.addGap(113)
+							.addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAuthorName, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEmplevel, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblAge, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPhoneNo, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+							.addGap(10)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtusername, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpwd, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtlevel, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtgender, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtphonno, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtaddress, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(13)
+									.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+									.addGap(20)
+									.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)))
+							.addGap(10)
+							.addComponent(showtablepanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(32))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblEmployeeID, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(9)
+							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
+					.addGap(2)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblAuthorName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(9)
+							.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(lblEmplevel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(7)
+							.addComponent(lblAge, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(lblPhoneNo, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(13)
+							.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(txtusername, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(9)
+							.addComponent(txtpwd, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(txtlevel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(7)
+							.addComponent(txtgender, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(txtphonno, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(13)
+							.addComponent(txtaddress, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addComponent(showtablepanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+		);
+		setLayout(groupLayout);
 
 	}
 }

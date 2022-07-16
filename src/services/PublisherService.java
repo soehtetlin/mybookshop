@@ -105,7 +105,7 @@ public class PublisherService {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM publisher WHERE id = " + id + ";";
+			String query = "SELECT * FROM publisher WHERE id = '" + id + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
