@@ -14,7 +14,7 @@ public class DBconnector {
 	public Connection getConnection() throws SQLException {
 
 		if (null == con) {
-			con = (Connection) DriverManager.getConnection(this.CONNECTION,this.USERNAME, this.PASSWORD);
+			con = (Connection) DriverManager.getConnection(this.CONNECTION, this.USERNAME, this.PASSWORD);
 		}
 		return con;
 	}

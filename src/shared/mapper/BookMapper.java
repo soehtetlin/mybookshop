@@ -23,7 +23,7 @@ public class BookMapper {
 			Category category = new Category();
 			category.setId(rs.getString("category.id"));
 			category.setName(rs.getString("category.name"));
-			Publisher publisher =new Publisher();
+			Publisher publisher = new Publisher();
 			publisher.setId(rs.getString("publisher.id"));
 			publisher.setName(rs.getString("publisher.name"));
 			book.setAuthor(author);

@@ -132,7 +132,7 @@ public class PurchaseService implements PurchaseRepo {
 				bookService.updateBooks(storedBook.getId(), storedBook);
 				System.out.println("After Update PurchaseService BookID " + storedBook.getId());
 				System.out.println("PurchaseService After Quantity " + storedBook.getStockamount());
-				
+
 				PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
 						"INSERT INTO purchase_detail (quantity, book_id, purchase_id) VALUES (?, ?, ?)");
 
@@ -190,11 +190,11 @@ public class PurchaseService implements PurchaseRepo {
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
 			String query = "SELECT * FROM purchase_detail WHERE book_id = '" + bookID + "';";
-			
-			String que = "SELECT id,purchasedate,book.name,publisher.name,employee.name,quantity,price,author.name,category,name,purchase.description FROM purchase_detail\n" + "INNER JOIN category\n"
-			+ "ON category.id = book.category_id\n" + "INNER JOIN publisher\n"
-			+ "ON publisher.id = book.publisher_id\n"+  "INNER JOIN author\n"
-			+ "ON author.id = book.author_id\n"+ "WHERE purchase_id = '" + bookID + "';";
+
+			String que = "SELECT id,purchasedate,book.name,publisher.name,employee.name,quantity,price,author.name,category,name,purchase.description FROM purchase_detail\n"
+					+ "INNER JOIN category\n" + "ON category.id = book.category_id\n" + "INNER JOIN publisher\n"
+					+ "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
+					+ "ON author.id = book.author_id\n" + "WHERE purchase_id = '" + bookID + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -253,7 +253,7 @@ public class PurchaseService implements PurchaseRepo {
 
 		return purchaseList;
 	}
-	
+
 	public List<PurchaseDetails> loadAllPurchaseDetails() {
 
 		List<PurchaseDetails> purchaseList = new ArrayList<>();
@@ -271,13 +271,11 @@ public class PurchaseService implements PurchaseRepo {
 //					+ "inner join book on book.id = purchase_detail.book_id\r\n"
 //					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
 //					+ "inner join author on author.id = book.author_id";
-			
+
 			String query = "select purchase.id,purchase.purchase_date,book.name,\r\n"
-					+ "publisher.name as publisher_name,\r\n"
-					+ "employee.name as employee_name,\r\n"
+					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
 					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
-					+ "category.name as category_name,\r\n"
-					+ "purchase.description as purchase_description\r\n"
+					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
 					+ "from purchase \r\n"
 					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
 					+ "inner join employee on employee.id = purchase.employee_id\r\n"
@@ -290,22 +288,20 @@ public class PurchaseService implements PurchaseRepo {
 
 			while (rs.next()) {
 				PurchaseDetails purchase = new PurchaseDetails();
-				purchaseList.add(this.purchaseMapper.mapAllPurchaseDetails(purchase, rs));	
-				
+				purchaseList.add(this.purchaseMapper.mapAllPurchaseDetails(purchase, rs));
+
 			}
-		
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return purchaseList;
-		
-		//System.out.println("inside purchse service purchase id : " + purchaseList);}
-		//System.out.println("sizeo of return purhasedetail : " + purchaseList.size());
-		//System.out.println(purchaseList.get(0));
-		
-		//String[] requestNos = new String[purchaseList.size()];
+
+		// System.out.println("inside purchse service purchase id : " + purchaseList);}
+		// System.out.println("sizeo of return purhasedetail : " + purchaseList.size());
+		// System.out.println(purchaseList.get(0));
+
+		// String[] requestNos = new String[purchaseList.size()];
 
 //		for (int i = 0; i < purchaseList.size(); i++) {
 //		    requestNos[i] = purchaseList.get(i).getId();
@@ -325,7 +321,7 @@ public class PurchaseService implements PurchaseRepo {
 //			row[8] = e.getBook().getCategory().getName();
 //			row[9] = e.getPurchase().getDescription();
 //		});
-		
+
 	}
 
 	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
@@ -350,7 +346,6 @@ public class PurchaseService implements PurchaseRepo {
 		return purchaseDetailsList;
 	}
 
-	
 	public List<Purchase> loadAllPurchaseID() {
 
 		List<Purchase> purchaseList = new ArrayList<>();

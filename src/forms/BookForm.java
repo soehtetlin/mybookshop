@@ -4,13 +4,16 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-
+import java.awt.FileDialog;
+import shared.checker.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileView;
 import javax.swing.table.DefaultTableModel;
 
 import entities.Author;
@@ -27,26 +30,54 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+
 import java.awt.Rectangle;
 import java.awt.Label;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.SystemColor;
+import java.awt.Window;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import javax.swing.ButtonGroup;
 
 public class BookForm extends JPanel {
 
@@ -75,6 +106,14 @@ public class BookForm extends JPanel {
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	private List<Book> originalBookList = new ArrayList<>();
+	private JTextField textField;
+	String path = "C:\\KMD\\Eclipse Git Clone\\BookShop\\img\\DCR.png", storPath = null;
+
+	String filename = null;
+	File destinationFile = null;
+
+	private JpanelLoader jLoader = new JpanelLoader();
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -101,24 +140,26 @@ public class BookForm extends JPanel {
 		JPanel panel = new JPanel();
 
 		JLabel lblAuthorId = new JLabel("Aurthor Id");
+		lblAuthorId.setVerticalAlignment(SwingConstants.TOP);
 		cLayout.setLabel(lblAuthorId);
 
 		txtBookName = new JTextField();
-		txtBookName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtBookName.setHorizontalAlignment(SwingConstants.LEFT);
 		txtBookName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtBookName.setColumns(10);
 
 		txtShelfNo = new JTextField();
-		txtShelfNo.setHorizontalAlignment(SwingConstants.CENTER);
+		txtShelfNo.setHorizontalAlignment(SwingConstants.LEFT);
 		txtShelfNo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtShelfNo.setColumns(10);
 
 		txtRemark = new JTextField();
-		txtRemark.setHorizontalAlignment(SwingConstants.CENTER);
+		txtRemark.setHorizontalAlignment(SwingConstants.LEFT);
 		txtRemark.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtRemark.setColumns(10);
 
 		btnCancel = new JButton("Cancel");
+		buttonGroup.add(btnCancel);
 		cLayout.setButton(btnCancel);
 
 		JPanel panelItemList = new JPanel();
@@ -136,14 +177,11 @@ public class BookForm extends JPanel {
 		tblBooks.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tblBooks.setBackground(new Color(255, 250, 240));
 		tblBooks.setForeground(Color.DARK_GRAY);
-		// tblBooks.setBounds(150, 251, 555, -184);
-
 		cboCategory = new JComboBox<String>();
 
 		cLayout.setComboBox(cboCategory);
 
 		cboPublisher = new JComboBox<String>();
-		// cboPublisher.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cLayout.setComboBox(cboPublisher);
 
 		cboAuthor = new JComboBox<String>();
@@ -151,11 +189,12 @@ public class BookForm extends JPanel {
 		cLayout.setComboBox(cboAuthor);
 
 		btnDelete = new JButton("Delete");
+		buttonGroup.add(btnDelete);
+		btnDelete.setVisible(false);
 		cLayout.setButton(btnDelete);
 
 		JLabel lblCategoryId = new JLabel("Category Id");
 		cLayout.setLabel(lblCategoryId);
-//				Border roundedBorder=new LineBorder(Color.DARK_GRAY,1,true);
 
 		JLabel lblPublisherId = new JLabel("Publisher Id");
 		cLayout.setLabel(lblPublisherId);
@@ -170,14 +209,66 @@ public class BookForm extends JPanel {
 		cLayout.setLabel(lblRemark);
 
 		btnUpdate = new JButton("Update");
+		buttonGroup.add(btnUpdate);
+		btnUpdate.setVisible(false);
 		cLayout.setButton(btnUpdate);
 
 		btnSave = new JButton("Save");
+		buttonGroup.add(btnSave);
 		cLayout.setButton(btnSave);
 
 		JPanel photoPanel = new JPanel();
-
 		lblAddPhoto = new JLabel("");
+		lblAddPhoto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				JFileChooser jchooser = new JFileChooser("C:\\Users\\User\\Pictures");
+				FileNameExtensionFilter fnf = new FileNameExtensionFilter("JPG & PNG Images", "jpg", "png");
+				jchooser.addChoosableFileFilter(fnf);
+				jchooser.setAcceptAllFileFilterUsed(false);
+
+				int result = jchooser.showDialog(BookForm.this, "Choose Photo");
+
+				if (result == JFileChooser.APPROVE_OPTION) {
+					path = jchooser.getSelectedFile().getAbsolutePath();
+					System.out.println("Selected file address : " + path);
+					filename = jchooser.getSelectedFile().getName();
+					System.out.println("Selected File Name : " + filename);
+
+					BufferedImage img = null;
+					try {
+						
+						destinationFile = new File("resources/" + filename);
+
+						try {
+							img = ImageIO.read(new File(path));
+							destinationFile.createNewFile();
+							ImageIO.write(img, "png", destinationFile);
+
+							JOptionPane.showMessageDialog(null, "Successfully Added Image");
+						} catch (Exception e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Failed to added Image");
+						}
+
+						lblAddPhoto.setText("");
+						System.out.println("ouput file to string : " + destinationFile.getAbsolutePath());
+						ImageIcon imageIcon = new ImageIcon(
+								new ImageIcon(destinationFile.getAbsolutePath()).getImage().getScaledInstance(
+										lblAddPhoto.getWidth(), lblAddPhoto.getHeight(), Image.SCALE_SMOOTH));
+						lblAddPhoto.setIcon(imageIcon);
+
+					}
+
+					catch (Exception e) {
+						clearForm();
+					}
+				}
+			}
+
+		});
+
 		lblAddPhoto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddPhoto.setForeground(new Color(153, 0, 255));
 		lblAddPhoto.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -196,104 +287,126 @@ public class BookForm extends JPanel {
 
 		JLabel lblLine = new JLabel("Add some information for the book you want \n to create");
 		cLayout.setLabel(lblLine);
-
-		GroupLayout groupLayout = new GroupLayout(this);
-//		groupLayout.setAutoCreateContainerGaps(true);
-//		groupLayout.setAutoCreateGaps(true);
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(photoPanel, GroupLayout.PREFERRED_SIZE, 365, Short.MAX_VALUE).addGap(13)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
-						.addComponent(photoPanel, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
-				.addGap(0)));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.CENTER)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtBookName, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboAuthor, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBookName, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtShelfNo, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblShelfNo, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPublisherId, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblShelfNo, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnUpdate, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-							.addGap(14)
-							.addComponent(btnDelete, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-							.addGap(11)
-							.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
-						.addComponent(lblRemark, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtRemark, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAuthorId, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCategoryId, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPublisherId, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(19, Short.MAX_VALUE))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addComponent(lblCategoryId)
+					.addContainerGap(305, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addComponent(lblBookName, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addGap(422))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addComponent(lblAuthorId)
+					.addContainerGap(472, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addComponent(lblRemark, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(txtRemark, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+						.addComponent(txtShelfNo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+						.addComponent(txtBookName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+						.addComponent(cboPublisher, Alignment.LEADING, 0, 360, Short.MAX_VALUE)
+						.addComponent(cboCategory, Alignment.LEADING, 0, 360, Short.MAX_VALUE)
+						.addComponent(cboAuthor, Alignment.LEADING, 0, 360, Short.MAX_VALUE))
+					.addGap(162))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.CENTER)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(lblAuthorId, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblAuthorId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cboAuthor, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblCategoryId, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addComponent(cboAuthor, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblCategoryId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblPublisherId, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblBookName, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(txtBookName, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)))
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(30)
-							.addComponent(txtShelfNo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblShelfNo, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(20)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblRemark, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(30)
-							.addComponent(txtRemark, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(30)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-						.addComponent(btnDelete, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-						.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-						.addComponent(btnUpdate, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-					.addGap(20))
+					.addComponent(lblPublisherId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblBookName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(4)
+					.addComponent(txtBookName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblShelfNo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtShelfNo, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblRemark, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtRemark, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+					.addGap(10))
 		);
-		gl_panel.setAutoCreateGaps(true);
-		gl_panel.setAutoCreateContainerGaps(true);
+//		gl_panel.setAutoCreateGaps(true);
+//		gl_panel.setAutoCreateContainerGaps(true);
 		panel.setLayout(gl_panel);
+		// textField.setColumns(10);
 		GroupLayout gl_photoPanel = new GroupLayout(photoPanel);
-		gl_photoPanel.setHorizontalGroup(gl_photoPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_photoPanel.createSequentialGroup().addGap(24).addComponent(lblTitle,
-						GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_photoPanel.createSequentialGroup().addGap(24).addComponent(lblLine,
-						GroupLayout.PREFERRED_SIZE, 324, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_photoPanel.createSequentialGroup().addGap(93)
-						.addComponent(lblAddPhoto, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE).addGap(115)));
-		gl_photoPanel.setVerticalGroup(gl_photoPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_photoPanel.createSequentialGroup().addGap(30)
-						.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addGap(10)
-						.addComponent(lblLine, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addGap(59)
-						.addComponent(lblAddPhoto, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE).addGap(103)));
+		gl_photoPanel.setHorizontalGroup(
+			gl_photoPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_photoPanel.createSequentialGroup()
+					.addGap(24)
+					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+					.addGap(89))
+				.addGroup(gl_photoPanel.createSequentialGroup()
+					.addGap(24)
+					.addComponent(lblLine, GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+				.addGroup(gl_photoPanel.createSequentialGroup()
+					.addGap(93)
+					.addComponent(lblAddPhoto)
+					.addContainerGap(115, Short.MAX_VALUE))
+		);
+		gl_photoPanel.setVerticalGroup(
+			gl_photoPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_photoPanel.createSequentialGroup()
+					.addGap(30)
+					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(lblLine, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+					.addGap(59)
+					.addComponent(lblAddPhoto, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+					.addGap(84))
+		);
 		photoPanel.setLayout(gl_photoPanel);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(photoPanel, GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
+					.addGap(9)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 383, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(photoPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 422, Short.MAX_VALUE))
+					.addGap(11))
+		);
 		setLayout(groupLayout);
 
 		buttonOnClick();
@@ -338,43 +451,41 @@ public class BookForm extends JPanel {
 		this.publisherList.forEach(p -> cboPublisher.addItem(p.getName()));
 	}
 
-//			private void setTableDesign() {
-//		        dtm.addColumn("ID");
-//		        dtm.addColumn("Name");
-//		        dtm.addColumn("Price");
-//		        dtm.addColumn("Quantity");
-//		        dtm.addColumn("Shelf No");
-//		        dtm.addColumn("Remark");
-//		        dtm.addColumn("Photo");
-//		        
-//		        this.tblBooks.setModel(new DefaultTableModel(
-//		        	new Object[][] {
-//		        	},
-//		        	new String[] {
-//		        		"ID", "Name", "Price", "Quantity", "Shelf No","Remark","Photo"
-//		        	}
-//		        ));
-//		               
-//				}
-
 	private void buttonOnClick() {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				Book book = new Book();
 
-				toSaveBookDataFromForm(book);
-
+				
+				try {
+					
+					toSaveBookDataFromForm(book);
 				if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
 						&& book.getPublisher() != null) {
+					if(Checking.IsAllDigit(txtShelfNo.getText())) {
 
 					bookService.saveBooks(book);
+
+					jLoader.jPanelLoader(BookForm.this, new BookListForm());
 					clearForm();
-//		                        loadAllBooks(Optional.empty());
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+					}else{
+						JOptionPane.showMessageDialog(null, "Please Enter Number Only!");
+					}
 				}
+				}catch (NullPointerException ex) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+					
+				}catch (NumberFormatException e2) {
+					// TODO: handle exception
+					//e2.getClass();
+					
+					JOptionPane.showMessageDialog(null,e2.getMessage());
+				}
+				
 			}
+			
 		});
 
 		btnUpdate.addActionListener(new ActionListener() {
@@ -407,6 +518,7 @@ public class BookForm extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				clearForm();
+				jLoader.jPanelLoader(BookForm.this, new BookListForm());
 			}
 
 		});
@@ -439,30 +551,13 @@ public class BookForm extends JPanel {
 //				
 //					}
 //					
-//				});
-	}
-
-//			private void loadAllBooks(Optional<List<Book>> optionalBook) {
-//				this.dtm = (DefaultTableModel) this.tblBooks.getModel();
-//				this.dtm.getDataVector().removeAllElements();
-//				this.dtm.fireTableDataChanged();
-//				
-//				this.originalBookList = this.bookService.findAllBooks();
-//				List<Book> bookList= optionalBook.orElseGet(() -> originalBookList);
-//				bookList.forEach(e -> {
-//					Object[] row=new Object[7];
-//					 row[0] = e.getId();
-//				      row[1] = e.getName();
-//				      row[2] = e.getPrice();
-//				      row[4] = e.getStockamount();
-//				      row[5] = e.getShelf_number();
-//				      row[6] = e.getPhoto();
-//					dtm.addRow(row);
-//				});
-//				this.tblBooks.setModel(dtm);
-//			}
+//				}
+}
 
 	private void toSaveBookDataFromForm(Book book) {
+
+		book.setPhoto(destinationFile.toString());
+		System.out.println("book setphoto" + destinationFile.toString());
 		book.setName(txtBookName.getText());
 //				  book.setPrice(Integer.parseInt(txtPrice.getText().isBlank() ? "0" : txtPrice.getText()));
 		book.setRemark(txtRemark.getText());
@@ -480,6 +575,11 @@ public class BookForm extends JPanel {
 		Optional<Publisher> selectedPublisher = publisherList.stream()
 				.filter(p -> p.getName().equals(cboPublisher.getSelectedItem())).findFirst();
 		book.setPublisher(selectedPublisher.orElse(null));
+		}
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			JOptionPane.showMessageDialog(null, "Please");
+//		}
 
-	}
+	
 }

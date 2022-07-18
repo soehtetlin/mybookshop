@@ -1,19 +1,19 @@
 package entities;
 
 public abstract class PersonInfo {
-	
+
 	private String id;
 
 	private String name;
 
 	private String contact_no;
-	
+
 	private String address;
-	
+
 	private String email;
-	
+
 	private String gender;
-	
+
 	private int age;
 
 	public PersonInfo() {
@@ -65,15 +65,15 @@ public abstract class PersonInfo {
 	public void setgender(String gender) {
 		this.gender = gender;
 	}
-	
+
 	public String getgender() {
 		return gender;
 	}
-	
+
 	public int getage() {
 		return age;
 	}
-	
+
 	public void setage(int age) {
 		this.age = age;
 	}
@@ -81,6 +81,7 @@ public abstract class PersonInfo {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public String getAddress() {
 		return address;
 	}

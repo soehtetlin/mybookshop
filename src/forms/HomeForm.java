@@ -17,7 +17,6 @@ public class HomeForm extends JFrame {
 
 	private JPanel contentPane;
 	private JpanelLoader jloader = new JpanelLoader();
-	
 
 	/**
 	 * Launch the application.
@@ -110,7 +109,7 @@ public class HomeForm extends JFrame {
 		tglbtnManageAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				BookListForm bookListform = new BookListForm();
+				BookForm2 bookListform = new BookForm2();
 				jloader.jPanelLoader(panel_load, bookListform);
 			}
 		});
