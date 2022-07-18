@@ -107,10 +107,13 @@ public class HomeFormNew {
 
 		JToggleButton btnCustomer = new JToggleButton("Customer");
 		btnCustomer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				PurchaseDetailForm purchaseDetail = new PurchaseDetailForm();
-				jploader.jPanelLoader(panel_loader, purchaseDetail);
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CustomerListFormNew customerListForm= new CustomerListFormNew();
+				jploader.jPanelLoader(panel_loader, customerListForm);
 			}
+
 		});
 		cLayout.setToggleButton(btnCustomer);
 

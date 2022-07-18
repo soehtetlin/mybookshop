@@ -46,6 +46,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
@@ -542,7 +543,16 @@ public class BookForm extends JPanel {
 
 		});
 
-	}
+//				lblAddPhoto.addActionListener(new ActionListener() {
+//
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						// TODO Auto-generated method stub
+//				
+//					}
+//					
+//				}
+}
 
 	private void toSaveBookDataFromForm(Book book) {
 
