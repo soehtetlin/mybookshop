@@ -280,34 +280,34 @@ public class PurchaseForm extends JPanel {
 		int serialno;
 		vtotalPrice.remove(i);
 		vtotalquantity.remove(i);
-		if(button.equals("remove")) {
-			if (!vno.lastElement().equals(vno.get(i))) {
-				System.out.println("VNO size before remove:" + vno.size());
-				vno.remove(i);
-				vid.remove(i);
-				System.out.println("VNO size :" + vno.size());
-				int ii = vno.size();
-				vno.removeAllElements();
-				dtmpurchase.removeRow(i);
-				for(int j=0;i<ii;j++) {
-					dtmpurchase.removeRow(j);
-					dtmpurchase.setValueAt(j+1, i, 0);
-				}
-				
-				serialno = vno.indexOf(vno.get(i));
-				//dtmpurchase.removeRow(i);
-				//dtmpurchase.setValueAt(serialno + 1, i, 0);
-
-			} else {
-				vno.remove(i);
-				vid.remove(i);
-				dtmpurchase.removeRow(i);
-			}
-			tblshowPurchase.setModel(dtmpurchase);
-			lbltotalprice.setText(sumAmount(vtotalPrice, 1));
-			lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
-			
-		}else {
+//		if(button.equals("remove")) {
+//			if (!vno.lastElement().equals(vno.get(i))) {
+//				System.out.println("VNO size before remove:" + vno.size());
+//				vno.remove(i);
+//				vid.remove(i);
+//				System.out.println("VNO size :" + vno.size());
+//				int ii = vno.size();
+//				vno.removeAllElements();
+//				dtmpurchase.removeRow(i);
+//				for(int j=0;i<ii;j++) {
+//					dtmpurchase.removeRow(j);
+//					dtmpurchase.setValueAt(j+1, i, 0);
+//				}
+//				
+//				serialno = vno.indexOf(vno.get(i));
+//				//dtmpurchase.removeRow(i);
+//				//dtmpurchase.setValueAt(serialno + 1, i, 0);
+//
+//			} else {
+//				vno.remove(i);
+//				vid.remove(i);
+//				dtmpurchase.removeRow(i);
+//			}
+//			tblshowPurchase.setModel(dtmpurchase);
+//			lbltotalprice.setText(sumAmount(vtotalPrice, 1));
+//			lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
+//			
+//		}else {
 		if (!vno.lastElement().equals(vno.get(i))) {
 			System.out.println("VNO size before remove:" + vno.size());
 			vno.remove(i);
@@ -325,8 +325,6 @@ public class PurchaseForm extends JPanel {
 		tblshowPurchase.setModel(dtmpurchase);
 		lbltotalprice.setText(sumAmount(vtotalPrice, 1));
 		lbltotalquantity.setText(sumAmount(vtotalquantity, 1));}
-
-	}
 
 //	private void loadAllPurchaseDetails() {
 //		this.dtmpurchase = (DefaultTableModel) this.tblshowPurchase.getModel();
