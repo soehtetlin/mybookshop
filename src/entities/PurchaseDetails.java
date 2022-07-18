@@ -36,7 +36,7 @@ public class PurchaseDetails {
 
 	public Purchase getPurchase() {
 		System.out.println("Entities Purchase getMethod :" + purchase.getId());
-		
+
 		return purchase;
 	}
 

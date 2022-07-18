@@ -45,6 +45,9 @@ import javax.swing.JComponent;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PurchaseDetailForm extends JPanel {
 	private JTable table;
@@ -59,12 +62,14 @@ public class PurchaseDetailForm extends JPanel {
 	private List<PurchaseDetails> purchaseList = new ArrayList<>();
 	private PurchaseService purchaseServices;
 	private Vector<String> vno = new Vector<String>();
-	private JComboBox<String> cboPublisher,cboCategory,cboEmployee,cboPurchase;
+	private JComboBox<String> cboPublisher, cboCategory, cboEmployee, cboPurchase;
 	private List<Category> categoryList;
 	private List<Employee> employeelist;
 	private List<Publisher> publisherList;
 	private List<Purchase> purchaseListName;
-	
+	private JTextField txttime;
+	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
+
 	/**
 	 * Create the panel.
 	 */
@@ -88,6 +93,7 @@ public class PurchaseDetailForm extends JPanel {
 		this.employee = new Employee();
 		this.book = new Book();
 		this.purchaseServices = new PurchaseService();
+		
 	}
 
 	private void setTableDesign() {
@@ -118,7 +124,7 @@ public class PurchaseDetailForm extends JPanel {
 		table.getColumnModel().getColumn(8).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(9).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(10).setCellRenderer(dfcr);
-		
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(80);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -130,11 +136,6 @@ public class PurchaseDetailForm extends JPanel {
 		table.getColumnModel().getColumn(8).setPreferredWidth(150);
 		table.getColumnModel().getColumn(9).setPreferredWidth(130);
 		table.getColumnModel().getColumn(10).setPreferredWidth(150);
-
-//		table.setModel(new DefaultTableModel(new Object[][] {
-//
-//		}, new String[] { "No", "Purchase ID", "Purchase Date", "Book Name", "Publisher Name", "Employee Name",
-//				"Quantity", "Price", "Author Name", "Category Name", "Description" }));
 
 	}
 
@@ -173,24 +174,13 @@ public class PurchaseDetailForm extends JPanel {
 		setVisible(true);
 		revalidate();
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		setBounds(42, 11, 809, 458);
-		setLayout(null);
+		setBounds(42, 11, 769, 433);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 149, 789, 309);
-		add(scrollPane);
 
 		table = new JTable();
+		cLayout.setTable(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.setFont(new Font("Tahoma", Font.BOLD, 12));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultEditor(Object.class, null);
-		table.setAutoCreateRowSorter(true);
-		JTableHeader jtableheader = table.getTableHeader();
-		jtableheader.setBackground(SystemColor.textHighlight);
-		jtableheader.setForeground(Color.white);
-		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
-		jtableheader.setPreferredSize(new Dimension(100,40));
 		scrollPane.setViewportView(table);
 
 //		VBox vbox = new VBox(20);
@@ -230,49 +220,30 @@ public class PurchaseDetailForm extends JPanel {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(10, 0, 789, 138);
-		add(panel);
-		panel.setLayout(null);
 
 		JButton btnSearchBook = new JButton("Search Book");
-		btnSearchBook.setBounds(171, 102, 118, 25);
 		btnSearchBook.setMnemonic('s');
 		btnSearchBook.setMargin(new Insets(2, 2, 2, 2));
 		btnSearchBook.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel.add(btnSearchBook);
 
 		txtSearchPurchase = new JTextField();
-		txtSearchPurchase.setBounds(10, 103, 136, 23);
 		txtSearchPurchase.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtSearchPurchase.setColumns(10);
-		panel.add(txtSearchPurchase);
 
 		JLabel lblPublisher = new JLabel("Publisher");
 		lblPublisher.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPublisher.setBounds(10, 11, 100, 30);
-		panel.add(lblPublisher);
 
 		cboPublisher = new JComboBox<String>();
-		cboPublisher.setBounds(10, 52, 100, 30);
-		panel.add(cboPublisher);
 
 		cboCategory = new JComboBox<String>();
-		cboCategory.setBounds(120, 52, 100, 30);
-		panel.add(cboCategory);
 
 		JLabel lblCategory = new JLabel("Category");
 		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCategory.setBounds(120, 11, 100, 30);
-		panel.add(lblCategory);
 
 		JLabel lblEmployee = new JLabel("Employee");
 		lblEmployee.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmployee.setBounds(230, 11, 100, 30);
-		panel.add(lblEmployee);
 
 		cboEmployee = new JComboBox<String>();
-		cboEmployee.setBounds(230, 52, 100, 30);
-		panel.add(cboEmployee);
 
 		JButton btnShowAll = new JButton("Show All");
 		btnShowAll.addActionListener(new ActionListener() {
@@ -284,57 +255,144 @@ public class PurchaseDetailForm extends JPanel {
 		btnShowAll.setMnemonic('a');
 		btnShowAll.setMargin(new Insets(2, 2, 2, 2));
 		btnShowAll.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnShowAll.setBounds(314, 102, 118, 25);
-		panel.add(btnShowAll);
 
 		cboPurchase = new JComboBox<String>();
-		cboPurchase.setBounds(340, 52, 100, 30);
-		panel.add(cboPurchase);
 
 		JLabel lblPurchaseId = new JLabel("Purchase ID");
 		lblPurchaseId.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPurchaseId.setBounds(340, 11, 100, 30);
-		panel.add(lblPurchaseId);
 
 		JSpinner timeSpinner = new JSpinner(new SpinnerDateModel());
-		timeSpinner.setBounds(488, 76, 150, 23);
 
 //		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner,
 //		 "HH:mm:ss");
-JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner,"yy:mm:dd");
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "yy:mm:dd");
 		timeSpinner.setEditor(timeEditor);
-		timeSpinner.setValue(new Date()); // will only show the current time
-		panel.add(timeSpinner);
-		
+		timeSpinner.setValue(new Date());
+
 		JDateChooser dcto = new JDateChooser();
 		Date date = new Date();
-		dcto.setBounds(671, 18, 118, 23);
 		dcto.setDate(date);
-		panel.add(dcto);
 
 		JDateChooser dcfrom = new JDateChooser();
-		dcfrom.setBounds(509, 18, 118, 23);
 		dcfrom.setDate(date);
-		panel.add(dcfrom);
 
 		JLabel lbldatefrom = new JLabel("From");
-		lbldatefrom.setBounds(468, 18, 46, 20);
-		panel.add(lbldatefrom);
 
 		JLabel lbldateto = new JLabel("to");
-		lbldateto.setBounds(637, 21, 28, 20);
-		panel.add(lbldateto);
 
 		JButton btnPrint = new JButton("Print");
-		btnPrint.setBounds(661, 102, 118, 25);
-		panel.add(btnPrint);
 		btnPrint.setMnemonic('p');
 		btnPrint.setMargin(new Insets(2, 2, 2, 2));
 		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 14));
 
+		txttime = new JTextField();
+		txttime.setColumns(10);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
+						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+		);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(8)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(lblPurchaseId, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lbldatefrom, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addGap(41)
+											.addComponent(dcfrom, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lbldateto, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(dcto, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(25)
+									.addComponent(btnSearchBook, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+									.addGap(25)
+									.addComponent(btnShowAll, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+									.addGap(46)
+									.addComponent(txttime, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+									.addGap(65)
+									.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(cboPurchase, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(38)
+							.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblPurchaseId, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addComponent(lbldatefrom, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addComponent(dcfrom, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lbldateto, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dcto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))))
+					.addGap(11)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cboPurchase, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(4)
+							.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+					.addGap(20)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(1)
+							.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSearchBook)
+						.addComponent(btnShowAll)
+						.addComponent(txttime, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnPrint)))
+		);
+		panel.setLayout(gl_panel);
+		setLayout(groupLayout);
+
 	}
-	
-	
+
 	private void loadCategoryForComboBox() {
 		cboCategory.addItem("- Select -");
 		// System.out.println("Cate count " +
@@ -360,7 +418,7 @@ JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner,"yy:mm:dd")
 		this.publisherList = this.publisherService.findAllPublishers();
 		this.publisherList.forEach(p -> cboPublisher.addItem(p.getName()));
 	}
-	
+
 	private void loadPurchaseForComboBox() {
 		cboPurchase.addItem("- Select -");
 		// System.out.println("pub count " +

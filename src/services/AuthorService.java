@@ -165,7 +165,7 @@ public class AuthorService implements AuthorRepo {
 		}
 		return prefix + "00000001";
 	}
-	
+
 	public String generateID2(String field, String table, String prefix) {
 		ResultSet rs = null;
 		int current;
@@ -179,11 +179,12 @@ public class AuthorService implements AuthorRepo {
 
 			}
 
-			System.out.println("Result size "+ result.size());
-			
+			System.out.println("Result size " + result.size());
+
 			if (result.size() > 0) {
-				
-				System.out.println("Current ; "+ Integer.parseInt(result.get(result.size() - 1).toString().substring(3, 10)) + 1);
+
+				System.out.println(
+						"Current ; " + Integer.parseInt(result.get(result.size() - 1).toString().substring(3, 10)) + 1);
 
 				current = Integer.parseInt(result.get(result.size() - 1).toString().substring(3, 10)) + 1;
 				if (current > 0 && current <= 9) {

@@ -47,6 +47,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
 import java.awt.SystemColor;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
 
 public class PurchaseForm extends JPanel {
 	/**
@@ -87,6 +91,7 @@ public class PurchaseForm extends JPanel {
 	private List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 	private JLabel lblemployee, lblshowdate;
 	private JButton btnaddbook;
+	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	/**
 	 * Create the panel.
@@ -140,7 +145,6 @@ public class PurchaseForm extends JPanel {
 		dtm.addColumn("Remark");
 		tblshowbooklist.setRowHeight(25);
 		tblshowbooklist.setModel(dtm);
-		tblshowbooklist.setDefaultEditor(getClass(), null);
 		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
 		dfcr.setHorizontalAlignment(JLabel.CENTER);
 		tblshowbooklist.getColumnModel().getColumn(0).setCellRenderer(dfcr);
@@ -153,15 +157,6 @@ public class PurchaseForm extends JPanel {
 		tblshowbooklist.getColumnModel().getColumn(7).setCellRenderer(dfcr);
 		tblshowbooklist.getColumnModel().getColumn(8).setCellRenderer(dfcr);
 		tblshowbooklist.getColumnModel().getColumn(9).setCellRenderer(dfcr);
-
-//		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
-//		dfcr.setHorizontalAlignment(JLabel.CENTER);
-//		//tblshowbooklist.getColumnModel().getColumn(0).setCellRenderer(dfcr);
-//		tblshowbooklist.setDefaultRenderer(String.class, dfcr);
-//		tblshowbooklist.setModel(new DefaultTableModel(new Object[][] {
-//
-//		}, new String[] { "ID", "Name", "Photo", "Price", "Quantity", "Shelf No", "Author Name", "Category Name",
-//				"Publihser Name", "Remark" }));
 
 	}
 
@@ -243,8 +238,8 @@ public class PurchaseForm extends JPanel {
 	private void setTableDesignForPurchaseTable() {
 		dtmpurchase.addColumn("No");
 		dtmpurchase.addColumn("Book");
-		//dtmpurchase.addColumn("Category");
-		//dtmpurchase.addColumn("Author");
+		// dtmpurchase.addColumn("Category");
+		// dtmpurchase.addColumn("Author");
 		dtmpurchase.addColumn("Quantity");
 		dtmpurchase.addColumn("Price");
 		dtmpurchase.addColumn("Amount");
@@ -279,15 +274,45 @@ public class PurchaseForm extends JPanel {
 
 	}
 
-	private void deleteRow() {
+	private void deleteRow(String button) {
 		// TODO Auto-generated method stub
 		int i = tblshowPurchase.getSelectedRow();
 		int serialno;
 		vtotalPrice.remove(i);
 		vtotalquantity.remove(i);
+		if(button.equals("remove")) {
+			if (!vno.lastElement().equals(vno.get(i))) {
+				System.out.println("VNO size before remove:" + vno.size());
+				vno.remove(i);
+				vid.remove(i);
+				System.out.println("VNO size :" + vno.size());
+				int ii = vno.size();
+				vno.removeAllElements();
+				dtmpurchase.removeRow(i);
+				for(int j=0;i<ii;j++) {
+					dtmpurchase.removeRow(j);
+					dtmpurchase.setValueAt(j+1, i, 0);
+				}
+				
+				serialno = vno.indexOf(vno.get(i));
+				//dtmpurchase.removeRow(i);
+				//dtmpurchase.setValueAt(serialno + 1, i, 0);
+
+			} else {
+				vno.remove(i);
+				vid.remove(i);
+				dtmpurchase.removeRow(i);
+			}
+			tblshowPurchase.setModel(dtmpurchase);
+			lbltotalprice.setText(sumAmount(vtotalPrice, 1));
+			lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
+			
+		}else {
 		if (!vno.lastElement().equals(vno.get(i))) {
+			System.out.println("VNO size before remove:" + vno.size());
 			vno.remove(i);
 			vid.remove(i);
+			System.out.println("VNO size :" + vno.size());
 			serialno = vno.indexOf(vno.get(i));
 			dtmpurchase.removeRow(i);
 			dtmpurchase.setValueAt(serialno + 1, i, 0);
@@ -299,7 +324,7 @@ public class PurchaseForm extends JPanel {
 		}
 		tblshowPurchase.setModel(dtmpurchase);
 		lbltotalprice.setText(sumAmount(vtotalPrice, 1));
-		lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
+		lbltotalquantity.setText(sumAmount(vtotalquantity, 1));}
 
 	}
 
@@ -400,20 +425,20 @@ public class PurchaseForm extends JPanel {
 		// showPurchase[1] = book.getId();
 
 		vid.addElement(book.getId());
-		//System.out.println("This is book.getiD 	 " + book.getId());
+		// System.out.println("This is book.getiD " + book.getId());
 
 		showPurchase[1] = book.getName();// show name
 		vno.addElement(showPurchase[1]);
 
-		//showPurchase[2] = book.getCategory().getName();
+		// showPurchase[2] = book.getCategory().getName();
 
-		//showPurchase[3] = book.getAuthor().getName();
+		// showPurchase[3] = book.getAuthor().getName();
 		// showPurchase[2] = book.getPhoto();// show photo
 
 		showPurchase[2] = txtStockAmount.getText();// show quantity
 
 		totalquantity = Integer.valueOf(showPurchase[2]) + (book.getStockamount());
-		 book.setStockamount(totalquantity);
+		book.setStockamount(totalquantity);
 
 		showPurchase[3] = txtPrice.getText();// show price
 
@@ -485,18 +510,12 @@ public class PurchaseForm extends JPanel {
 	private void initialize() {
 
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		setBounds(42, 11, 809, 458);
-		setLayout(null);
+		setBounds(42, 11, 790, 435);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(0, 0, 422, 458);
-		add(panel);
-		panel.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 258, 422, 200);
-		panel.add(scrollPane);
 
 		cboPublisher = new JComboBox();
 		cboPublisher.addActionListener(new ActionListener() {
@@ -504,12 +523,8 @@ public class PurchaseForm extends JPanel {
 
 			}
 		});
-		cboPublisher.setBounds(1, 49, 100, 30);
-		panel.add(cboPublisher);
 
 		cboCategory = new JComboBox<String>();
-		cboCategory.setBounds(111, 49, 100, 30);
-		panel.add(cboCategory);
 
 		cboEmployee = new JComboBox<String>();
 		cboEmployee.addActionListener(new ActionListener() {
@@ -517,27 +532,17 @@ public class PurchaseForm extends JPanel {
 				lblemployee.setText((String) cboEmployee.getSelectedItem());
 			}
 		});
-		cboEmployee.setBounds(221, 49, 100, 30);
-		panel.add(cboEmployee);
 
 		JLabel lblPublisher = new JLabel("Publisher");
 		lblPublisher.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPublisher.setBounds(1, 8, 100, 30);
-		panel.add(lblPublisher);
 
 		JLabel lblCategory = new JLabel("Category");
 		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCategory.setBounds(111, 8, 100, 30);
-		panel.add(lblCategory);
 
 		JLabel lblEmployee = new JLabel("Employee");
 		lblEmployee.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmployee.setBounds(221, 8, 100, 30);
-		panel.add(lblEmployee);
 
 		JLabel lblQuantity = new JLabel("Quantity");
-		lblQuantity.setBounds(113, 90, 100, 30);
-		panel.add(lblQuantity);
 		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		txtStockAmount = new JTextField();
@@ -546,26 +551,18 @@ public class PurchaseForm extends JPanel {
 				addBookAction();
 			}
 		});
-		txtStockAmount.setBounds(209, 91, 182, 30);
-		panel.add(txtStockAmount);
 		txtStockAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtStockAmount.setColumns(10);
 
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(113, 131, 100, 30);
-		panel.add(lblPrice);
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		txtPrice = new JTextField();
-		txtPrice.setBounds(209, 131, 182, 30);
-		panel.add(txtPrice);
 		txtPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtPrice.setColumns(10);
 
 		lblBookID = new JLabel("Show Book ID");
 		lblBookID.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblBookID.setBounds(10, 91, 100, 42);
-		panel.add(lblBookID);
 
 		JButton btnedit = new JButton("Edit");
 		btnedit.addActionListener(new ActionListener() {
@@ -584,7 +581,7 @@ public class PurchaseForm extends JPanel {
 					txtStockAmount.selectAll();
 				} else {
 
-					deleteRow();
+					deleteRow("edit");
 					addBookToPurchaseTable();
 					lbltotalprice.setText(sumAmount(vtotalPrice, 1));
 					lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
@@ -592,8 +589,6 @@ public class PurchaseForm extends JPanel {
 				}
 			}
 		});
-		btnedit.setBounds(126, 178, 100, 30);
-		panel.add(btnedit);
 		btnedit.setMargin(new Insets(2, 2, 2, 2));
 		btnedit.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -603,7 +598,7 @@ public class PurchaseForm extends JPanel {
 				if (tblshowPurchase.getSelectedRow() < 0) {
 					JOptionPane.showMessageDialog(null, "Please select row to delete!");
 				} else {
-					deleteRow();
+					deleteRow("remove");
 					// clearAll();
 					clearform();
 					// System.out.println("This is remove item vid 0 value : " + vid.get(0));
@@ -614,8 +609,6 @@ public class PurchaseForm extends JPanel {
 			}
 
 		});
-		btnremove.setBounds(236, 178, 100, 30);
-		panel.add(btnremove);
 		btnremove.setMargin(new Insets(2, 2, 2, 2));
 		btnremove.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -631,18 +624,14 @@ public class PurchaseForm extends JPanel {
 
 		btnaddbook.setMargin(new Insets(2, 2, 2, 2));
 		btnaddbook.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnaddbook.setBounds(10, 178, 100, 30);
-		panel.add(btnaddbook);
 
 		txtsearchbook = new JTextField();
 		txtsearchbook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				searchBook();
-				
+
 			}
 		});
-		txtsearchbook.setBounds(0, 219, 124, 30);
-		panel.add(txtsearchbook);
 		txtsearchbook.setName("");
 		txtsearchbook.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtsearchbook.setColumns(10);
@@ -654,20 +643,13 @@ public class PurchaseForm extends JPanel {
 
 			}
 		});
-		btnSearch.setBounds(126, 217, 100, 30);
-		panel.add(btnSearch);
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSearch.setMargin(new Insets(2, 2, 2, 2));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_1.setBounds(420, 0, 390, 285);
-		add(panel_1);
-		panel_1.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 37, 390, 248);
-		panel_1.add(scrollPane_1);
 		tblshowPurchase = new JTable();
 		tblshowPurchase.setFont(new Font("Tahoma", Font.BOLD, 14));
 		tblshowPurchase.setBackground(new Color(255, 250, 240));
@@ -697,24 +679,22 @@ public class PurchaseForm extends JPanel {
 
 		scrollPane_1.setViewportView(tblshowPurchase);
 		lblshowdate = new JLabel("Show Current Date");
-		lblshowdate.setBounds(10, 0, 182, 30);
-		panel_1.add(lblshowdate);
 		lblshowdate.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblshowdate.setVisible(false);
 
 		lblemployee = new JLabel("Employee Name");
-		lblemployee.setBounds(239, 0, 151, 30);
-		panel_1.add(lblemployee);
 		lblemployee.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		tblshowbooklist = new JTable();
 		tblshowbooklist.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tblshowbooklist.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		tblshowbooklist.setBackground(new Color(255, 250, 240));
-		tblshowbooklist.setForeground(Color.DARK_GRAY);
-		tblshowbooklist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tblshowbooklist.setDefaultEditor(Object.class, null);
-		tblshowbooklist.setAutoCreateRowSorter(true);
-		
+		cLayout.setTable(tblshowbooklist);
+//		tblshowbooklist.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//		tblshowbooklist.setBackground(new Color(255, 250, 240));
+//		tblshowbooklist.setForeground(Color.DARK_GRAY);
+//		tblshowbooklist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		tblshowbooklist.setDefaultEditor(Object.class, null);
+//		tblshowbooklist.setAutoCreateRowSorter(true);
+
 		this.tblshowbooklist.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
 			if (!tblshowbooklist.getSelectionModel().isSelectionEmpty()) {
 
@@ -749,16 +729,99 @@ public class PurchaseForm extends JPanel {
 		});
 		btnshowAll.setMargin(new Insets(2, 2, 2, 2));
 		btnshowAll.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnshowAll.setBounds(236, 217, 100, 30);
-		panel.add(btnshowAll);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 390, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		groupLayout
+				.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+						groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 431,
+												Short.MAX_VALUE)
+										.addComponent(panel, 0, 0, Short.MAX_VALUE))
+								.addGap(0)));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(1)
+						.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup().addGap(1)
+						.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(lblBookID)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblQuantity, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createSequentialGroup().addGap(96).addComponent(txtStockAmount,
+										GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addGap(96).addComponent(txtPrice,
+										GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblPrice, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+				.addGroup(gl_panel.createSequentialGroup().addGap(10)
+						.addComponent(btnaddbook, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(16).addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(btnremove, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup()
+						.addComponent(txtsearchbook, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+						.addGap(2).addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(btnshowAll, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup().addGap(1)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE).addGap(5)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(6)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(11)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(11)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblQuantity, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblBookID, GroupLayout.PREFERRED_SIZE, 42,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addGap(1).addComponent(txtStockAmount,
+										GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+						.addGap(10)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtPrice, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPrice, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(17)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnaddbook, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnremove, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(9)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(txtsearchbook,
+										GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+								.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnshowAll, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(27).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+						.addGap(5)));
+		panel.setLayout(gl_panel);
 
 		// lblshowdate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new
 		// java.util.Date()));
 
 		JPanel pnshowpurchaseitem = new JPanel();
-		pnshowpurchaseitem.setBounds(420, 285, 390, 173);
-		add(pnshowpurchaseitem);
-		pnshowpurchaseitem.setLayout(null);
 
 		JButton btnSave = new JButton("Save");
 		btnSave.setMnemonic('s');
@@ -795,33 +858,33 @@ public class PurchaseForm extends JPanel {
 						loadAllBooks(Optional.empty());
 
 						// Purchase purchaseitem;
-//					vid.size();
-//					for(int i=0;i<vid.size();i++) {
-//						book.setId((String) vid.elementAt(i));
-//						purchaseDetail.setQuantity(Integer.valueOf(vtotalquantity.elementAt(i)));
-//						purchaseService.createPurchase();
-//					}
-//					
-//					purchaseitem.setPurchaseDate(LocalDateTime.now());
-//					
-//					Optional<Publisher> selectedPublisher = publisherList.stream()
-//							.filter(s -> s.getName().equals(cboPublisher.getSelectedItem())).findFirst();
-//					if (selectedPublisher.isPresent()) {
-//						if (employee != null) {
-//							Purchase purchase = new Purchase();
-//							purchase.setEmployee(employee);
-//							purchase.setPublisher(selectedPublisher.get());
-//							purchase.setDescription("Testing");
-//							purchase.setPurchaseDate(LocalDateTime.now());
-//							purchaseService.createPurchase(purchase);
-//							purchaseService.createPurchaseDetails(null);
-////							if (purchaseDetailsList.size() != 0) {
-////								purchaseService.createPurchaseDetails(purchaseDetailsList);
-//								JOptionPane.showMessageDialog(null, "Success");
-//							} else {
-//								JOptionPane.showMessageDialog(null, "Add some product for making purchase");
-//							}
-//						}
+						// vid.size();
+						// for(int i=0;i<vid.size();i++) {
+						// book.setId((String) vid.elementAt(i));
+						// purchaseDetail.setQuantity(Integer.valueOf(vtotalquantity.elementAt(i)));
+						// purchaseService.createPurchase();
+						// }
+						//
+						// purchaseitem.setPurchaseDate(LocalDateTime.now());
+						//
+						// Optional<Publisher> selectedPublisher = publisherList.stream()
+						// .filter(s -> s.getName().equals(cboPublisher.getSelectedItem())).findFirst();
+						// if (selectedPublisher.isPresent()) {
+						// if (employee != null) {
+						// Purchase purchase = new Purchase();
+						// purchase.setEmployee(employee);
+						// purchase.setPublisher(selectedPublisher.get());
+						// purchase.setDescription("Testing");
+						// purchase.setPurchaseDate(LocalDateTime.now());
+						// purchaseService.createPurchase(purchase);
+						// purchaseService.createPurchaseDetails(null);
+						//// if (purchaseDetailsList.size() != 0) {
+						//// purchaseService.createPurchaseDetails(purchaseDetailsList);
+						// JOptionPane.showMessageDialog(null, "Success");
+						// } else {
+						// JOptionPane.showMessageDialog(null, "Add some product for making purchase");
+						// }
+						// }
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Choose Supplier");
@@ -835,74 +898,124 @@ public class PurchaseForm extends JPanel {
 		});
 		btnSave.setMargin(new Insets(2, 2, 2, 2));
 		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSave.setBounds(10, 115, 100, 30);
-		pnshowpurchaseitem.add(btnSave);
 
 		JLabel lblTotalAmount = new JLabel("Total Amount");
 		lblTotalAmount.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotalAmount.setBounds(10, 64, 202, 30);
-		pnshowpurchaseitem.add(lblTotalAmount);
 
 		JLabel lblTotalQuantity = new JLabel("Total Quantity");
 		lblTotalQuantity.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotalQuantity.setBounds(10, 23, 202, 30);
-		pnshowpurchaseitem.add(lblTotalQuantity);
 
 		lbltotalquantity = new JLabel("0");
-		lbltotalquantity.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lbltotalquantity.setBounds(182, 23, 151, 30);
-		pnshowpurchaseitem.add(lbltotalquantity);
+		lbltotalquantity.setForeground(UIManager.getColor("ToolBar.dockingForeground"));
+		lbltotalquantity.setFont(new Font("Tahoma", Font.BOLD, 18));
 
 		lbltotalprice = new JLabel("0");
+		lbltotalprice.setForeground(UIManager.getColor("ToolBar.dockingForeground"));
 
-		lbltotalprice.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lbltotalprice.setBounds(182, 64, 127, 30);
-		pnshowpurchaseitem.add(lbltotalprice);
+		lbltotalprice.setFont(new Font("Tahoma", Font.BOLD, 18));
 
 		JLabel lblTotalQuantity_1_1 = new JLabel("Kyats");
 		lblTotalQuantity_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotalQuantity_1_1.setBounds(314, 64, 80, 30);
-		pnshowpurchaseitem.add(lblTotalQuantity_1_1);
+		GroupLayout gl_pnshowpurchaseitem = new GroupLayout(pnshowpurchaseitem);
+		gl_pnshowpurchaseitem.setHorizontalGroup(gl_pnshowpurchaseitem.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnshowpurchaseitem.createSequentialGroup().addGap(10).addGroup(gl_pnshowpurchaseitem
+						.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_pnshowpurchaseitem.createSequentialGroup().addGroup(gl_pnshowpurchaseitem
+								.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTotalQuantity, GroupLayout.PREFERRED_SIZE, 202,
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_pnshowpurchaseitem.createSequentialGroup()
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblTotalAmount,
+												GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_pnshowpurchaseitem.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_pnshowpurchaseitem.createSequentialGroup()
+												.addComponent(lbltotalprice, GroupLayout.PREFERRED_SIZE, 84,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+												.addComponent(lblTotalQuantity_1_1))
+										.addComponent(lbltotalquantity, GroupLayout.PREFERRED_SIZE, 151,
+												GroupLayout.PREFERRED_SIZE))))
+						.addContainerGap()));
+		gl_pnshowpurchaseitem
+				.setVerticalGroup(gl_pnshowpurchaseitem.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnshowpurchaseitem.createSequentialGroup().addGap(23)
+								.addGroup(gl_pnshowpurchaseitem.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblTotalQuantity, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lbltotalquantity, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(11)
+								.addGroup(gl_pnshowpurchaseitem.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lbltotalprice, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblTotalAmount, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblTotalQuantity_1_1, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)));
+		pnshowpurchaseitem.setLayout(gl_pnshowpurchaseitem);
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_1.createSequentialGroup().addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane_1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addComponent(pnshowpurchaseitem, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 390,
+								Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createSequentialGroup().addGap(10)
+								.addComponent(lblshowdate, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+								.addGap(47).addComponent(lblemployee, GroupLayout.PREFERRED_SIZE, 151,
+										GroupLayout.PREFERRED_SIZE)))
+						.addGap(51)));
+		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblshowdate, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblemployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(7).addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(pnshowpurchaseitem, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		panel_1.setLayout(gl_panel_1);
+		setLayout(groupLayout);
 
 	}
 
 	private void tableselection() {
 		// TODO Auto-generated method stub
 
-	
-
 	}
 
 	protected void addBookAction() {
-	
-			if (cboPublisher.getSelectedItem().equals("- Select -") || cboCategory.getSelectedIndex() == 0
-					|| cboEmployee.getSelectedIndex() == 0) {
-				JOptionPane.showMessageDialog(btnaddbook,
-						"Please select both publisher name, category name and employee name!");
-				cboPublisher.requestFocus();
-			} else if (!Checking.checktxtprice(txtPrice.getText())) {
-				txtPrice.requestFocus();
-				JOptionPane.showMessageDialog(null, "Please enter Price Correctly!");
-			} else if (!Checking.checktxtquantity(txtStockAmount.getText())) {
-				txtStockAmount.requestFocus();
-				JOptionPane.showMessageDialog(null, "Please enter Quantity Correctly!");
-				// System.out.println("Inside the txtprice listener");
-			} else if (check(book.getName(), vno)) {
-				System.out.println(book.getName() + "inside the check if " + vno);
-				JOptionPane.showMessageDialog(null, "This item is already added");
-				clearform();
-			} else if (null != book && !book.getId().isBlank()) {
-				System.out.println("Book Name : " + book.getName());
-				addBookToPurchaseTable();
-				// loadAllPurchaseDetails();
 
-				clearform();
-				loadAllBooks(Optional.empty());
-				txtsearchbook.requestFocus();
+		if (cboPublisher.getSelectedItem().equals("- Select -") || cboCategory.getSelectedIndex() == 0
+				|| cboEmployee.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(btnaddbook,
+					"Please select both publisher name, category name and employee name!");
+			cboPublisher.requestFocus();
+		} else if (!Checking.checktxtprice(txtPrice.getText())) {
+			txtPrice.requestFocus();
+			JOptionPane.showMessageDialog(null, "Please enter Price Correctly!");
+		} else if (!Checking.checktxtquantity(txtStockAmount.getText())) {
+			txtStockAmount.requestFocus();
+			JOptionPane.showMessageDialog(null, "Please enter Quantity Correctly!");
+			// System.out.println("Inside the txtprice listener");
+		} else if (check(book.getName(), vno)) {
+			System.out.println(book.getName() + "inside the check if " + vno);
+			JOptionPane.showMessageDialog(null, "This item is already added");
+			clearform();
+		} else if (null != book && !book.getId().isBlank()) {
+			System.out.println("Book Name : " + book.getName());
+			addBookToPurchaseTable();
+			// loadAllPurchaseDetails();
 
-				
-				// PurchaseDetails purchaseDetails = new PurchaseDetails();
-				// purchaseDetails.setPrice();
+			clearform();
+			loadAllBooks(Optional.empty());
+			txtsearchbook.requestFocus();
+
+			// PurchaseDetails purchaseDetails = new PurchaseDetails();
+			// purchaseDetails.setPrice();
 
 //			if (!book.getName().isBlank() && book.getPrice() >= 0 && book.getStockamount() >= 0
 //					&& null != book.getAuthor() && null != book.getCategory()) {
@@ -913,11 +1026,11 @@ public class PurchaseForm extends JPanel {
 //				productListForm.frmProductlist.setVisible(true);
 //				frame.setVisible(false);
 
-			} else {
+		} else {
 
-				JOptionPane.showMessageDialog(null, "Check Required Field");
-			}
-	
+			JOptionPane.showMessageDialog(null, "Check Required Field");
+		}
+
 	}
 
 	private boolean check(String name, Vector<String> vno) {

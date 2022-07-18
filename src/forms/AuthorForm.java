@@ -145,17 +145,17 @@ public class AuthorForm extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-					Author author = new Author();
-					author.setName(txtName.getText());
-					if (null != author.getName() && !author.getName().isBlank()) {
 
-						auService.saveAuthor(author);
-						resetFormData();
-						loadAllAuthors(Optional.empty());
-					} else {
-						JOptionPane.showMessageDialog(null, "Enter Required Field!");
-					
+				Author author = new Author();
+				author.setName(txtName.getText());
+				if (null != author.getName() && !author.getName().isBlank()) {
+
+					auService.saveAuthor(author);
+					resetFormData();
+					loadAllAuthors(Optional.empty());
+				} else {
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+
 				}
 			}
 		});
@@ -229,11 +229,11 @@ public class AuthorForm extends JPanel {
 		scrollPane.setBounds(0, 0, 789, 288);
 		showtablepanel.add(scrollPane);
 		scrollPane.setViewportView(tblshowAuthor);
-		
+
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String keyword = txtSearch.getText();
 
 				loadAllAuthors(Optional.of(originalAuthorList.stream()

@@ -112,8 +112,9 @@ public class EmployeeService implements EmployeeRepo {
 		Employee employee = new Employee();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-			
-			String query = "SELECT id,name,username,password,age,gender,contact_no,address,email FROM employee WHERE id = '" + id + "';";
+
+			String query = "SELECT id,name,username,password,age,gender,contact_no,address,email FROM employee WHERE id = '"
+					+ id + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -127,13 +128,14 @@ public class EmployeeService implements EmployeeRepo {
 
 		return employee;
 	}
-	
+
 	public Employee findEmployeeByName(String name) {
 		Employee employee = new Employee();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-			
-			String query = "SELECT id,name,username,password,age,gender,contact_no,address,email FROM employee WHERE name = '" + name + "';";
+
+			String query = "SELECT id,name,username,password,age,gender,contact_no,address,email FROM employee WHERE name = '"
+					+ name + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -147,6 +149,5 @@ public class EmployeeService implements EmployeeRepo {
 
 		return employee;
 	}
-
 
 }

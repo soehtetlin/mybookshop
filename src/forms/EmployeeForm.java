@@ -73,7 +73,6 @@ public class EmployeeForm extends JPanel {
 			row[4] = b.getgender();
 			row[5] = b.getPhone();
 			row[6] = b.getAddress();
-			
 
 			dtm.addRow(row);
 		});
@@ -152,17 +151,17 @@ public class EmployeeForm extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-				Employee employee = new Employee();
-					employee.setName(txtName.getText());
-					if (null != employee.getName() && !employee.getName().isBlank()) {
 
-						employeeService.createEmployee(employee);
-						resetFormData();
-						loadAllEmployee(Optional.empty());
-					} else {
-						JOptionPane.showMessageDialog(null, "Enter Required Field!");
-					
+				Employee employee = new Employee();
+				employee.setName(txtName.getText());
+				if (null != employee.getName() && !employee.getName().isBlank()) {
+
+					employeeService.createEmployee(employee);
+					resetFormData();
+					loadAllEmployee(Optional.empty());
+				} else {
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+
 				}
 			}
 		});
@@ -225,7 +224,6 @@ public class EmployeeForm extends JPanel {
 				txtgender.setText(employee.getgender());
 				txtphonno.setText(employee.getPhone());
 				txtaddress.setText(employee.getAddress());
-				
 
 			}
 		});
@@ -236,15 +234,15 @@ public class EmployeeForm extends JPanel {
 		scrollPane.setBounds(0, 0, 388, 380);
 		showtablepanel.add(scrollPane);
 		scrollPane.setViewportView(tblshowEmployee);
-		
+
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setOrientation(JScrollBar.HORIZONTAL);
 		scrollPane.setColumnHeaderView(scrollBar);
-		
+
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String keyword = txtSearch.getText();
 
 				loadAllEmployee(Optional.of(originalEmployeeList.stream()
@@ -253,60 +251,58 @@ public class EmployeeForm extends JPanel {
 			}
 		});
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		txtusername = new JTextField();
 		txtusername.setColumns(10);
-		
+
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		txtpwd = new JTextField();
 		txtpwd.setColumns(10);
-		
+
 		JLabel lblEmplevel = new JLabel("Emp_Level");
 		lblEmplevel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		txtlevel = new JTextField();
 		txtlevel.setColumns(10);
-		
+
 		JLabel lblAge = new JLabel("Gender");
 		lblAge.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		txtgender = new JTextField();
 		txtgender.setColumns(10);
-		
+
 		JLabel lblPhoneNo = new JLabel("Phone No");
 		lblPhoneNo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		txtphonno = new JTextField();
 		txtphonno.setColumns(10);
-		
+
 		JLabel lblAddress = new JLabel("Address");
 		lblAddress.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+
 		txtaddress = new JTextField();
 		txtaddress.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(8)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblEmployeeID, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
-							.addGap(113)
-							.addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblAuthorName, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(8)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false).addGroup(groupLayout
+						.createSequentialGroup()
+						.addComponent(lblEmployeeID, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+						.addGap(113).addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+								.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAuthorName, GroupLayout.PREFERRED_SIZE, 116,
+										GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEmplevel, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
@@ -314,79 +310,76 @@ public class EmployeeForm extends JPanel {
 								.addComponent(lblPhoneNo, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-							.addGap(10)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtusername, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpwd, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtlevel, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtgender, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtphonno, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtaddress, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(13)
-									.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-									.addGap(20)
-									.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)))
-							.addGap(10)
-							.addComponent(showtablepanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(32))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGap(10)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtusername, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtpwd, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtlevel, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtgender, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtphonno, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtaddress, GroupLayout.PREFERRED_SIZE, 222,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(groupLayout.createSequentialGroup().addGap(13)
+												.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 116,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(20).addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 116,
+														GroupLayout.PREFERRED_SIZE)))
+								.addGap(10).addComponent(showtablepanel, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+				.addGap(32)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblEmployeeID, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup().addGap(7).addComponent(lblSearch,
+								GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(9)
+								.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(6)
+								.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
+				.addGap(2)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+						.createSequentialGroup()
+						.addComponent(lblAuthorName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addGap(11)
+						.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE).addGap(9)
+						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addGap(11)
+						.addComponent(lblEmplevel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE).addGap(7)
+						.addComponent(lblAge, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE).addGap(11)
+						.addComponent(lblPhoneNo, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE).addGap(13)
+						.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE).addGap(11)
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(7)
-							.addComponent(lblSearch, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(9)
-							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
-					.addGap(2)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblAuthorName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(9)
-							.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(lblEmplevel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(7)
-							.addComponent(lblAge, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(lblPhoneNo, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(13)
-							.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(txtusername, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(9)
-							.addComponent(txtpwd, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(txtlevel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(7)
-							.addComponent(txtgender, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(txtphonno, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(13)
-							.addComponent(txtaddress, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(showtablepanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-		);
+								.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(11)
+								.addComponent(txtusername, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(9)
+								.addComponent(txtpwd, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(11)
+								.addComponent(txtlevel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(7)
+								.addComponent(txtgender, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(11)
+								.addComponent(txtphonno, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(13)
+								.addComponent(txtaddress, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addGap(11)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 41,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 41,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup().addGap(6).addComponent(showtablepanel,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))));
 		setLayout(groupLayout);
 
 	}

@@ -6,9 +6,9 @@ public class Employee extends PersonInfo {
 
 	private String password;
 
-	//private UserRole role;
+	// private UserRole role;
 
-	//private boolean active;
+	// private boolean active;
 
 	public Employee() {
 		super();
@@ -18,8 +18,8 @@ public class Employee extends PersonInfo {
 		super();
 		this.username = username;
 		this.password = password;
-		//this.role = role;
-		//this.active = active;
+		// this.role = role;
+		// this.active = active;
 	}
 
 //	public boolean isActive() {

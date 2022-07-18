@@ -75,7 +75,6 @@ public class CategoryForm extends JPanel {
 		tblshowCategory.getColumnModel().getColumn(0).setCellRenderer(dfcr);
 		tblshowCategory.getColumnModel().getColumn(1).setCellRenderer(dfcr);
 
-
 	}
 
 	private void resetFormData() {
@@ -148,17 +147,17 @@ public class CategoryForm extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-				Category category = new Category();
-					category.setName(txtName.getText());
-					if (null != category.getName() && !category.getName().isBlank()) {
 
-						categoryService.saveCategory(category);
-						resetFormData();
-						loadAllCategories(Optional.empty());
-					} else {
-						JOptionPane.showMessageDialog(null, "Enter Required Field!");
-					
+				Category category = new Category();
+				category.setName(txtName.getText());
+				if (null != category.getName() && !category.getName().isBlank()) {
+
+					categoryService.saveCategory(category);
+					resetFormData();
+					loadAllCategories(Optional.empty());
+				} else {
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+
 				}
 			}
 		});
@@ -232,11 +231,11 @@ public class CategoryForm extends JPanel {
 		scrollPane.setBounds(0, 0, 789, 288);
 		showtablepanel.add(scrollPane);
 		scrollPane.setViewportView(tblshowCategory);
-		
+
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String keyword = txtSearch.getText();
 
 				loadAllCategories(Optional.of(originalCategoryList.stream()

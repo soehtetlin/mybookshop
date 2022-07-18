@@ -8,13 +8,13 @@ public class Publisher {
 	private String id;
 
 	private String name;
-	
+
 	private String contact_no;
-	
+
 	private String address;
-	
+
 	private String email;
-	
+
 	public Publisher() {
 	}
 
@@ -22,9 +22,9 @@ public class Publisher {
 		super();
 		this.id = id;
 		this.name = name;
-		this.contact_no=phone;
-		this.address= address;
-		this.email=email;
+		this.contact_no = phone;
+		this.address = address;
+		this.email = email;
 	}
 
 	public String getContact_no() {

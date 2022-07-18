@@ -13,7 +13,7 @@ public class Category {
 	public Category() {
 	}
 
-	public Category(String id, String name,List<Book> books ) {
+	public Category(String id, String name, List<Book> books) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -37,13 +37,12 @@ public class Category {
 		this.name = name;
 	}
 
-	public List<Book> getBooks(){
+	public List<Book> getBooks() {
 		return books;
 	}
-	
+
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
-
 
 }

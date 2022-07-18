@@ -22,41 +22,39 @@ import shared.exception.AppException;
 public class PublisherService {
 
 	private final DBconnector dbConfig = new DBconnector();
-	
 
 	public void savePublisher(Publisher publisher) {
-        try {
-        	AuthorService authService=new AuthorService();
-        	
-        	publisher.setId(authService.generateID2("id", "Publisher", "Pub"));
-            PreparedStatement ps = this.dbConfig.getConnection()
-                    .prepareStatement("INSERT INTO publisher (id,name, contact_no,address, email) VALUES (?,?,?,?,?);");
+		try {
+			AuthorService authService = new AuthorService();
 
-            ps.setString(1, publisher.getId());
-            ps.setString(2, publisher.getName());
-            ps.setString(3, publisher.getContact_no());
-            ps.setString(4, publisher.getAddress());
-            ps.setString(5, publisher.getEmail());
-           
-            ps.executeUpdate();
-            ps.close();
-            JOptionPane.showMessageDialog(null,"Record Saved Successfully.");
+			publisher.setId(authService.generateID2("id", "Publisher", "Pub"));
+			PreparedStatement ps = this.dbConfig.getConnection()
+					.prepareStatement("INSERT INTO publisher (id,name, contact_no,address, email) VALUES (?,?,?,?,?);");
 
-        } catch (SQLException e) {
-           // if (e instanceof MySQLIntegrityConstraintViolationException)
-        	 if (e instanceof SQLIntegrityConstraintViolationException){
-                JOptionPane.showMessageDialog(null,e.getMessage());
-            }
-        }
+			ps.setString(1, publisher.getId());
+			ps.setString(2, publisher.getName());
+			ps.setString(3, publisher.getContact_no());
+			ps.setString(4, publisher.getAddress());
+			ps.setString(5, publisher.getEmail());
 
-    }
+			ps.executeUpdate();
+			ps.close();
+			JOptionPane.showMessageDialog(null, "Record Saved Successfully.");
 
+		} catch (SQLException e) {
+			// if (e instanceof MySQLIntegrityConstraintViolationException)
+			if (e instanceof SQLIntegrityConstraintViolationException) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
+
+	}
 
 	public void updatePublisher(String id, Publisher publisher) {
 		try {
 
-			PreparedStatement ps = this.dbConfig.getConnection()
-					.prepareStatement("UPDATE publisher SET name = ? , contact_no = ? , address = ? , email = ?  WHERE id = ?");
+			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
+					"UPDATE publisher SET name = ? , contact_no = ? , address = ? , email = ?  WHERE id = ?");
 
 			ps.setString(1, publisher.getName());
 			ps.setString(2, publisher.getContact_no());
@@ -89,7 +87,7 @@ public class PublisherService {
 				p.setAddress(rs.getString("address"));
 				p.setEmail(rs.getString("email"));
 				publisherList.add(p);
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -98,7 +96,6 @@ public class PublisherService {
 
 		return publisherList;
 	}
-
 
 	public Publisher findById(String id) {
 		Publisher publisher = new Publisher();
@@ -128,8 +125,8 @@ public class PublisherService {
 	public void deletePublisher(String pubId) {
 		try {
 			List<Purchase> purchaseByPublisherId = findPurchaseListByPublisherId(pubId);
-			
-			if(purchaseByPublisherId.size() > 0) {
+
+			if (purchaseByPublisherId.size() > 0) {
 				throw new AppException("This publisher cannot be deleted");
 			}
 
@@ -143,46 +140,44 @@ public class PublisherService {
 			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
 		}
 	}
-	
-	public List<Purchase> findPurchaseListByPublisherId(String publisherId){
 
-        List<Purchase> purchaseList = new ArrayList<>();
+	public List<Purchase> findPurchaseListByPublisherId(String publisherId) {
 
-        try (Statement st = this.dbConfig.getConnection().createStatement()) {
+		List<Purchase> purchaseList = new ArrayList<>();
 
-            String query = "SELECT * FROM purchase\n" +
-                    "INNER JOIN employee\n" +
-                    "on employee.id = purchase.employee_id\n" +
-                    "INNER JOIN publisher\n" +
-                    "ON publisher.id = purchase.publisher_id\n" +
-                    "WHERE publisher_id='" + publisherId + "';";
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-            ResultSet rs = st.executeQuery(query);
+			String query = "SELECT * FROM purchase\n" + "INNER JOIN employee\n"
+					+ "on employee.id = purchase.employee_id\n" + "INNER JOIN publisher\n"
+					+ "ON publisher.id = purchase.publisher_id\n" + "WHERE publisher_id='" + publisherId + "';";
 
-            while (rs.next()) {
-                Purchase purchase = new Purchase();
+			ResultSet rs = st.executeQuery(query);
 
-                purchase.setId(rs.getString("id"));
-                purchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchaseDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")));
-                purchase.setDescription(rs.getString("description"));
-                
-                Employee employee = new Employee();
-                employee.setId(rs.getString("id"));
-                purchase.setEmployee(employee);
-                
-                Publisher publisher = new Publisher();
-                purchase.setPublisher(publisher);
-                              
-                purchaseList.add(purchase);
-            }
+			while (rs.next()) {
+				Purchase purchase = new Purchase();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+				purchase.setId(rs.getString("id"));
+				purchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchaseDate"),
+						DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")));
+				purchase.setDescription(rs.getString("description"));
 
-        return purchaseList;
-    }
-	
+				Employee employee = new Employee();
+				employee.setId(rs.getString("id"));
+				purchase.setEmployee(employee);
+
+				Publisher publisher = new Publisher();
+				purchase.setPublisher(publisher);
+
+				purchaseList.add(purchase);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return purchaseList;
+	}
+
 	public Publisher findByName(String name) {
 		Publisher publisher = new Publisher();
 

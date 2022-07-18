@@ -14,7 +14,6 @@ public class Purchase {
 	private Publisher publisher;
 
 	private LocalDateTime purchaseDate;
-	
 
 	private String description;
 
