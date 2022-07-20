@@ -1,428 +1,277 @@
 package forms;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.JTextArea;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+import javax.swing.table.TableCellRenderer;
 
 import entities.Author;
 import entities.Book;
 import entities.Category;
-import entities.Customer;
-import entities.Publisher;
 import services.AuthorService;
 import services.BookService;
 import services.CategoryService;
-import services.CustomerService;
-import services.PublisherService;
-import shared.checker.Checking;
 
-public class CustomerFormNew extends JPanel implements PropertyChangeListener {
-	private JTextField txtCustomerName;
-	private JTextField txtContactNo;
-	private JTextField txtEmail;
-	private JTextField txtAddress;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Label;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.ColorUIResource;
+import forms.CreateLayoutProperties;
+import forms.JpanelLoader;
+
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.JComboBox;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+public class CustomerFormNew extends JPanel {
+
+	private JTable table;
+	private JLabel lbladd;
 	private JPanel panel;
-	private JFormattedTextField txtRegisterDate;
+	private JScrollPane scrollPane;
+	private JButton btnAdd;
+	private JComboBox<String> cboCategory, cboAuthors;
+	private DefaultTableModel dtm = new DefaultTableModel();
+	private BookService bookService;
+	private List<Book> originalBookList = new ArrayList<>();
+	private JpanelLoader jloader = new JpanelLoader();
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
-
-	private JLabel lblNewCustomers, lblCusName,lblContactNo,lblEmail,lblAddress,lblRegisterDate;
-	private JButton btnUpdate, btnDelete, btnCancel;
-	private JButton btnCalendar;
-	private JButton btnSave;
-	private Checking checking= new Checking();
-	private CustomerService customerService;
-//	private CalendarView calendarView=new CalendarView();
+	private BookForm bookForm = new BookForm();
+	private Book book = new Book();
+	private JLabel showPhoto = new JLabel();
+	private AuthorService authorService = new AuthorService();
+	private CategoryService categoryService = new CategoryService();
+	private List<Category> categoryList;
+	private List<Author> authorList;
 	
-	/**
-	 * Create the panel.
-	 */
-	public CustomerFormNew() {
 
-		customerService = new CustomerService();
-		
+	public CustomerFormNew() {
 		initialize();
+		setTableDesign();
+		loadAllBooks(Optional.empty());
 		buttonOnClick();
 	}
-	
 
 	private void initialize() {
 
+		this.bookService = new BookService();
+
 		panel = new JPanel();
+
+		scrollPane = new JScrollPane();
+		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
+		JLabel lblFilter = new JLabel("Filter By : ");
+		cLayout.setLabel(lblFilter);
+
+		cboCategory = new JComboBox();
+		cLayout.setComboBox(cboCategory);
+		loadCategoryForComboBox();
+
+		cboAuthors = new JComboBox();
+		cLayout.setComboBox(cboAuthors);
+		loadAuthorForComboBox();
+
+		btnAdd = new JButton("Add New Book");
+		cLayout.setButton(btnAdd);
+
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+				groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 725, Short.MAX_VALUE).addContainerGap()));
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		
-		lblNewCustomers = new JLabel("Add New Customer");
-		cLayout.setLabel(lblNewCustomers);
-		
-		lblCusName = new JLabel("Customer Name");
-		cLayout.setLabel(lblCusName);
-		
-		lblContactNo = new JLabel("Contact No");
-		cLayout.setLabel(lblContactNo);
-		
-		lblEmail = new JLabel("Email");
-		cLayout.setLabel(lblEmail);
-		
-		lblAddress = new JLabel("Address");
-		cLayout.setLabel(lblAddress);
-		
-		lblRegisterDate = new JLabel("Registered Date");
-		cLayout.setLabel(lblRegisterDate);
-		
-		txtCustomerName = new JTextField();
-		cLayout.setTextField(txtCustomerName);
-		
-		txtContactNo = new JTextField();
-		cLayout.setTextField(txtContactNo);
-		
-		txtEmail = new JTextField();
-		cLayout.setTextField(txtEmail);
-
-		txtAddress = new JTextField();
-		cLayout.setTextField(txtAddress);
-
-		txtRegisterDate = new  JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
-		txtRegisterDate.setValue(new Date());
-
-//		Image img=new ImageIcon(this.getClass().getResource("/add-20.png")).getImage();
-//		txtRegisterDate.setIcon(new ImageIcon(img));
-		cLayout.setTextField(txtRegisterDate);
-		
-		btnUpdate = new JButton("Update");
-		cLayout.setButton(btnUpdate);
-		
-		btnDelete = new JButton("Delete");
-		cLayout.setButton(btnDelete);
-		
-		btnCancel = new JButton("Cancel");
-		cLayout.setButton(btnCancel);
-		
-		btnCalendar = new JButton("");
-//		cLayout.setButton(btnCalendar);
-		btnCalendar.setBounds(new Rectangle(580, 0, 0, 0));
-		btnCalendar.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnCalendar.setHorizontalAlignment(SwingConstants.CENTER);
-
-	    Image img=new ImageIcon(this.getClass().getResource("/calendar-20.png")).getImage();
-		btnCalendar.setIcon(new ImageIcon(img));
-		
-		btnSave = new JButton("Save");
-		cLayout.setButton(btnSave);
-
+				groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 438, Short.MAX_VALUE).addContainerGap()));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(56)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnUpdate)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnCalendar))
-						.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblContactNo, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewCustomers, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblRegisterDate, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCusName, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(318, Short.MAX_VALUE))
+					.addGap(20)
+					.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addComponent(cboCategory, 0, 100, Short.MAX_VALUE)
+					.addGap(29)
+					.addComponent(cboAuthors, 0, 100, Short.MAX_VALUE)
+					.addGap(243)
+					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+					.addGap(19))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(28)
-					.addComponent(lblNewCustomers)
-					.addGap(18)
-					.addComponent(lblCusName)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(17)
-					.addComponent(lblContactNo, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-					.addGap(12)
-					.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addGap(7)
-					.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblRegisterDate, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(15)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnCalendar))
-					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(67, Short.MAX_VALUE))
+						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
-			
+
 	}
+
+	private void setTableDesign() {
+
+		table = new JTable();
+		cLayout.setTable(table);
+		scrollPane.setViewportView(table);
+		
+		dtm.addColumn("Book Cover");
+		dtm.addColumn("ID");
+		dtm.addColumn("Name");
+		dtm.addColumn("Price");
+		dtm.addColumn("Quantity");
+		dtm.addColumn("Shelf No");
+		dtm.addColumn("Remark");
+		table.setModel(dtm);
+		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
+		dfcr.setHorizontalAlignment(JLabel.CENTER);
+		
+		table.getColumnModel().getColumn(0).setCellRenderer(new ImagerRender());
+		table.getColumnModel().getColumn(1).setCellRenderer(dfcr);
+		table.getColumnModel().getColumn(2).setCellRenderer(new WordWrapCellRenderer());
+		table.getColumnModel().getColumn(3).setCellRenderer(dfcr);
+		table.getColumnModel().getColumn(4).setCellRenderer(dfcr);
+		table.getColumnModel().getColumn(5).setCellRenderer(dfcr);
+		table.getColumnModel().getColumn(6).setCellRenderer(dfcr);
 	
-	private void clearForm() {
-		txtCustomerName.setText("");
-		txtContactNo.setText("");
-		txtAddress.setText("");
-		txtEmail.setText("");
-		txtRegisterDate.setValue(new Date());
+
 	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		
-    	//get the selected date from the calendar control and set it to the text field
-		if (evt.getPropertyName().equals("selectedDate")) {
-            
-			java.util.Calendar cal = (java.util.Calendar)evt.getNewValue();
-			Date selDate =  cal.getTime();
-			txtRegisterDate.setValue(selDate);
-        }
-		
-	}
-	
-	private void buttonVisible() {
-		btnSave.setVisible(true);
-		btnCancel.setVisible(true);
-		
-		btnDelete.setVisible(false);
-		btnUpdate.setVisible(false);
+
+	private void loadAllBooks(Optional<List<Book>> optionalBook) {
+		this.dtm = (DefaultTableModel) this.table.getModel();
+		this.dtm.getDataVector().removeAllElements();
+		this.dtm.fireTableDataChanged();
+
+		this.originalBookList = this.bookService.findAllBooks();
+		List<Book> bookList = optionalBook.orElseGet(() -> originalBookList);
+		bookList.forEach(e -> {
+			Object[] row = new Object[7];
+			row[0] = e.getPhoto();
+			row[1] = e.getId();
+			row[2] = e.getName();
+			row[3] = e.getPrice();
+			row[4] = e.getStockamount();
+			row[5] = e.getShelf_number();
+			dtm.addRow(row);
+		});
+		this.table.setModel(dtm);
 	}
 
 	private void buttonOnClick() {
-		//wire a listener for the PropertyChange event of the calendar window
-//		calendarView.addPropertyChangeListener(this);
-//		
-//		btnCalendar.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				//render the calendar window below the text field
-//				calendarView.setLocation(txtRegisterDate.getLocationOnScreen().x, (txtRegisterDate.getLocationOnScreen().y + txtRegisterDate.getHeight()));
-//				//get the Date and assign it to the calendar
-//				Date d = (Date)txtRegisterDate.getValue();				
-//					
-//				System.out.println("txtRegisterDate : "+txtRegisterDate.getText());
-//				calendarView.dispose();
-//				calendarView.resetSelection(d);				
-//				calendarView.setUndecorated(true);
-//				calendarView.setVisible(true);
-//			}
-//			
-//		});
-		
-		btnSave.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				Customer customer=new Customer();
-				
-				customer.setName(txtCustomerName.getText());
-				customer.setAddress(txtAddress.getText());
-				if(checking.IsAllDigit(txtContactNo.getText()))
-					customer.setContact_no(txtContactNo.getText());
-				else
-					JOptionPane.showMessageDialog(null, "Phone number should be only digits.");
-				
-				customer.setEmail(txtEmail.getText());
-				customer.setRegister_date(LocalDateTime.parse(txtRegisterDate.getText()));
-				
-				Calendar cal = Calendar.getInstance();
-				Date today = cal.getTime();
-				cal.add(Calendar.YEAR, 2); // to get previous year add -1
-				Date nextYear = cal.getTime();
-				System.out.println("next year: "+nextYear);
-				
-				if(!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
-					customerService.saveCustomer(customer);
-					clearForm();
-					panel.setVisible(false);
-					CustomerListFormNew customerListForm= new CustomerListFormNew();
-					customerListForm.panel.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
-				}
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				jloader.jPanelLoader(panel, bookForm);
 			}
-			
 		});
-	}	
-			
-			
-//			private void buttonOnClick() {
-//				btnSave.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						
-//						 Book book=new Book();
-//		                   
-//		                    toSaveBookDataFromForm(book);
-//		                    
-//		                    if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null && book.getPublisher() != null) {
-//
-//		                        bookService.saveBooks(book);
-//		                        clearForm();
-////		                        loadAllBooks(Optional.empty());
-//		                    } else {
-//		                        JOptionPane.showMessageDialog(null, "Enter Required Field!");
-//		                    }		              
-//		            }
-//				});
-//				
-//				btnUpdate.addActionListener(new ActionListener() {
-//
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						// TODO Auto-generated method stub
-//						if (book != null && book.getId() != null) {
-//
-//			                   toSaveBookDataFromForm(book);
-//			                    
-//			                    if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null && book.getPublisher() != null) {
-//
-//			                    	bookService.updateBooks(book.getId(), book);
-//			                        clearForm();
-////			                        loadAllBooks(Optional.empty());
-//			                        book = null;
-//			                    } else {
-//			                        JOptionPane.showMessageDialog(null, "Enter Required Field!");
-//			                    }
-//			                }
-//					}
-//					
-//				});
-//				
-//				btnCancel.addActionListener(new ActionListener() {
-//
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						// TODO Auto-generated method stub
-//						clearForm();
-//					}
-//					
-//				});
-//				
-//				btnDelete.addActionListener(new ActionListener() {
-//
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						
-//						if(book != null) {
-//							System.out.println("delete get book id"+book.getId());
-//							
-////							pubService.deletePublisher(publisher.getId());
-////							clearForm();
-////							loadAllPublishers(Optional.empty());
-////							publisher=null;
-//						} else {
-//							JOptionPane.showMessageDialog(null, "Choose Publisher!");
-//						}
-//						
-//					}
-//					
-//				});
-//				
-////				lblAddPhoto.addActionListener(new ActionListener() {
-////
-////					@Override
-////					public void actionPerformed(ActionEvent e) {
-////						// TODO Auto-generated method stub
-////						
-////					}
-////					
-////				});
-//			}
-			
-//			private void loadAllBooks(Optional<List<Book>> optionalBook) {
-//				this.dtm = (DefaultTableModel) this.tblBooks.getModel();
-//				this.dtm.getDataVector().removeAllElements();
-//				this.dtm.fireTableDataChanged();
-//				
-//				this.originalBookList = this.bookService.findAllBooks();
-//				List<Book> bookList= optionalBook.orElseGet(() -> originalBookList);
-//				bookList.forEach(e -> {
-//					Object[] row=new Object[7];
-//					 row[0] = e.getId();
-//				      row[1] = e.getName();
-//				      row[2] = e.getPrice();
-//				      row[4] = e.getStockamount();
-//				      row[5] = e.getShelf_number();
-//				      row[6] = e.getPhoto();
-//					dtm.addRow(row);
-//				});
-//				this.tblBooks.setModel(dtm);
-//			}
-	
+	}
 
+	private class ImagerRender extends DefaultTableCellRenderer {
+
+	@Override
+	public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
+			int arg5) {
+		
+		System.out.println("Show store file address :" + photo.toString());
+
+		ImageIcon imageIcon = null;
+		
+			imageIcon = new ImageIcon(new ImageIcon(photo.toString()).getImage().getScaledInstance(160, 115, Image.SCALE_SMOOTH));
+
+		return new JLabel(imageIcon);
+	}
+
+	}
+	
+	
+	private void loadCategoryForComboBox() {
+		cboCategory.addItem("All Category");
+		System.out.println("Cate count " + categoryService.findAllCategories().size());
+		this.categoryList = this.categoryService.findAllCategories();
+		this.categoryList.forEach(c -> cboCategory.addItem(c.getName()));
+	}
+
+	private void loadAuthorForComboBox() {
+		cboAuthors.addItem("All Author");
+		System.out.println("author count " + authorService.findAllAuthors().size());
+
+		this.authorList = this.authorService.findAllAuthors();
+		this.authorList.forEach(a -> cboAuthors.addItem(a.getName()));
+	}
+	
+	
+	private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
+	    WordWrapCellRenderer() {
+	        setLineWrap(true);
+	        setWrapStyleWord(true);
+	        setAlignmentX(CENTER_ALIGNMENT);
+	          setAlignmentY(CENTER_ALIGNMENT);
+	          setFont(new Font("Tahoma", Font.BOLD, 12));
+	          
+	        
+	        
+	    }
+
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	    	  setText( (value == null) ? "" : value.toString() );
+	          setSize(160, 120);
+	      
+
+	          //  Recalculate the preferred height now that the text and renderer width have been set.
+
+//	          int preferredHeight = getPreferredSize().height;
+//
+//	          if (table.getRowHeight(row) != preferredHeight)
+//	          {
+//	              table.setRowHeight(row, preferredHeight);
+//	          }
+
+	          return this;
+	      }
+	
+	    
+	}
 }
+

@@ -45,10 +45,10 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(4, customer.getEmail());
 			ps.setString(5, customer.getAddress());
 			ps.setString(6, String.valueOf(customer.getRegister_date()));
-			ps.setString(6, String.valueOf(customer.getExpired_date()));
-			ps.setString(6, String.valueOf(customer.getLast_date_use()));
+			ps.setString(7, String.valueOf(customer.getExpired_date()));
+			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setBoolean(9, customer.getActive());
-			
+			System.out.println("db "+String.valueOf(customer.getRegister_date()));
 			ps.executeUpdate();
 
 			ps.close();
@@ -107,6 +107,7 @@ public class CustomerService implements CustomerRepo {
 			
 			while(rs.next()) {
 				Customer customer= new Customer();
+				System.out.println("Date: "+ customer.getRegister_date());
 				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
 			}
 		} catch(Exception e) {
@@ -121,5 +122,28 @@ public class CustomerService implements CustomerRepo {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Customer> findCustomersByActive(Boolean active) {
+
+		System.out.println("Active "+ active);
+		List<Customer> customerList= new ArrayList<>();
+		
+		try(Statement st = this.dbConfig.getConnection().createStatement()){
+			
+			String query= "SELECT * FROM customer WHERE active='" + active + "';";
+			
+			ResultSet rs= st.executeQuery(query);
+			
+			while(rs.next()) {
+				Customer customer= new Customer();
+				System.out.println("Date: "+ customer.getRegister_date());
+				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return customerList;
+    }
 
 }
