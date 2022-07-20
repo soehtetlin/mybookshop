@@ -26,7 +26,6 @@ public class PurchaseService implements PurchaseRepo {
 	private Purchase purchase = new Purchase();
 	private Employee emp;
 	private Publisher pub;
-	// private PurchaseDetails purchasedetail;
 
 	public PurchaseService() {
 		this.dbConfig = new DBconnector();
@@ -34,25 +33,22 @@ public class PurchaseService implements PurchaseRepo {
 		this.purchaseMapper.setPurchaseRepo(this);
 		this.bookService = new BookService();
 		this.purchaseMapper.setBookRepo(new BookService());
-		// this.purchasedetail = new PurchaseDetails();
+		purchase.setId(generateID("id", "Purchase", "PU"));
 	}
 
 	public void createPurchase(Purchase purchase) {
 		try {
-			purchase.setId(generateID("id", "Purchase", "PU"));
-
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
-					"INSERT INTO purchase (id,purchaseDate, description, employee_id, publisher_id) VALUES (?, ?, ?, ?)");
-
-			ps.setString(1, String.valueOf(purchase.getPurchaseDate()));
-			ps.setString(2, String.valueOf(purchase.getDescription()));
-			ps.setString(3, String.valueOf(purchase.getEmployee().getId()));
-			ps.setString(4, String.valueOf(purchase.getPublisher().getId()));
+					"INSERT INTO purchase (id,purchase_Date, description, employee_id, publisher_id) VALUES (?, ?, ?, ?, ?)");
+			ps.setString(1, purchase.getId());
+			ps.setString(2, LocalDateTime.now().toString());
+			ps.setString(3, "Hello");
+			ps.setString(4, purchase.getEmployee().getId());
+			ps.setString(5, purchase.getPublisher().getId());
 
 			ps.executeUpdate();
 
 			ps.close();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,8 +56,7 @@ public class PurchaseService implements PurchaseRepo {
 
 	public void createPurchase(String[] data) {
 		try {
-			purchase.setId(generateID("id", "Purchase", "PU"));
-			// purchasedetail.setId(purchase.getId());
+			
 			emp = employeeService.findEmployeeByName(data[2]);
 			pub = publisherService.findByName(data[0]);
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
@@ -76,8 +71,6 @@ public class PurchaseService implements PurchaseRepo {
 
 			ps.close();
 
-			JOptionPane.showMessageDialog(null, "Save Record Successfully ");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,26 +81,22 @@ public class PurchaseService implements PurchaseRepo {
 		purchaseDetailsList.forEach(pd -> {
 
 			try {
-				// purchase.setId(generateID("id", "Purchase", "PU"));
 				PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
-						"INSERT INTO purchase_detail (quantity, product_id, purchase_id) VALUES (?, ?, ?, ?)");
+						"INSERT INTO purchase_detail (quantity, product_id, purchase_id) VALUES (?, ?, ?)");
 
-//				ps.setInt(1, Integer.valueOf(data[0]));
-//				ps.setString(2, data[2]);
-//				ps.setString(3, purchase.getId());
+				Book originalbook = bookService.findById(pd.getBook().getId());
+				pd.getBook().setSale_price((pd.getBook().getPrice()/10)+pd.getBook().getPrice());
+				pd.getBook().setStockamount(pd.getBook().getStockamount()+ originalbook.getStockamount());
+				bookService.updateBooks(originalbook.getId(), originalbook);
 				ps.setInt(1, pd.getQuantity());
 				ps.setString(2, pd.getBook().getId());
-				ps.setString(3, this.getLatestPurchaseId());
+				ps.setString(3,purchase.getId());
 
 				ps.executeUpdate();
 
 				ps.close();
 
-				// Update Product Quantity and Price (by raising 10 %)
-				Book storedBook = bookService.findById(pd.getBook().getId() + "");
-				storedBook.setPrice(((pd.getPrice() / 10) + pd.getPrice()));
-				storedBook.setStockamount(storedBook.getStockamount() + pd.getQuantity());
-				bookService.updateBooks(storedBook.getId(), storedBook);
+
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -120,20 +109,13 @@ public class PurchaseService implements PurchaseRepo {
 	public void createPurchaseDetails(String[] data) {
 
 		try {
-			// for(int i=0;i<data.length;i++)
 			{
 				Book storedBook = bookService.findById(data[2]);
-//				System.out.println("Before Update PurchaseService BookID " + storedBook.getId());
-//				System.out.println("PurchaseService Before Quantity " + storedBook.getStockamount());
-
 				storedBook.setPrice(Integer.valueOf(data[1]));
 				storedBook.setSale_price(((Integer.valueOf(data[1]) / 10) + Integer.valueOf(data[1])));
 				storedBook.setStockamount(storedBook.getStockamount() + Integer.valueOf(data[0]));
 				bookService.updateBooks(storedBook.getId(), storedBook);
-				System.out.println("After Update PurchaseService BookID " + storedBook.getId());
-				System.out.println("PurchaseService After Quantity " + storedBook.getStockamount());
-
-				PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
+					PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
 						"INSERT INTO purchase_detail (quantity, book_id, purchase_id) VALUES (?, ?, ?)");
 
 				ps.setInt(1, Integer.valueOf(data[0]));
@@ -144,27 +126,10 @@ public class PurchaseService implements PurchaseRepo {
 				ps.close();
 
 			}
-			// purchase.setId(generateID("id", "Purchase", "PU"));
-
-			// emp = employeeService.findEmployeeByName(data[2]);
-			// pub = publisherService.findByName(data[0]);
-			// purchase.setId(generateID("id", "Purchase", "PU"));
-
-//				ps.setInt(1, );
-//				ps.setString(2, pd.getBook().getId());
-//				ps.setString(3, this.getLatestPurchaseId());
-
-			// Update Product Quantity and Price (by raising 10 %)
-//				Book storedBook = bookService.findById(pd.getBook().getId() + "");
-//				storedBook.setPrice(((pd.getPrice() / 10) + pd.getPrice()));
-//				storedBook.setStockamount(storedBook.getStockamount() + pd.getQuantity());
-//				bookService.updateBooks(storedBook.getId(), storedBook);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// });
 
 	}
 
@@ -283,6 +248,77 @@ public class PurchaseService implements PurchaseRepo {
 					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
 					+ "inner join author on author.id = book.author_id\r\n"
 					+ "inner join category on category.id = book.category_id order by purchase.purchase_date desc;";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				PurchaseDetails purchase = new PurchaseDetails();
+				purchaseList.add(this.purchaseMapper.mapAllPurchaseDetails(purchase, rs));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return purchaseList;
+
+		// System.out.println("inside purchse service purchase id : " + purchaseList);}
+		// System.out.println("sizeo of return purhasedetail : " + purchaseList.size());
+		// System.out.println(purchaseList.get(0));
+
+		// String[] requestNos = new String[purchaseList.size()];
+
+//		for (int i = 0; i < purchaseList.size(); i++) {
+//		    requestNos[i] = purchaseList.get(i).getId();
+//		    System.out.println("Purchase sevice purcahseliest purchsseid : " + requestNos[i]);
+//		}
+//		purchaseList.forEach(e -> {
+//			Object[] row = new Object[10];
+//			row[0] = e.getPurchase().getId();
+//			System.out.println("Indside purchse servcie purchaselist loop purchase id : " + e.getPurchase().getId());
+//			row[1] = e.getPurchase().getPurchaseDate();
+//			row[2] = e.getBook().getName();
+//			row[3] = e.getBook().getPublisher().getName();
+//			row[4] = e.getPurchase().getEmployee().getName();
+//			row[5] = e.getQuantity();
+//			row[6] = e.getBook().getPrice();
+//			row[7] = e.getBook().getAuthor().getName();
+//			row[8] = e.getBook().getCategory().getName();
+//			row[9] = e.getPurchase().getDescription();
+//		});
+
+	}
+
+	
+	public List<PurchaseDetails> loadAllPurchaseDetailsbyPublisherID(String publisherid) {
+
+		List<PurchaseDetails> purchaseList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+//			String query = "select purchase_detail.id,purchase_detail.purchase_date,book.name,\r\n"
+//					+ "publisher.name as publisher_name,\r\n"
+//					+ "employee.name as employee_name,\r\n"
+//					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
+//					+ "purchase.description as purchase_description\r\n"
+//					+ "from purchase \r\n"
+//					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
+//					+ "inner join employee on employee.id = purchase.employee_id\r\n"
+//					+ "inner join book on book.id = purchase_detail.book_id\r\n"
+//					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
+//					+ "inner join author on author.id = book.author_id";
+
+			String query = "select purchase.id,purchase.purchase_date,book.name,\r\n"
+					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
+					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
+					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
+					+ "from purchase \r\n"
+					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
+					+ "inner join employee on employee.id = purchase.employee_id\r\n"
+					+ "inner join book on book.id = purchase_detail.book_id\r\n"
+					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
+					+ "inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id order by purchase.purchase_date desc where publisher.name='"+publisherid+"';";
 
 			ResultSet rs = st.executeQuery(query);
 

@@ -169,6 +169,38 @@ public class PurchaseDetailForm extends JPanel {
 
 	}
 
+	
+	private void loadAllPurchasebyPublisher(Optional<List<PurchaseDetails>> optionalBook) {
+		this.dtm = (DefaultTableModel) this.table.getModel();
+		this.dtm.getDataVector().removeAllElements();
+		this.dtm.fireTableDataChanged();
+		
+		this.purchaseList = this.purchaseServices.loadAllPurchaseDetailsbyPublisherID((String)cboPublisher.getSelectedItem());
+
+		//this.purchaseServices.loadAllPurchaseDetails();
+		List<PurchaseDetails> purcahaseListShow = optionalBook.orElseGet(() -> purchaseList);
+		purcahaseListShow.forEach(e -> {
+			Object[] row = new Object[11];
+			row[0] = (vno.size() + 1);
+			row[1] = e.getPurchase().getId();
+			vno.addElement(e.getPurchase().getId());
+			System.out.println("Indside purchse detail form purchase id : " + e.getPurchase().getId());
+			row[2] = e.getPurchase().getPurchaseDate();
+			System.out.println("Indside purchse detail form purchase id : " + e.getPurchase().getPurchaseDate());
+			row[3] = e.getBook().getName();
+			System.out.println("Indside purchse detail form purchase id : " + e.getBook().getName());
+			row[4] = e.getBook().getPublisher().getName();
+			row[5] = e.getPurchase().getEmployee().getName();
+			row[6] = e.getQuantity();
+			row[7] = e.getBook().getPrice();
+			row[8] = e.getBook().getAuthor().getName();
+			row[9] = e.getBook().getCategory().getName();
+			row[10] = e.getPurchase().getDescription();
+			dtm.addRow(row);
+		});
+		this.table.setModel(dtm);
+
+	}
 	private void initialize() {
 		// TODO Auto-generated method stub
 		setVisible(true);
@@ -183,40 +215,7 @@ public class PurchaseDetailForm extends JPanel {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		scrollPane.setViewportView(table);
 
-//		VBox vbox = new VBox(20);
-//        vbox.setStyle("-fx-padding: 10;");
-//        Scene scene = new Scene(vbox, 400, 400);
-//        stage.setScene(scene);
-//
-//        checkInDatePicker = new DatePicker();
-//
-//        GridPane gridPane = new GridPane();
-//        gridPane.setHgap(10);
-//        gridPane.setVgap(10);
-//
-//        Label checkInlabel = new Label("Check-In Date:");
-//        gridPane.add(checkInlabel, 0, 0);
-//
-//        GridPane.setHalignment(checkInlabel, HPos.LEFT);
-//        gridPane.add(checkInDatePicker, 0, 1);
-//        vbox.getChildren().add(gridPane);
-//	purchaseList.forEach(a ->{
-//			Object[] row = new Object[10];
-//			row[0] = a.getPurchase().getId();
-//			System.out.println("Indside purchse detail new purchsselistform purchase id : " + a.getPurchase().getId());
-//			row[1] = a.getPurchase().getPurchaseDate();
-//			System.out.println("Indside purchse detail new purchsselist form purchase date : " + a.getPurchase().getPurchaseDate());
-//			row[2] = a.getBook().getName();
-//			System.out.println("Indside purchse detailnew purchsselist form purchase id : " + a.getBook().getName());
-//			row[3] = a.getBook().getPublisher().getName();
-//			row[4] = a.getPurchase().getEmployee().getName();
-//			row[5] = a.getQuantity();
-//			row[6] = a.getBook().getPrice();
-//			row[7] = a.getBook().getAuthor().getName();
-//			row[8] = a.getBook().getCategory().getName();
-//			row[9] = a.getPurchase().getDescription();
-//			
-//		});
+
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -234,6 +233,13 @@ public class PurchaseDetailForm extends JPanel {
 		lblPublisher.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		cboPublisher = new JComboBox<String>();
+		cboPublisher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				loadAllPurchasebyPublisher(Optional.empty());
+				
+			}
+		});
 
 		cboCategory = new JComboBox<String>();
 

@@ -8,7 +8,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="mysql-connector-java-8.0.29.jar"/>
-	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/KMD/BookShop/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/KMD/BookShop/mysql-connector-java-8.0.29.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/jfreechart-demo-1.5.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

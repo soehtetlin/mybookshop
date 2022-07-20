@@ -24,7 +24,7 @@ import forms.CreateLayoutProperties;
 
 public class HomeFormNew {
 
-	private JFrame frame;
+	JFrame frame;
 	private JpanelLoader jploader = new JpanelLoader();
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 	private final Action action = new SwingAction();
@@ -57,7 +57,8 @@ public class HomeFormNew {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 949, 504);
+		frame.setBounds(0, 0, 1000, 500);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel_tag = new JPanel();
@@ -84,16 +85,16 @@ public class HomeFormNew {
 		panel_loader.setLayout(gl_panel_loader);
 
 		JToggleButton btnNewButton = new JToggleButton("Home");
-//		btnNewButton.setForeground(SystemColor.desktop);
-//		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-//		btnNewButton.setOpaque(false);
-//		btnNewButton.setFocusPainted(false);
-//		btnNewButton.setBorderPainted(false);
-//		btnNewButton.setContentAreaFilled(false);
 		cLayout.setToggleButton(btnNewButton);
 		setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		JToggleButton btnSale = new JToggleButton("Sale");
+		btnSale.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SaleForm saleform = new SaleForm();
+				jploader.jPanelLoader(panel_loader, saleform);
+			}
+		});
 		cLayout.setToggleButton(btnSale);
 
 		JToggleButton btnPurchase = new JToggleButton("Purchase");
@@ -120,12 +121,19 @@ public class HomeFormNew {
 		JToggleButton btnAuthor = new JToggleButton("Author");
 		btnAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				PurchaseDetailForm lf = new PurchaseDetailForm();
+				jploader.jPanelLoader(panel_loader, lf);
 			}
 		});
 		cLayout.setToggleButton(btnAuthor);
 
 		JToggleButton btnPublisher = new JToggleButton("Publisher");
+		btnPublisher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PublisherForm publisherform = new PublisherForm();
+				jploader.jPanelLoader(panel_loader, publisherform);
+			}
+		});
 		cLayout.setToggleButton(btnPublisher);
 
 		JToggleButton btnBook = new JToggleButton("Book");
