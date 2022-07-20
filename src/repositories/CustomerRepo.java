@@ -15,5 +15,7 @@ public interface CustomerRepo {
 	List<Customer> findAllCustomers();
 	
 	Customer findCustomerById(String Id);
+	
+	List<Customer> findCustomersByActive(Boolean active);
 
 }
