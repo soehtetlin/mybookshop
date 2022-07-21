@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
+=======
+import java.time.format.DateTimeFormatter;
+>>>>>>> c10349f7859861d9e4f7106c561f97b761624dcd
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +16,9 @@ import javax.swing.JOptionPane;
 
 import database_config.DBconnector;
 import entities.Customer;
+import entities.Purchase;
 import repositories.CustomerRepo;
+import shared.exception.AppException;
 import shared.mapper.CustomerMapper;
 import shared.mapper.GeneratePrimaryKey;
 
@@ -47,9 +53,15 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(5, customer.getAddress());
 			ps.setString(6, String.valueOf(customer.getRegister_date()));
 			ps.setString(7, String.valueOf(customer.getExpired_date()));
+<<<<<<< HEAD
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
 			System.out.println("db "+String.valueOf(customer.getRegister_date()));
+=======
+			ps.setString(8, String.valueOf(customer.getExpired_date()));
+			ps.setInt(9, customer.getActive());
+
+>>>>>>> c10349f7859861d9e4f7106c561f97b761624dcd
 			ps.executeUpdate();
 
 			ps.close();
@@ -114,7 +126,33 @@ public class CustomerService implements CustomerRepo {
 	@Override
 	public void detleteCustomer(Customer customer) {
 		// TODO Auto-generated method stub
-		
+
+		try {
+			LocalDateTime expiredDate = customer.getExpired_date();
+			LocalDateTime toDeleteDate = expiredDate.plusYears(2);
+					
+			System.out.println("Expired Date : "+ expiredDate + "delete date : "+ toDeleteDate);
+			
+			if(expiredDate.compareTo(toDeleteDate) < 0) {
+				
+			}
+				
+//			List<Purchase> purchaseByPublisherId = findPurchaseListByPublisherId(pubId);
+//
+//			if (purchaseByPublisherId.size() > 0) {
+//				throw new AppException("This publisher cannot be deleted");
+//			}
+//
+//			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement("DELETE FROM publisher WHERE id = ?");
+//			ps.setString(1, pubId);
+//
+//			ps.executeUpdate();
+//			ps.close();
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
+		}
+	
 	}
 
 	@Override
@@ -130,7 +168,7 @@ public class CustomerService implements CustomerRepo {
 			
 			while(rs.next()) {
 				Customer customer= new Customer();
-				System.out.println("Date: "+ customer.getRegister_date());
+
 				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
 			}
 		} catch(Exception e) {
@@ -162,13 +200,40 @@ public class CustomerService implements CustomerRepo {
 	
 
 	@Override
-	public Customer findCustomerById(String Id) {
+	public Customer findCustomerById(String id) {
 		// TODO Auto-generated method stub
-		return null;
+		Customer customer = new Customer();
+		try(Statement st = this.dbConfig.getConnection().createStatement()){
+			
+			System.out.println("Customer id "+id);
+			String query = "SELECT * FROM customer WHERE id = '" + id + "';";
+			
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				
+				customer.setId(rs.getString("id"));
+				customer.setName(rs.getString("name"));
+				customer.setContact_no(rs.getString("contact_no"));
+				customer.setEmail(rs.getString("email"));
+				customer.setAddress(rs.getString("address"));
+				customer.setRegister_date(LocalDateTime.parse(rs.getString("register_date"),
+					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				
+				customer.setExpired_date(LocalDateTime.parse(rs.getString("expired_date"),
+					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				customer.setLast_date_use(LocalDateTime.parse(rs.getString("last_date_use"),
+					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				customer.setActive(rs.getInt("active"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return customer;
 	}
 
 	@Override
-	public List<Customer> findCustomersByActive(Boolean active) {
+	public List<Customer> findCustomersByActive(int active) {
 
 		System.out.println("Active "+ active);
 		List<Customer> customerList= new ArrayList<>();
@@ -181,7 +246,7 @@ public class CustomerService implements CustomerRepo {
 			
 			while(rs.next()) {
 				Customer customer= new Customer();
-				System.out.println("Date: "+ customer.getRegister_date());
+
 				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
 			}
 		} catch(Exception e) {

@@ -16,6 +16,6 @@ public interface CustomerRepo {
 	
 	Customer findCustomerById(String Id);
 	
-	List<Customer> findCustomersByActive(Boolean active);
+	List<Customer> findCustomersByActive(int active);
 
 }

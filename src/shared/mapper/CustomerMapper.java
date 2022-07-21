@@ -25,6 +25,7 @@ public class CustomerMapper {
 			customer.setContact_no(rs.getString("contact_no"));
 			customer.setEmail(rs.getString("email"));
 			customer.setAddress(rs.getString("address"));
+<<<<<<< HEAD
 			customer.setActive(rs.getInt("active"));
 			
 			
@@ -38,6 +39,14 @@ public class CustomerMapper {
 //			customer.setLast_date_use(LocalDate.parse(rs.getString("register_date")));
 			
 			
+=======
+
+            customer.setRegister_date(LocalDateTime.parse(rs.getString("register_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            customer.setExpired_date(LocalDateTime.parse(rs.getString("expired_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            customer.setLast_date_use(LocalDateTime.parse(rs.getString("last_date_use"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+			customer.setActive(rs.getInt("active"));
+>>>>>>> c10349f7859861d9e4f7106c561f97b761624dcd
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
