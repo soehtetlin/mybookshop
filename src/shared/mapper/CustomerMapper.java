@@ -25,22 +25,19 @@ public class CustomerMapper {
 			customer.setContact_no(rs.getString("contact_no"));
 			customer.setEmail(rs.getString("email"));
 			customer.setAddress(rs.getString("address"));
+			customer.setActive(rs.getInt("active"));
 			
-			customer.setExpired_date(LocalDate.parse(rs.getString("register_date")));
-			customer.setRegister_date(LocalDate.parse(rs.getString("register_date")));
-			customer.setLast_date_use(LocalDate.parse(rs.getString("register_date")));
 			
-//			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSX");
+			customer.setRegister_date(LocalDateTime.parse(rs.getString("register_date"), // 2
+					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			
-//			LocalDateTime result = LocalDateTime.parse(rs.getString("register_date"), format);
-//			customer.setRegister_date(result);
 			
-//			LocalDateTime result1 = LocalDateTime.parse(rs.getString("register_date"), format);
-//			customer.setExpired_date(result1);
 			
-//			LocalDateTime result2 = LocalDateTime.parse(rs.getString("register_date"), format);
-//			customer.setLast_date_use(result2);
-			customer.setActive(rs.getBoolean("active"));
+//			customer.setExpired_date(LocalDate.parse(rs.getString("register_date")));
+//			customer.setRegister_date(LocalDate.parse(rs.getString("register_date")));
+//			customer.setLast_date_use(LocalDate.parse(rs.getString("register_date")));
+			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -154,11 +154,11 @@ public class CustomerListFormNew extends JPanel {
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblFilter, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+									.addComponent(lblFilter, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(comboMemberActive, 0, 86, Short.MAX_VALUE)
+									.addComponent(comboMemberActive, 0, 0, Short.MAX_VALUE)
 									.addGap(32)
-									.addComponent(txtSearch, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+									.addComponent(txtSearch, GroupLayout.DEFAULT_SIZE, 8, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 92, Short.MAX_VALUE)
 									.addGap(27))
@@ -166,12 +166,12 @@ public class CustomerListFormNew extends JPanel {
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+											.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+											.addGap(0, 0, Short.MAX_VALUE))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addComponent(lblCustomerName)
-											.addGap(18)
-											.addComponent(txtCustomerName, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
+											.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+											.addGap(0, 0, Short.MAX_VALUE)))
 									.addGap(123)))
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
@@ -202,7 +202,7 @@ public class CustomerListFormNew extends JPanel {
 										.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
 										.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))))
 							.addGap(74))
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE))
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE))
 					.addGap(20))
 		);
 		gl_panel.setVerticalGroup(
@@ -242,7 +242,7 @@ public class CustomerListFormNew extends JPanel {
 						.addComponent(btnDelete)
 						.addComponent(btnCancel))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 //		gl_panel.setAutoCreateContainerGaps(true);
@@ -391,16 +391,16 @@ public class CustomerListFormNew extends JPanel {
 					JOptionPane.showMessageDialog(null, "Phone number should be only digits.");
 
 				customer.setEmail(txtEmail.getText());
-				customer.setActive(true);
+				customer.setActive(1);
 
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 				String registerDate = simpleDateFormat.format(dateChooser.getDate());
 
 				System.out.println("Register date " + registerDate + " , " + LocalDate.parse(registerDate));
-				customer.setRegister_date(LocalDate.parse(registerDate));
-				customer.setExpired_date(LocalDate.parse(registerDate));
-				customer.setLast_date_use(LocalDate.parse(registerDate));
+				customer.setRegister_date(LocalDateTime.parse(registerDate));
+				customer.setExpired_date(LocalDateTime.parse(registerDate));
+				customer.setLast_date_use(LocalDateTime.parse(registerDate));
 				System.out.println("After set : " + customer.getRegister_date());
 				if (!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
 					customerService.saveCustomer(customer);

@@ -187,7 +187,7 @@ public class PurchaseService implements PurchaseRepo {
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
-				this.purchaseMapper.mapToPurchase(purchase, rs);
+				this.purchaseMapper.mapToSale(purchase, rs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +210,7 @@ public class PurchaseService implements PurchaseRepo {
 
 			while (rs.next()) {
 				Purchase purchase = new Purchase();
-				purchaseList.add(this.purchaseMapper.mapToPurchase(purchase, rs));
+				purchaseList.add(this.purchaseMapper.mapToSale(purchase, rs));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -420,7 +420,7 @@ public class PurchaseService implements PurchaseRepo {
 			while (rs.next()) {
 				Purchase purchase = new Purchase();
 
-				purchaseList.add(this.purchaseMapper.mapToPurchase(purchase, rs));
+				purchaseList.add(this.purchaseMapper.mapToSale(purchase, rs));
 			}
 
 		} catch (Exception e) {
@@ -443,7 +443,7 @@ public class PurchaseService implements PurchaseRepo {
 			while (rs.next()) {
 				Purchase purchase = new Purchase();
 
-				purchaseList.add(this.purchaseMapper.mapToPurchase(purchase, rs));
+				purchaseList.add(this.purchaseMapper.mapToSale(purchase, rs));
 			}
 
 		} catch (Exception e) {

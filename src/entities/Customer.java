@@ -10,10 +10,10 @@ public class Customer {
 	private String contact_no;
 	private String email;
 	private String address;
-	private LocalDate register_date;
-	private LocalDate expired_date;
-	private LocalDate last_date_use;
-	private Boolean active;
+	private LocalDateTime register_date;
+	private LocalDateTime expired_date;
+	private LocalDateTime last_date_use;
+	private int active;
 	
 	
 	public Customer() {
@@ -22,7 +22,7 @@ public class Customer {
 	
 	
 	public Customer(String id, String name, String contact_no, String email, String address,
-			LocalDate register_date, LocalDate expired_date, LocalDate last_date_use, Boolean active) {
+			LocalDateTime register_date, LocalDateTime expired_date, LocalDateTime last_date_use, int active) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -66,25 +66,25 @@ public class Customer {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public LocalDate getRegister_date() {
+	public LocalDateTime getRegister_date() {
 		return register_date;
 	}
-	public void setRegister_date(LocalDate register_date) {
+	public void setRegister_date(LocalDateTime register_date) {
 		this.register_date = register_date;
 	}
-	public LocalDate getExpired_date() {
+	public LocalDateTime getExpired_date() {
 		return expired_date;
 	}
-	public void setExpired_date(LocalDate expired_date) {
+	public void setExpired_date(LocalDateTime expired_date) {
 		this.expired_date = expired_date;
 	}
-	public LocalDate getLast_date_use() {
+	public LocalDateTime getLast_date_use() {
 		return last_date_use;
 	}
-	public void setLast_date_use(LocalDate last_date_use) {
+	public void setLast_date_use(LocalDateTime last_date_use) {
 		this.last_date_use = last_date_use;
 	}
-	public Boolean getActive() {
+	public int getActive() {
 		return active;
 	}
 //	public LocalDateTime getRegister_date() {
@@ -117,7 +117,7 @@ public class Customer {
 //	}
 
 
-	public void setActive(Boolean active) {
+	public void setActive(int active) {
 		this.active = active;
 	}
 	

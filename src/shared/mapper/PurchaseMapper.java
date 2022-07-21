@@ -30,7 +30,7 @@ public class PurchaseMapper {
 		this.purchaseRepo = purchaseRepo;
 	}
 
-	public Purchase mapToPurchase(Purchase purchase, ResultSet rs) {
+	public Purchase mapToSale(Purchase purchase, ResultSet rs) {
 		try {
 
 			purchase.setId(rs.getString("id"));
@@ -109,6 +109,9 @@ public class PurchaseMapper {
 
 			book.setPrice(rs.getInt("book.price"));// 7
 			System.out.println("Price id : 	" + book.getPrice());
+			
+//			book.setSale_price(rs.getInt("book.sale_price"));
+//			System.out.println("SalePrce : " + book.getSale_price());
 			Author author = new Author();
 			author.setName(rs.getString("author_name"));// 8
 

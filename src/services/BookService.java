@@ -143,6 +143,36 @@ public class BookService implements BookRepo, PurchaseRepo {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public List<Book> findBookByCategoryName(String categoryId) {
+
+			List<Book> bookList = new ArrayList<>();
+
+			try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+//				String query = "SELECT * FROM book";
+
+				String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
+						+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
+						+ "ON author.id = book.author_id where category_id='" + categoryId + "'ORDER BY book.id DESC ;";
+
+				ResultSet rs = st.executeQuery(query);
+
+				while (rs.next()) {
+					Book book = new Book();
+
+					bookList.add(this.bookMapper.mapToProduct(book, rs));
+					
+
+				}
+
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+
+			}
+			return bookList;
+		}
+	
 
 	@Override
 	public List<Book> findBookByPublisherID(String publisherId) {

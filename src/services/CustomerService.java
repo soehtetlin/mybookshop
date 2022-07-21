@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(6, String.valueOf(customer.getRegister_date()));
 			ps.setString(7, String.valueOf(customer.getExpired_date()));
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
-			ps.setBoolean(9, customer.getActive());
+			ps.setInt(9, customer.getActive());
 			System.out.println("db "+String.valueOf(customer.getRegister_date()));
 			ps.executeUpdate();
 
@@ -75,8 +76,30 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(5, String.valueOf(customer.getRegister_date()));
 			ps.setString(6, String.valueOf(customer.getExpired_date()));
 			ps.setString(7, String.valueOf(customer.getLast_date_use()));
-			ps.setBoolean(8, customer.getActive());
+			ps.setInt(8, customer.getActive());
 			ps.setString(9, cusId);
+			
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            if (e instanceof SQLIntegrityConstraintViolationException)
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            else e.printStackTrace();
+        }
+    
+	}
+	
+	public void updateCustomerLatestDateUse(String cusId) {
+		// TODO Auto-generated method stub
+
+        try {
+        	
+        	PreparedStatement ps = this.dbConfig.getConnection()
+        			.prepareStatement("UPDATE customer SET last_date_use=? WHERE id=?");
+
+			ps.setString(1, LocalDateTime.now().toString());
+			
+			ps.setString(2, cusId);
 			
             ps.executeUpdate();
             ps.close();
@@ -114,6 +137,27 @@ public class CustomerService implements CustomerRepo {
 			e.printStackTrace();
 		}
 		return customerList;
+    }
+	
+	
+	public Customer findAllCustomersByCustomerName(String cid) {
+
+		Customer customer= new Customer();
+		
+		try(Statement st = this.dbConfig.getConnection().createStatement()){
+			
+			String query= "SELECT active FROM customer where id='" + cid + "';";
+			
+			ResultSet rs= st.executeQuery(query);
+			
+			while(rs.next()) {
+				
+				customer.setActive(rs.getInt("active"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return customer;
     }
 	
 
