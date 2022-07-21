@@ -5,10 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-<<<<<<< HEAD
-=======
+
 import java.time.format.DateTimeFormatter;
->>>>>>> c10349f7859861d9e4f7106c561f97b761624dcd
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,15 +51,15 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(5, customer.getAddress());
 			ps.setString(6, String.valueOf(customer.getRegister_date()));
 			ps.setString(7, String.valueOf(customer.getExpired_date()));
-<<<<<<< HEAD
+
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
 			System.out.println("db "+String.valueOf(customer.getRegister_date()));
-=======
+
 			ps.setString(8, String.valueOf(customer.getExpired_date()));
 			ps.setInt(9, customer.getActive());
 
->>>>>>> c10349f7859861d9e4f7106c561f97b761624dcd
+
 			ps.executeUpdate();
 
 			ps.close();
