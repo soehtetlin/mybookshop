@@ -185,7 +185,7 @@ public class BookListForm extends JPanel {
 		this.dtm.getDataVector().removeAllElements();
 		this.dtm.fireTableDataChanged();
 
-		this.originalBookList = this.bookService.findAllBooks();
+		this.originalBookList = this.bookService.findAllBooksforList();
 		List<Book> bookList = optionalBook.orElseGet(() -> originalBookList);
 		bookList.forEach(e -> {
 			Object[] row = new Object[7];

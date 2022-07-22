@@ -23,26 +23,26 @@ import shared.mapper.GeneratePrimaryKey;
 public class CustomerService implements CustomerRepo {
 
 	private final DBconnector dbConfig;
-    private CustomerMapper customerMapper;
-    private CustomerRepo customerRepo;
-    private GeneratePrimaryKey generateClass;
-    
-	public CustomerService(){
+	private CustomerMapper customerMapper;
+	private CustomerRepo customerRepo;
+	private GeneratePrimaryKey generateClass;
+
+	public CustomerService() {
 		this.dbConfig = new DBconnector();
-		this.customerMapper=new CustomerMapper();
+		this.customerMapper = new CustomerMapper();
 		this.customerMapper.setCustomerRepo(this);
-		this.generateClass= new GeneratePrimaryKey();
+		this.generateClass = new GeneratePrimaryKey();
 	}
-	
+
 	@Override
 	public void saveCustomer(Customer customer) {
 		try {
-			
+
 			customer.setId(generateClass.generateID("id", "Customer", "CS"));
 
-			PreparedStatement ps=this.dbConfig.getConnection().prepareStatement(
+			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
 					"INSERT INTO customer (id, name, contact_no, email, address, register_date, expired_date, last_date_use, active) "
-					+ "VALUES (?, ?, ?, ?,?, ?, ?, ?,?)");
+							+ "VALUES (?, ?, ?, ?,?, ?, ?, ?,?)");
 
 			ps.setString(1, customer.getId());
 			ps.setString(2, customer.getName());
@@ -54,11 +54,7 @@ public class CustomerService implements CustomerRepo {
 
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
-			System.out.println("db "+String.valueOf(customer.getRegister_date()));
-
-			ps.setString(8, String.valueOf(customer.getExpired_date()));
-			ps.setInt(9, customer.getActive());
-
+			System.out.println("db " + String.valueOf(customer.getRegister_date()));
 
 			ps.executeUpdate();
 
@@ -73,11 +69,11 @@ public class CustomerService implements CustomerRepo {
 	public void updateCustomer(String cusId, Customer customer) {
 		// TODO Auto-generated method stub
 
-        try {
-        	
-        	PreparedStatement ps = this.dbConfig.getConnection()
-        			.prepareStatement("UPDATE customer SET name = ?, contact_no=?, email=?, address=?,"
-        					+ "register_date=?, expired_date=?, last_date_use=?, active=? WHERE id=?");
+		try {
+
+			PreparedStatement ps = this.dbConfig.getConnection()
+					.prepareStatement("UPDATE customer SET name = ?, contact_no=?, email=?, address=?,"
+							+ "register_date=?, expired_date=?, last_date_use=?, active=? WHERE id=?");
 
 			ps.setString(1, customer.getName());
 			ps.setString(2, customer.getContact_no());
@@ -88,37 +84,39 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(7, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(8, customer.getActive());
 			ps.setString(9, cusId);
-			
-            ps.executeUpdate();
-            ps.close();
-        } catch (Exception e) {
-            if (e instanceof SQLIntegrityConstraintViolationException)
-                JOptionPane.showMessageDialog(null, e.getMessage());
-            else e.printStackTrace();
-        }
-    
+
+			ps.executeUpdate();
+			ps.close();
+		} catch (Exception e) {
+			if (e instanceof SQLIntegrityConstraintViolationException)
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			else
+				e.printStackTrace();
+		}
+
 	}
-	
+
 	public void updateCustomerLatestDateUse(String cusId) {
 		// TODO Auto-generated method stub
 
-        try {
-        	
-        	PreparedStatement ps = this.dbConfig.getConnection()
-        			.prepareStatement("UPDATE customer SET last_date_use=? WHERE id=?");
+		try {
+
+			PreparedStatement ps = this.dbConfig.getConnection()
+					.prepareStatement("UPDATE customer SET last_date_use=? WHERE id=?");
 
 			ps.setString(1, LocalDateTime.now().toString());
-			
+
 			ps.setString(2, cusId);
-			
-            ps.executeUpdate();
-            ps.close();
-        } catch (Exception e) {
-            if (e instanceof SQLIntegrityConstraintViolationException)
-                JOptionPane.showMessageDialog(null, e.getMessage());
-            else e.printStackTrace();
-        }
-    
+
+			ps.executeUpdate();
+			ps.close();
+		} catch (Exception e) {
+			if (e instanceof SQLIntegrityConstraintViolationException)
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			else
+				e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -128,13 +126,13 @@ public class CustomerService implements CustomerRepo {
 		try {
 			LocalDateTime expiredDate = customer.getExpired_date();
 			LocalDateTime toDeleteDate = expiredDate.plusYears(2);
-					
-			System.out.println("Expired Date : "+ expiredDate + "delete date : "+ toDeleteDate);
-			
-			if(expiredDate.compareTo(toDeleteDate) < 0) {
-				
+
+			System.out.println("Expired Date : " + expiredDate + "delete date : " + toDeleteDate);
+
+			if (expiredDate.compareTo(toDeleteDate) < 0) {
+
 			}
-				
+
 //			List<Purchase> purchaseByPublisherId = findPurchaseListByPublisherId(pubId);
 //
 //			if (purchaseByPublisherId.size() > 0) {
@@ -150,81 +148,79 @@ public class CustomerService implements CustomerRepo {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
 		}
-	
+
 	}
 
 	@Override
 	public List<Customer> findAllCustomers() {
 
-		List<Customer> customerList= new ArrayList<>();
-		
-		try(Statement st = this.dbConfig.getConnection().createStatement()){
-			
-			String query= "SELECT * FROM customer";
-			
-			ResultSet rs= st.executeQuery(query);
-			
-			while(rs.next()) {
-				Customer customer= new Customer();
+		List<Customer> customerList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM customer";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Customer customer = new Customer();
 
 				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return customerList;
-    }
-	
-	
+	}
+
 	public Customer findAllCustomersByCustomerName(String cid) {
 
-		Customer customer= new Customer();
-		
-		try(Statement st = this.dbConfig.getConnection().createStatement()){
-			
-			String query= "SELECT active FROM customer where id='" + cid + "';";
-			
-			ResultSet rs= st.executeQuery(query);
-			
-			while(rs.next()) {
-				
+		Customer customer = new Customer();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT active FROM customer where id='" + cid + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+
 				customer.setActive(rs.getInt("active"));
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return customer;
-    }
-	
+	}
 
 	@Override
 	public Customer findCustomerById(String id) {
 		// TODO Auto-generated method stub
 		Customer customer = new Customer();
-		try(Statement st = this.dbConfig.getConnection().createStatement()){
-			
-			System.out.println("Customer id "+id);
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			System.out.println("Customer id " + id);
 			String query = "SELECT * FROM customer WHERE id = '" + id + "';";
-			
+
 			ResultSet rs = st.executeQuery(query);
-			
-			while(rs.next()) {
-				
+
+			while (rs.next()) {
+
 				customer.setId(rs.getString("id"));
 				customer.setName(rs.getString("name"));
 				customer.setContact_no(rs.getString("contact_no"));
 				customer.setEmail(rs.getString("email"));
 				customer.setAddress(rs.getString("address"));
 				customer.setRegister_date(LocalDateTime.parse(rs.getString("register_date"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-				
+						DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
 				customer.setExpired_date(LocalDateTime.parse(rs.getString("expired_date"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+						DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 				customer.setLast_date_use(LocalDateTime.parse(rs.getString("last_date_use"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+						DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 				customer.setActive(rs.getInt("active"));
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return customer;
@@ -233,24 +229,46 @@ public class CustomerService implements CustomerRepo {
 	@Override
 	public List<Customer> findCustomersByActive(int active) {
 
-		System.out.println("Active "+ active);
-		List<Customer> customerList= new ArrayList<>();
-		
-		try(Statement st = this.dbConfig.getConnection().createStatement()){
-			
-			String query= "SELECT * FROM customer WHERE active='" + active + "';";
-			
-			ResultSet rs= st.executeQuery(query);
-			
-			while(rs.next()) {
-				Customer customer= new Customer();
+		System.out.println("Active " + active);
+		List<Customer> customerList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM customer WHERE active='" + active + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Customer customer = new Customer();
 
 				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return customerList;
-    }
+	}
+
+	public int sumCustomerAmountForOneMonth(String id) {
+		int total = 0;
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select sum(sale_price*quantity) from sale_detail inner join sale on sale_detail.vouncher_id=sale.id "
+					+ "where sale.customer_id='"+id +"' AND month(sale.sale_date)=month(localtime()) ;";
+
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				total = rs.getInt(1);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return total;
+	}
 
 }

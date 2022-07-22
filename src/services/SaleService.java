@@ -105,27 +105,36 @@ public class SaleService implements SaleRepo {
 
 	}
 
-	public void createSaleDetails(String[] data) {
+	public void createSaleDetails(String[] data,int status) {
 
 		try {
-			{
+				int newprice =0;
 				Book storedBook = bookService.findById(data[2]);
 				//storedBook.setPrice(Integer.valueOf(data[1]));
 				//storedBook.setSale_price(((Integer.valueOf(data[1]) / 10) + Integer.valueOf(data[1])));
 				storedBook.setStockamount(storedBook.getStockamount() - Integer.valueOf(data[0]));
+				
 				bookService.updateBooks(storedBook.getId(), storedBook);
+				
+			
 					PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
 						"INSERT INTO sale_detail (vouncher_id, book_id, sale_price,quantity) VALUES (?, ?, ?,?)");
 
 				ps.setString(1, sale.getId());
 				ps.setString(2, storedBook.getId());
-				ps.setString(3, data[1]);
+				if(status == 1) {
+					newprice = (int) (Integer.valueOf(data[1]) - (Integer.valueOf(data[1])*0.05));
+					ps.setInt(3, newprice);
+				}else {
+					ps.setString(3,data[1]);
+				}
+				
 				ps.setString(4, data[0]);
 				ps.executeUpdate();
 
 				ps.close();
 
-			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
