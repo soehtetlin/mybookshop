@@ -61,7 +61,8 @@ public class CreateLayoutProperties {
 		button.setOpaque(true);
 		button.setForeground(Color.WHITE);
 		button.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
+		button.setRequestFocusEnabled(false);
+
 
 		// Image img=new
 		// ImageIcon(this.getClass().getResource("/add-20.png")).getImage();
@@ -72,28 +73,46 @@ public class CreateLayoutProperties {
 
 	}
 
+	public void setNoColorButton(JButton button) {
+		button.setBounds(new Rectangle(600, 0, 0, 0));
+//		button.setMargin(new Insets(2, 1, 2, 1));
+//		button.setIconTextGap(1);
+		button.setBorderPainted(false);
+//		button.setForeground(SystemColor.textHighlightText);
+		button.setHorizontalAlignment(SwingConstants.CENTER);
+		button.setBackground(Color.WHITE);
+		button.setFont(new Font("Tahoma", Font.BOLD, 14));
+		button.setOpaque(true);
+		button.setRequestFocusEnabled(false);
+
+//		button.setForeground(Color.WHITE);
+//		button.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+	}
+	
 	public void setLabel(JLabel label) {
-		label.setForeground(new Color(51, 51, 51));
+		label.setForeground(new Color(10,44,42));
 		label.setFont(new Font("Tahoma", Font.BOLD, 14));
 	}
 	
 	public void setTable(JTable table) {
-		table.setSelectionBackground(new Color(153, 51, 255));
+		table.setSelectionBackground(new Color(191,148,228));
 		table.setShowVerticalLines(false);
 		table.setFocusable(false);
-		table.setBounds(12, 254, 404, -216);
-		
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultEditor(Object.class, null);
-		table.setAutoCreateRowSorter(true);
-		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 16));
+
+		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
+		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
 		table.getTableHeader().setOpaque(false);
 		table.getTableHeader().setBackground(new Color(153, 51, 204));
 		table.getTableHeader().setForeground(new Color(245, 245, 245));
-		table.getTableHeader().setPreferredSize(new Dimension(100, 40));
-		table.setRowHeight(120);
-		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.setFont(new Font("Tahoma", Font.BOLD, 12));
+		table.getTableHeader().setPreferredSize(new Dimension(70, 30));
+
+		table.setRowHeight(40);
+		
+//		tblPublisher.setBackground(new Color(255, 250, 240));
+//		tblPublisher.setForeground(Color.DARK_GRAY);
+		
 	}
 
 }
