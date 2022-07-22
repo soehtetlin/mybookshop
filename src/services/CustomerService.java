@@ -54,8 +54,7 @@ public class CustomerService implements CustomerRepo {
 
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
-			System.out.println("db " + String.valueOf(customer.getRegister_date()));
-
+			
 			ps.executeUpdate();
 
 			ps.close();
@@ -117,6 +116,25 @@ public class CustomerService implements CustomerRepo {
 				e.printStackTrace();
 		}
 
+	}
+
+	public void updateAutoNoActive(String customerId) {
+		try {
+			PreparedStatement ps = this.dbConfig.getConnection()
+        			.prepareStatement("UPDATE customer SET active=? WHERE id=?");
+
+			ps.setInt(1, 0);
+			
+			ps.setString(2, customerId);
+			
+            ps.executeUpdate();
+            ps.close();
+			
+		} catch(Exception e) {
+			 if (e instanceof SQLIntegrityConstraintViolationException)
+	                JOptionPane.showMessageDialog(null, e.getMessage());
+	            else e.printStackTrace();
+		}
 	}
 
 	@Override

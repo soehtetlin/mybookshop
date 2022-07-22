@@ -85,11 +85,11 @@ public class CustomerListFormNew extends JPanel {
 	private void initialize() {
 		
 		panel = new JPanel();
+		
+		table = new JTable();
 
 		scrollPane = new JScrollPane();
 		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		
-		table = new JTable();
 		
 		JLabel lblFilter = new JLabel("Filter By : ");
 		cLayout.setLabel(lblFilter);
@@ -99,13 +99,19 @@ public class CustomerListFormNew extends JPanel {
 
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE).addGap(4)));
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE))
+		);
 		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE).addContainerGap()));
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE))
+		);
 
-		lblRegisterDate = new JLabel("Register Date");
+		lblRegisterDate = new JLabel("Date");
 		cLayout.setLabel(lblRegisterDate);
 
 		lblCustomerName = new JLabel("Customer Name");
@@ -153,70 +159,75 @@ public class CustomerListFormNew extends JPanel {
 		cLayout.setButton(btnSearch);
 		
 		txtRegisterDate = new JTextField();
+		txtRegisterDate.setEditable(false);
 		String registerDate = new SimpleDateFormat("MM-dd-yyyy").format(new java.util.Date());
 		txtRegisterDate.setText(registerDate);
-		cLayout.setTextField(txtRegisterDate);
+		txtRegisterDate.setForeground(new Color(153, 51, 204));
+		txtRegisterDate.setBackground(Color.WHITE);
+		txtRegisterDate.setHorizontalAlignment(SwingConstants.CENTER);
+		txtRegisterDate.setFont(new Font("Dialog", Font.BOLD, 16));
+		txtRegisterDate.setColumns(10);
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.TRAILING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(21)
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(lblFilter, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(comboMemberActive, 0, 90, Short.MAX_VALUE)
-										.addGap(32)
-										.addComponent(txtSearch, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-										.addGap(18)
-										.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 96, Short.MAX_VALUE)
-										.addGap(27))
-									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_panel.createSequentialGroup()
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-												.addGap(18)
-												.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))
-											.addGroup(gl_panel.createSequentialGroup()
-												.addComponent(lblCustomerName)
-												.addGap(18)
-												.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)))
-										.addGap(123)))
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(lblRegisterDate)
-											.addGroup(gl_panel.createSequentialGroup()
-												.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)))
-										.addGap(18)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_panel.createSequentialGroup()
-												.addComponent(btnDelete)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(btnCancel))
-											.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(4)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblContactNo)
-											.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
-										.addGap(42)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
-											.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))))
-								.addGap(74))
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE))
-						.addGap(20))
-			);
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(21)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblRegisterDate)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addGap(336))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblFilter, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(comboMemberActive, 0, 90, Short.MAX_VALUE)
+									.addGap(32)
+									.addComponent(txtSearch, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 91, Short.MAX_VALUE)
+									.addGap(27))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+											.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblCustomerName, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)))
+									.addGap(123)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+									.addGap(309))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblContactNo, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addGap(28)
+											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+												.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)
+												.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))))))
+							.addGap(74))
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE))
+					.addGap(20))
+		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -224,18 +235,18 @@ public class CustomerListFormNew extends JPanel {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRegisterDate)
 						.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(29)
+					.addGap(16)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCustomerName)
-						.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblContactNo)
-						.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(21)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAddress)
+						.addComponent(lblEmail)
 						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEmail))
+						.addComponent(lblAddress)
+						.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
 						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
@@ -244,17 +255,16 @@ public class CustomerListFormNew extends JPanel {
 							.addComponent(comboMemberActive, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(5)
-							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(3)
-							.addComponent(btnSearch))
-						.addComponent(btnSave)
-						.addComponent(btnUpdate)
-						.addComponent(btnDelete)
-						.addComponent(btnCancel))
+							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 
@@ -267,7 +277,7 @@ public class CustomerListFormNew extends JPanel {
 				
 				btnSave.setVisible(false);
 				btnUpdate.setVisible(true);
-				btnDelete.setVisible(true);
+//				btnDelete.setVisible(true);
 				
 				String id = table.getValueAt(table.getSelectedRow(), 0).toString();
 				System.out.println("Selsct id "+ id+", "+ table.getSelectedRow());
@@ -285,19 +295,11 @@ public class CustomerListFormNew extends JPanel {
 	}
 
 	private void setTableDesign() {
-
-		table.setSelectionBackground(new Color(153, 51, 255));
-		table.setShowVerticalLines(false);
-		table.setFocusable(false);
-
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		cLayout.setTable(table);
+		
 		table.setBounds(12, 254, 404, -216);
 
-		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
-		table.getTableHeader().setOpaque(false);
-		table.getTableHeader().setBackground(new Color(153, 51, 204));
-		table.getTableHeader().setForeground(new Color(245, 245, 245));
-		table.setRowHeight(40);
 		scrollPane.setViewportView(table);
 
 		dtm.addColumn("ID");
@@ -308,7 +310,7 @@ public class CustomerListFormNew extends JPanel {
 		dtm.addColumn("Register Date");
 		dtm.addColumn("Last Used Date");
 		dtm.addColumn("Expire Date");
-		dtm.addColumn("Active");
+		dtm.addColumn("Status");
 
 		table.setModel(dtm);
 		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
@@ -325,6 +327,18 @@ public class CustomerListFormNew extends JPanel {
 		table.getColumnModel().getColumn(8).setCellRenderer(new IconRenderer());
 
 	}
+	
+	private void checkAutoUpdateActive(List<Customer> cusList) {
+		System.out.println("CusList Size"+ cusList.size());
+		
+		for(int i=0; i<cusList.size(); i++) {
+			Customer customer = cusList.get(i);
+			System.out.println("CustomerId "+ customer.getId()+ " ,expired date "+ customer.getExpired_date());
+			if(customer.getExpired_date().compareTo(LocalDateTime.now()) < 0 || customer.getExpired_date().compareTo(LocalDateTime.now()) == 0) {
+				customerService.updateAutoNoActive(customer.getId());
+			}
+		}
+	}
 
 	private void loadAllCustomers(Optional<List<Customer>> optionalCustomer) {
 		this.dtm = (DefaultTableModel) this.table.getModel();
@@ -334,6 +348,8 @@ public class CustomerListFormNew extends JPanel {
 		this.originalCustomerList = this.customerService.findAllCustomers();
 		List<Customer> customerList = optionalCustomer.orElseGet(() -> originalCustomerList);
 
+		checkAutoUpdateActive(customerList);
+		
 		customerList.forEach(e -> {
 			Object[] row = new Object[9];
 			row[0] = e.getId();
@@ -446,12 +462,13 @@ public class CustomerListFormNew extends JPanel {
 
 //				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				LocalDateTime registerDate = LocalDateTime.now();
+				
 				LocalDateTime expireDate = registerDate.plusYears(2);
 
 				customer.setRegister_date(registerDate);
 				customer.setExpired_date(expireDate);
 				
-				customer.setLast_date_use(expireDate);
+				customer.setLast_date_use(LocalDateTime.now());
 
 				if (!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
 					customerService.saveCustomer(customer);
@@ -482,14 +499,14 @@ public class CustomerListFormNew extends JPanel {
 				customer.setEmail(txtEmail.getText());
 				customer.setActive(1);
 
-				LocalDateTime registerDate = LocalDateTime.now();
-				LocalDateTime expireDate = registerDate.plusYears(2);
-
-				
-				customer.setRegister_date(registerDate);
-				customer.setExpired_date(expireDate);
-				
-				customer.setLast_date_use(expireDate);
+//				LocalDateTime registerDate = LocalDateTime.now();
+//				LocalDateTime expireDate = registerDate.plusYears(2);
+//
+//				
+//				customer.setRegister_date(registerDate);
+//				customer.setExpired_date(expireDate);
+//				
+//				customer.setLast_date_use(expireDate);
 				
 				if (!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
 					customerService.updateCustomer(customer.getId(), customer);

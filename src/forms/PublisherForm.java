@@ -21,6 +21,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -35,16 +36,18 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PublisherForm extends JPanel {
 
-	private JPanel contentPane;
+	private JPanel contentPane, panel;
 	private JTable tblPublisher;
 	private JTextField txtSupPhone;
 	private JTextField txtSupAddress;
 	private JTextField txtSupName;
 	private JTextField txtSupMail;
 	private JButton btnSave, btnUpdate, btnDelete, btnCancel;
+	private JLabel lblPublisherPhNo, lblPublisherAds, lblPublisherName, lblPublisherMail;
 	private Publisher publisher;
 	private PublisherService pubService;
 	private List<Publisher> originalPublisherList = new ArrayList<>();
+	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	private DefaultTableModel dtm = new DefaultTableModel();
 
@@ -80,65 +83,56 @@ public class PublisherForm extends JPanel {
 		setBounds(100, 100, 802, 492);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 
-		JLabel lblPublisherPhNo = new JLabel("Phone No");
-		lblPublisherPhNo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPublisherPhNo.setEnabled(false);
+		lblPublisherPhNo = new JLabel("Phone No");
+		cLayout.setLabel(lblPublisherPhNo);
 
-		JLabel lblPublisherAds = new JLabel("Address");
-		lblPublisherAds.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPublisherAds.setEnabled(false);
+		lblPublisherAds = new JLabel("Address");
+		cLayout.setLabel(lblPublisherAds);
 
-		JLabel lblPublisherName = new JLabel("Publisher Name");
-		lblPublisherName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPublisherName.setEnabled(false);
+		lblPublisherName = new JLabel("Publisher Name");
+		cLayout.setLabel(lblPublisherName);
 
-		JLabel lblPublisherMail = new JLabel("Mail");
-		lblPublisherMail.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPublisherMail.setEnabled(false);
+		lblPublisherMail = new JLabel("Mail");
+		cLayout.setLabel(lblPublisherMail);
 
 		txtSupPhone = new JTextField();
-		txtSupPhone.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtSupPhone.setColumns(10);
+		cLayout.setTextField(txtSupPhone);
 
 		txtSupAddress = new JTextField();
-		txtSupAddress.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtSupAddress.setColumns(10);
+		cLayout.setTextField(txtSupAddress);
 
 		txtSupName = new JTextField();
-		txtSupName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtSupName.setColumns(10);
+		cLayout.setTextField(txtSupName);
+
 
 		txtSupMail = new JTextField();
-		txtSupMail.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtSupMail.setColumns(10);
+		cLayout.setTextField(txtSupMail);
+
 
 		btnDelete = new JButton("Delete");
-		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setButton(btnDelete);
 		btnDelete.setVisible(false);
 
 		btnUpdate = new JButton("Update");
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setButton(btnUpdate);
 		btnUpdate.setVisible(false);
 
 		btnSave = new JButton("Save");
-		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setButton(btnSave);
 
 		btnCancel = new JButton("Cancel");
-		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		cLayout.setButton(btnCancel);
+	
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		JScrollPane scrollPane = new JScrollPane();
 
 		tblPublisher = new JTable();
-		tblPublisher.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		tblPublisher.setBackground(new Color(255, 250, 240));
-		tblPublisher.setForeground(Color.DARK_GRAY);
-		tblPublisher.setBounds(150, 251, 555, -184);
+		
 		scrollPane.setViewportView(tblPublisher);
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -171,14 +165,15 @@ public class PublisherForm extends JPanel {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(283)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-					.addGap(55)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)))
+					.addGap(211)
+					.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(191, Short.MAX_VALUE))
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(39)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -189,17 +184,16 @@ public class PublisherForm extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
 							.addComponent(lblPublisherMail, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 							.addGap(48)
-							.addComponent(txtSupMail, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-							.addGap(98))
+							.addComponent(txtSupMail, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblPublisherName)
 							.addGap(17)
 							.addComponent(txtSupName, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
 							.addComponent(lblPublisherPhNo, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
 							.addGap(27)
-							.addComponent(txtSupPhone, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-							.addGap(98))))
+							.addComponent(txtSupPhone, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)))
+					.addGap(98))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -229,12 +223,13 @@ public class PublisherForm extends JPanel {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(2)
 									.addComponent(txtSupAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))))
-					.addGap(22)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnUpdate, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnSave)
-						.addComponent(btnCancel)
-						.addComponent(btnDelete, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
@@ -244,8 +239,8 @@ public class PublisherForm extends JPanel {
 			if (!tblPublisher.getSelectionModel().isSelectionEmpty()) {
 				btnSave.setVisible(false);
 				btnUpdate.setVisible(true);
-				btnCancel.setVisible(false);
 				btnDelete.setVisible(true);
+				
 				String id = tblPublisher.getValueAt(tblPublisher.getSelectedRow(), 0).toString();
 
 				publisher = pubService.findById(id);
@@ -262,6 +257,10 @@ public class PublisherForm extends JPanel {
 	}
 
 	private void setTableDesign() {
+		
+		tblPublisher.setBounds(150, 251, 555, -184);
+		cLayout.setTable(tblPublisher);
+		
 		dtm.addColumn("ID");
 		dtm.addColumn("Name");
 		dtm.addColumn("Phone");
@@ -282,15 +281,14 @@ public class PublisherForm extends JPanel {
 		txtSupPhone.setText("");
 		txtSupAddress.setText("");
 		txtSupMail.setText("");
-
+		loadAllPublishers(Optional.empty());
 	}
 
 	private void buttonVisible() {
 		btnSave.setVisible(true);
-		btnCancel.setVisible(true);
-
-		btnDelete.setVisible(false);
 		btnUpdate.setVisible(false);
+		btnCancel.setVisible(true);
+		btnDelete.setVisible(false);
 	}
 
 	private void buttonOnClick() {
@@ -359,6 +357,7 @@ public class PublisherForm extends JPanel {
 					JOptionPane.showMessageDialog(null, "Choose Publisher!");
 				}
 
+				buttonVisible();
 			}
 
 		});
@@ -368,6 +367,7 @@ public class PublisherForm extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clearForm();
+				buttonVisible();
 			}
 
 		});
