@@ -93,7 +93,6 @@ public class PurchaseMapper {
 		try {
 			Purchase puchase = new Purchase();
 			puchase.setId(rs.getString("purchase.id"));// 1
-			System.out.println("Purchase id : 	" + puchase.getId());
 			puchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchase.purchase_date"), // 2
 					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Book book = new Book();
@@ -108,10 +107,7 @@ public class PurchaseMapper {
 			purchaseDetails.setQuantity(rs.getInt("quantity"));// 6
 
 			book.setPrice(rs.getInt("book.price"));// 7
-			System.out.println("Price id : 	" + book.getPrice());
 			
-//			book.setSale_price(rs.getInt("book.sale_price"));
-//			System.out.println("SalePrce : " + book.getSale_price());
 			Author author = new Author();
 			author.setName(rs.getString("author_name"));// 8
 
@@ -119,7 +115,6 @@ public class PurchaseMapper {
 			category.setName(rs.getString("category_name"));// 9
 
 			puchase.setDescription(rs.getString("purchase_description"));// 10
-			// purchase.setPublisher(publisher);
 
 			book.setPublisher(publisher);
 			book.setAuthor(author);
@@ -128,24 +123,9 @@ public class PurchaseMapper {
 			purchaseDetails.setBook(book);
 			purchaseDetails.setPurchase(puchase);
 
-			// System.out.println("Inside purchasemapper purchase id : " +
-			// purchaseDetails.getPurchase().getId() );
-			// DateTimeFormatter df = new DateTimeFormatterBuilder()
-//			    // case insensitive to parse JAN and FEB
-//			    .parseCaseInsensitive()
-//			    // add pattern
-//			    .appendPattern("dd-MMM-yyyy")
-//			    // create formatter (use English Locale to parse month names)
-//			    .toFormatter(Locale.ENGLISH);
-//		purchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchase_date"),
-//				df));
-//		purchaseDetails.setBook(this.bookRepo.findById(String.valueOf(rs.getString("book_id"))));
-//		purchaseDetails.setPurchase(this.purchaseRepo.findPurchaseById(rs.getString("purchase_id")));
-		} catch (Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// System.out.println("Inside purchasemapper return purchase id : " +
-		// purchaseDetails.getPurchase().getId() );
 		return purchaseDetails;
 	}
 

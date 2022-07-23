@@ -123,29 +123,25 @@ public class BookForm extends JPanel {
 	 */
 	public BookForm() {
 		initialize();
-//				setTableDesign();
 		initializeDependency();
 		this.loadAuthorForComboBox();
 		this.loadCategoryForComboBox();
 		this.loadPublisherForComboBox();
-//		        loadAllBooks(Optional.empty());
 	}
-	
+
 	public BookForm(Book book) {
 		this.book = book;
 		initialize();
-		
-initializeDependency();
-this.loadAuthorForComboBox();
-this.loadCategoryForComboBox();
-this.loadPublisherForComboBox();
-this.setData();
-//        loadAllBooks(Optional.empty());
+		initializeDependency();
+		this.loadAuthorForComboBox();
+		this.loadCategoryForComboBox();
+		this.loadPublisherForComboBox();
+		this.setData();
 	}
 
 	private void setData() {
 		// TODO Auto-generated method stub
-		
+
 		cboAuthor.setSelectedItem(book.getAuthor().getName());
 		System.out.println("CBO Author Name " + book.getAuthor().getName());
 		cboCategory.setSelectedItem(book.getCategory().getName());
@@ -153,24 +149,20 @@ this.setData();
 		txtBookName.setText(book.getName());
 		txtShelfNo.setText(String.valueOf(book.getShelf_number()));
 		txtRemark.setText(book.getRemark());
-		if(!book.getPhoto().isEmpty()) {
-		lblAddPhoto.setText("");
-		ImageIcon imageIcon = new ImageIcon(
-				new ImageIcon(book.getPhoto().toString()).getImage().getScaledInstance(
-						171, 169, Image.SCALE_SMOOTH));
-		lblAddPhoto.setIcon(imageIcon);
+		if (!book.getPhoto().isEmpty()) {
+			lblAddPhoto.setText("");
+			ImageIcon imageIcon = new ImageIcon(new ImageIcon(book.getPhoto().toString()).getImage()
+					.getScaledInstance(171, 169, Image.SCALE_SMOOTH));
+			lblAddPhoto.setIcon(imageIcon);
 		}
 
-		//lblAddPhoto.setIcon();
-		
-		
+		// lblAddPhoto.setIcon();
+
 	}
 
 	private void initialize() {
-		
-		
-			//System.out.println("Book ID " + ( ));
-		
+
+		// System.out.println("Book ID " + ( ));
 
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// setBounds(100, 100, 800, 450);
@@ -255,9 +247,9 @@ this.setData();
 		btnSave = new JButton("Save");
 		buttonGroup.add(btnSave);
 		cLayout.setButton(btnSave);
-		System.out.println("Book is " + (book!=null));
-		
-		if(book.getId()!=null) {
+		System.out.println("Book is " + (book != null));
+
+		if (book.getId() != null) {
 			btnSave.setVisible(false);
 			btnUpdate.setVisible(true);
 		}
@@ -283,8 +275,9 @@ this.setData();
 
 					BufferedImage img = null;
 					try {
-						
+
 						destinationFile = new File("resources/" + filename);
+						// destinationFile.mkdir();
 
 						try {
 							img = ImageIO.read(new File(path));
@@ -336,125 +329,99 @@ this.setData();
 		JLabel lblLine = new JLabel("Add some information for the book you want \n to create");
 		cLayout.setLabel(lblLine);
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.CENTER)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.CENTER)
+				.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblPublisherId, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblShelfNo, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(19, Short.MAX_VALUE))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(lblCategoryId)
-					.addContainerGap(305, Short.MAX_VALUE))
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-					.addComponent(lblBookName, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-					.addGap(422))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(lblAuthorId)
-					.addContainerGap(472, Short.MAX_VALUE))
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-					.addComponent(lblRemark, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(19, Short.MAX_VALUE))
+				.addGroup(gl_panel.createSequentialGroup().addComponent(lblCategoryId).addContainerGap(305,
+						Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING,
+						gl_panel.createSequentialGroup()
+								.addComponent(lblBookName, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(422))
+				.addGroup(gl_panel.createSequentialGroup().addComponent(lblAuthorId).addContainerGap(472,
+						Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING,
+						gl_panel.createSequentialGroup()
+								.addComponent(lblRemark, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+				.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txtRemark, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
 						.addComponent(txtShelfNo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
 						.addComponent(txtBookName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
 						.addComponent(cboPublisher, Alignment.LEADING, 0, 360, Short.MAX_VALUE)
 						.addComponent(cboCategory, Alignment.LEADING, 0, 360, Short.MAX_VALUE)
-						.addComponent(cboAuthor, Alignment.LEADING, 0, 360, Short.MAX_VALUE))
-					.addGap(162))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.CENTER)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(lblAuthorId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cboAuthor, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblCategoryId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblPublisherId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblBookName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(4)
-					.addComponent(txtBookName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblShelfNo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtShelfNo, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblRemark, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(txtRemark, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(cboAuthor, Alignment.LEADING, 0, 360, Short.MAX_VALUE)).addGap(162)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.CENTER).addGroup(gl_panel
+				.createSequentialGroup()
+				.addComponent(lblAuthorId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(cboAuthor, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(lblCategoryId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(lblPublisherId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(lblBookName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGap(4).addComponent(txtBookName, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(lblShelfNo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(txtShelfNo, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(lblRemark, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(txtRemark, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE).addGap(10)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
 						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-					.addGap(10))
-		);
+				.addGap(10)));
 //		gl_panel.setAutoCreateGaps(true);
 //		gl_panel.setAutoCreateContainerGaps(true);
 		panel.setLayout(gl_panel);
 		// textField.setColumns(10);
 		GroupLayout gl_photoPanel = new GroupLayout(photoPanel);
-		gl_photoPanel.setHorizontalGroup(
-			gl_photoPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_photoPanel.createSequentialGroup()
-					.addGap(24)
-					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-					.addGap(89))
-				.addGroup(gl_photoPanel.createSequentialGroup()
-					.addGap(24)
-					.addComponent(lblLine, GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
-				.addGroup(gl_photoPanel.createSequentialGroup()
-					.addGap(93)
-					.addComponent(lblAddPhoto)
-					.addContainerGap(115, Short.MAX_VALUE))
-		);
-		gl_photoPanel.setVerticalGroup(
-			gl_photoPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_photoPanel.createSequentialGroup()
-					.addGap(30)
-					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-					.addGap(10)
-					.addComponent(lblLine, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-					.addGap(59)
-					.addComponent(lblAddPhoto, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-					.addGap(84))
-		);
+		gl_photoPanel.setHorizontalGroup(gl_photoPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_photoPanel.createSequentialGroup().addGap(24)
+						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE).addGap(89))
+				.addGroup(gl_photoPanel.createSequentialGroup().addGap(24).addComponent(lblLine,
+						GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+				.addGroup(gl_photoPanel.createSequentialGroup().addGap(93).addComponent(lblAddPhoto)
+						.addContainerGap(115, Short.MAX_VALUE)));
+		gl_photoPanel.setVerticalGroup(gl_photoPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_photoPanel.createSequentialGroup().addGap(30)
+						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE).addGap(10)
+						.addComponent(lblLine, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE).addGap(59)
+						.addComponent(lblAddPhoto, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+						.addGap(84)));
 		photoPanel.setLayout(gl_photoPanel);
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(photoPanel, GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
-					.addGap(9)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 383, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(photoPanel, GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE).addGap(9)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 383, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(photoPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 422, Short.MAX_VALUE))
-					.addGap(11))
-		);
+				.addGap(11)));
 		setLayout(groupLayout);
 
 		buttonOnClick();
@@ -503,37 +470,34 @@ this.setData();
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				
-
-				
 				try {
-					
+
 					toSaveBookDataFromForm(book);
-				if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
-						&& book.getPublisher() != null) {
-					if(Checking.IsAllDigit(txtShelfNo.getText())) {
+					if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
+							&& book.getPublisher() != null) {
+						if (Checking.IsAllDigit(txtShelfNo.getText())) {
 
-					bookService.saveBooks(book);
+							bookService.saveBooks(book);
 
-					jLoader.jPanelLoader(BookForm.this, new BookListForm());
-					clearForm();
-					}else{
-						JOptionPane.showMessageDialog(null, "Please Enter Number Only!");
+							jLoader.jPanelLoader(BookForm.this, new BookListForm());
+							clearForm();
+						} else {
+							JOptionPane.showMessageDialog(null, "Please Enter Number Only!");
+						}
 					}
-				}
-				}catch (NullPointerException ex) {
+				} catch (NullPointerException ex) {
 					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, "Enter Required Field!");
-					
-				}catch (NumberFormatException e2) {
+
+				} catch (NumberFormatException e2) {
 					// TODO: handle exception
-					//e2.getClass();
-					
-					JOptionPane.showMessageDialog(null,e2.getMessage());
+					// e2.getClass();
+
+					JOptionPane.showMessageDialog(null, e2.getMessage());
 				}
-				
+
 			}
-			
+
 		});
 
 		btnUpdate.addActionListener(new ActionListener() {
@@ -566,7 +530,8 @@ this.setData();
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				clearForm();
-				jLoader.jPanelLoader(BookForm.this, new BookListForm());
+				BookListForm booklistform = new BookListForm();
+				jLoader.jPanelLoader(BookForm.this, booklistform);
 			}
 
 		});
@@ -600,14 +565,12 @@ this.setData();
 //					}
 //					
 //				}
-}
+	}
 
 	private void toSaveBookDataFromForm(Book book) {
 
 		book.setPhoto(destinationFile.toString());
-		System.out.println("book setphoto" + destinationFile.toString());
 		book.setName(txtBookName.getText());
-//				  book.setPrice(Integer.parseInt(txtPrice.getText().isBlank() ? "0" : txtPrice.getText()));
 		book.setRemark(txtRemark.getText());
 		book.setShelf_number(Integer.parseInt(txtShelfNo.getText().isBlank() ? "0" : txtShelfNo.getText()));
 		book.setStockamount(100);
@@ -623,11 +586,10 @@ this.setData();
 		Optional<Publisher> selectedPublisher = publisherList.stream()
 				.filter(p -> p.getName().equals(cboPublisher.getSelectedItem())).findFirst();
 		book.setPublisher(selectedPublisher.orElse(null));
-		}
+	}
 //		}catch (Exception e) {
 //			// TODO: handle exception
 //			JOptionPane.showMessageDialog(null, "Please");
 //		}
 
-	
 }

@@ -121,7 +121,7 @@ public class HomeFormNew {
 		JToggleButton btnAuthor = new JToggleButton("Author");
 		btnAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PurchaseDetailForm2 lf = new PurchaseDetailForm2();
+				PurchaseDetailForm lf = new PurchaseDetailForm();
 				jploader.jPanelLoader(panel_loader, lf);
 			}
 		});

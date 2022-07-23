@@ -79,7 +79,6 @@ public class PublisherForm extends JPanel {
 
 	private void initialize() {
 
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 802, 492);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 

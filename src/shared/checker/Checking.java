@@ -40,6 +40,8 @@ public class Checking {
 			return false;
 		} else if (!IsAllDigit(strqp)) {
 			return false;
+		} else if (Long.parseLong(strqp) <= 0) {
+			return false;
 		} else if (Long.parseLong(strqp) > 100000000) {
 			return false;
 		} else
@@ -51,7 +53,7 @@ public class Checking {
 			return false;
 		} else if (!IsAllDigit(strqp)) {
 			return false;
-		} else if (Long.parseLong(strqp) < 0) {
+		} else if (Long.parseLong(strqp) <= 0) {
 			return false;
 		} else if (Long.parseLong(strqp) > 10000) {
 			return false;

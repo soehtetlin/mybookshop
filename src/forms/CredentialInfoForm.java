@@ -145,6 +145,41 @@ public class CredentialInfoForm {
 		lblMessage.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (null != employee) {
+					employee.setUsername(txtUserName.getText());
+					employee.setPassword(String.valueOf(passwordField.getPassword()));
+
+					if (!employee.getUsername().isBlank() && !employee.getPassword().isBlank()) {
+						employeeService.updateEmployee(String.valueOf(employee.getId()), employee);
+						frame.setVisible(false);
+						EmployeeForm employeeForm = new EmployeeForm();
+						employeeForm.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Fill required fields");
+					}
+				} else {
+					String username = txtUserName.getText();
+					String password = String.valueOf(passwordField.getPassword());
+
+					if (!username.isBlank() && !password.isBlank()) {
+						String loggedInUserId = authService.login(username, password);
+						if (!loggedInUserId.isBlank()) {
+							CurrentUserHolder.setLoggedInUser(employeeService.findEmployeeById(loggedInUserId));
+							JOptionPane.showMessageDialog(null, "Successfully Login");
+							frame.setVisible(false);
+							HomeFormNew homeform = new HomeFormNew();
+							homeform.frame.setVisible(true);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Enter required Fields");
+					}
+				}
+
+			}
+			
+		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(

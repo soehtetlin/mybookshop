@@ -315,7 +315,6 @@ public class BookListForm extends JPanel {
 					// TODO Auto-generated method stub
 					String id = table.getValueAt(table.getSelectedRow(), 1).toString();
 					book = bookService.findById(id);
-					//book.setId(id);
 					jloader.jPanelLoader(panel, new BookForm(book));
 
 				}

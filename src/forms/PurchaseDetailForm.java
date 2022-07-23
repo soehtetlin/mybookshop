@@ -170,37 +170,37 @@ public class PurchaseDetailForm extends JPanel {
 	}
 
 	
-	private void loadAllPurchasebyPublisher(Optional<List<PurchaseDetails>> optionalBook) {
-		this.dtm = (DefaultTableModel) this.table.getModel();
-		this.dtm.getDataVector().removeAllElements();
-		this.dtm.fireTableDataChanged();
-		
-		this.purchaseList = this.purchaseServices.loadAllPurchaseDetailsbyPublisherID((String)cboPublisher.getSelectedItem());
-
-		//this.purchaseServices.loadAllPurchaseDetails();
-		List<PurchaseDetails> purcahaseListShow = optionalBook.orElseGet(() -> purchaseList);
-		purcahaseListShow.forEach(e -> {
-			Object[] row = new Object[11];
-			row[0] = (vno.size() + 1);
-			row[1] = e.getPurchase().getId();
-			vno.addElement(e.getPurchase().getId());
-			System.out.println("Indside purchse detail form purchase id : " + e.getPurchase().getId());
-			row[2] = e.getPurchase().getPurchaseDate();
-			System.out.println("Indside purchse detail form purchase id : " + e.getPurchase().getPurchaseDate());
-			row[3] = e.getBook().getName();
-			System.out.println("Indside purchse detail form purchase id : " + e.getBook().getName());
-			row[4] = e.getBook().getPublisher().getName();
-			row[5] = e.getPurchase().getEmployee().getName();
-			row[6] = e.getQuantity();
-			row[7] = e.getBook().getPrice();
-			row[8] = e.getBook().getAuthor().getName();
-			row[9] = e.getBook().getCategory().getName();
-			row[10] = e.getPurchase().getDescription();
-			dtm.addRow(row);
-		});
-		this.table.setModel(dtm);
-
-	}
+//	private void loadAllPurchasebyPublisher(Optional<List<PurchaseDetails>> optionalBook) {
+//		this.dtm = (DefaultTableModel) this.table.getModel();
+//		this.dtm.getDataVector().removeAllElements();
+//		this.dtm.fireTableDataChanged();
+//		
+//		//this.purchaseList = this.purchaseServices.loadAllPurchaseDetailsbyPublisherID((String)cboPublisher.getSelectedItem());
+//
+//		//this.purchaseServices.loadAllPurchaseDetails();
+//		List<PurchaseDetails> purcahaseListShow = optionalBook.orElseGet(() -> purchaseList);
+//		purcahaseListShow.forEach(e -> {
+//			Object[] row = new Object[11];
+//			row[0] = (vno.size() + 1);
+//			row[1] = e.getPurchase().getId();
+//			vno.addElement(e.getPurchase().getId());
+//			System.out.println("Indside purchse detail form purchase id : " + e.getPurchase().getId());
+//			row[2] = e.getPurchase().getPurchaseDate();
+//			System.out.println("Indside purchse detail form purchase id : " + e.getPurchase().getPurchaseDate());
+//			row[3] = e.getBook().getName();
+//			System.out.println("Indside purchse detail form purchase id : " + e.getBook().getName());
+//			row[4] = e.getBook().getPublisher().getName();
+//			row[5] = e.getPurchase().getEmployee().getName();
+//			row[6] = e.getQuantity();
+//			row[7] = e.getBook().getPrice();
+//			row[8] = e.getBook().getAuthor().getName();
+//			row[9] = e.getBook().getCategory().getName();
+//			row[10] = e.getPurchase().getDescription();
+//			dtm.addRow(row);
+//		});
+//		this.table.setModel(dtm);
+//
+//	}
 	private void initialize() {
 		// TODO Auto-generated method stub
 		setVisible(true);
@@ -236,7 +236,7 @@ public class PurchaseDetailForm extends JPanel {
 		cboPublisher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				loadAllPurchasebyPublisher(Optional.empty());
+			//	loadAllPurchasebyPublisher(Optional.empty());
 				
 			}
 		});
