@@ -455,8 +455,13 @@ public class SaleForm extends JPanel {
 		});
 
 		cboCategory = new JComboBox<String>();
+		cboCategory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				comboFilter(cboCategory.getSelectedItem().toString());
+			}
+		});
 
-		// comboFilter(cboCategory.getSelectedItem().toString());
+		// 
 
 		JLabel lblcustomer = new JLabel("Customer");
 		lblcustomer.setFont(new Font("Tahoma", Font.BOLD, 14));

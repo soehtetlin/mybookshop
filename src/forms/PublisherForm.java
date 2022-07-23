@@ -51,25 +51,6 @@ public class PublisherForm extends JPanel {
 
 	private DefaultTableModel dtm = new DefaultTableModel();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PublisherForm frame = new PublisherForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public PublisherForm() {
 		pubService = new PublisherService();
 		initialize();
@@ -245,7 +226,6 @@ public class PublisherForm extends JPanel {
 				publisher = pubService.findById(id);
 
 				txtSupName.setText(publisher.getName());
-//					txtSupId.setText(publisher.getId());
 				txtSupAddress.setText(publisher.getAddress());
 				txtSupMail.setText(publisher.getEmail());
 				txtSupPhone.setText(publisher.getContact_no());

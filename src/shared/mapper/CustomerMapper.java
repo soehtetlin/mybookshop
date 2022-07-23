@@ -18,7 +18,7 @@ public class CustomerMapper {
 		this.customerRepo = customerRepo;
 	}
 	
-	public Customer mapToCustomer(Customer customer, ResultSet rs) {
+	public Customer mapToCustomer(Customer customer, ResultSet rs) throws Exception{
 		try {
 			customer.setId(rs.getString("id"));
 			customer.setName(rs.getString("name"));

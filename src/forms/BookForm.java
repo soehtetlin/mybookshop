@@ -162,7 +162,7 @@ public class BookForm extends JPanel {
 
 			lblAddPhoto.setOpaque(true);
 			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage()
-					.getScaledInstance(lblAddPhoto.getWidth(), lblAddPhoto.getHeight(), Image.SCALE_DEFAULT));
+					.getScaledInstance(171, 169, Image.SCALE_DEFAULT));
 			lblAddPhoto.setIcon(imageIcon);
 
 		}
@@ -561,7 +561,6 @@ public class BookForm extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (book != null) {
-					System.out.println("delete get book id" + book.getId());
 
 //							pubService.deletePublisher(publisher.getId());
 //							clearForm();

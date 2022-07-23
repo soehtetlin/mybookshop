@@ -137,7 +137,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 			}
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
 
 		}
 		return bookList;
@@ -220,7 +220,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 			if (findPurchaseDetailsListByProductId(id).size() > 0) {
 
-				throw new AppException("this book cannot be deleted");
+				throw new AppException("This book cannot be deleted");
 			}
 
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement("DELETE FROM book where id = ?");
@@ -230,8 +230,11 @@ public class BookService implements BookRepo, PurchaseRepo {
 			ps.close();
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
 		}
+		
+		
+		
 	}
 
 	@Override

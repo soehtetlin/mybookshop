@@ -193,7 +193,7 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				SaleForm saleform = new SaleForm();
+				SaleForm3 saleform = new SaleForm3();
 				jploader.jPanelLoader(panel_loader, saleform);
 			}
 
