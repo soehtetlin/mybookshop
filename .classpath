@@ -10,6 +10,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-java-8.0.29.jar"/>
-	<classpathentry kind="lib" path="/java-ui-dashboard-009-main.zip_expanded/java-ui-dashboard-009-main/ui-dashboard-009/TimingFramework-0.55.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

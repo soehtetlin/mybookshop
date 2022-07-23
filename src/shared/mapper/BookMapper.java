@@ -31,6 +31,7 @@ public class BookMapper {
 			book.setAuthor(author);
 			book.setPublisher(publisher);
 			book.setCategory(category);
+			book.setRemark(rs.getString("remark"));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
