@@ -565,7 +565,6 @@ public class SaleForm extends JPanel {
 					deleteRow();
 					clearform();
 					lbltotalprice.setText(sumAmount(vtotalPrice, 1));
-					//lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
 					calculateDiscountPrice();
 				}
 			}

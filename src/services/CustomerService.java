@@ -101,11 +101,12 @@ public class CustomerService implements CustomerRepo {
 		try {
 
 			PreparedStatement ps = this.dbConfig.getConnection()
-					.prepareStatement("UPDATE customer SET last_date_use=? WHERE id=?");
+					.prepareStatement("UPDATE customer SET last_date_use=?,expired_date=? WHERE id=?");
 
 			ps.setString(1, LocalDateTime.now().toString());
+			ps.setString(2, LocalDateTime.now().plusYears(2).toString());
 
-			ps.setString(2, cusId);
+			ps.setString(3, cusId);
 
 			ps.executeUpdate();
 			ps.close();

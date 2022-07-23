@@ -102,7 +102,7 @@ public class BookForm extends JPanel {
 	private AuthorService authorService;
 	private PublisherService publisherService;
 	private BookService bookService;
-	private Book book;
+	private Book book = new Book();
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	private List<Book> originalBookList = new ArrayList<>();
@@ -130,8 +130,47 @@ public class BookForm extends JPanel {
 		this.loadPublisherForComboBox();
 //		        loadAllBooks(Optional.empty());
 	}
+	
+	public BookForm(Book book) {
+		this.book = book;
+		initialize();
+		
+initializeDependency();
+this.loadAuthorForComboBox();
+this.loadCategoryForComboBox();
+this.loadPublisherForComboBox();
+this.setData();
+//        loadAllBooks(Optional.empty());
+	}
+
+	private void setData() {
+		// TODO Auto-generated method stub
+		
+		cboAuthor.setSelectedItem(book.getAuthor().getName());
+		System.out.println("CBO Author Name " + book.getAuthor().getName());
+		cboCategory.setSelectedItem(book.getCategory().getName());
+		cboPublisher.setSelectedItem(book.getPublisher().getName());
+		txtBookName.setText(book.getName());
+		txtShelfNo.setText(String.valueOf(book.getShelf_number()));
+		txtRemark.setText(book.getRemark());
+		if(!book.getPhoto().isEmpty()) {
+		lblAddPhoto.setText("");
+		ImageIcon imageIcon = new ImageIcon(
+				new ImageIcon(book.getPhoto().toString()).getImage().getScaledInstance(
+						171, 169, Image.SCALE_SMOOTH));
+		lblAddPhoto.setIcon(imageIcon);
+		}
+
+		//lblAddPhoto.setIcon();
+		
+		
+	}
 
 	private void initialize() {
+		
+		
+			//System.out.println("Book ID " + ( ));
+		
 
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// setBounds(100, 100, 800, 450);
@@ -216,6 +255,12 @@ public class BookForm extends JPanel {
 		btnSave = new JButton("Save");
 		buttonGroup.add(btnSave);
 		cLayout.setButton(btnSave);
+		System.out.println("Book is " + (book!=null));
+		
+		if(book.getId()!=null) {
+			btnSave.setVisible(false);
+			btnUpdate.setVisible(true);
+		}
 
 		JPanel photoPanel = new JPanel();
 		lblAddPhoto = new JLabel("");
@@ -254,6 +299,9 @@ public class BookForm extends JPanel {
 
 						lblAddPhoto.setText("");
 						System.out.println("ouput file to string : " + destinationFile.getAbsolutePath());
+						System.out.println("Photo Lbl width :" + lblAddPhoto.getWidth());
+						System.out.println("Photo Lbl height :" + lblAddPhoto.getHeight());
+						lblAddPhoto.getHeight();
 						ImageIcon imageIcon = new ImageIcon(
 								new ImageIcon(destinationFile.getAbsolutePath()).getImage().getScaledInstance(
 										lblAddPhoto.getWidth(), lblAddPhoto.getHeight(), Image.SCALE_SMOOTH));
@@ -455,7 +503,7 @@ public class BookForm extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				Book book = new Book();
+				
 
 				
 				try {
@@ -501,8 +549,8 @@ public class BookForm extends JPanel {
 							&& book.getPublisher() != null) {
 
 						bookService.updateBooks(book.getId(), book);
+						jLoader.jPanelLoader(BookForm.this, new BookListForm());
 						clearForm();
-//			                        loadAllBooks(Optional.empty());
 						book = null;
 					} else {
 						JOptionPane.showMessageDialog(null, "Enter Required Field!");

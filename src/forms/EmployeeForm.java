@@ -6,6 +6,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
@@ -27,6 +29,7 @@ import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -182,7 +185,10 @@ public class EmployeeForm extends JPanel {
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		JButton btnUpdate = new JButton("Update");
+		JButton btnUpdate = new JButton();
+		ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
+		 btnUpdate.setIcon(img);
+
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (null != employee && !employee.getId().isBlank()) {

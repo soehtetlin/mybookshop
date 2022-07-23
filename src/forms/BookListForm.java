@@ -24,6 +24,7 @@ import services.AuthorService;
 import services.BookService;
 import services.CategoryService;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -36,10 +37,13 @@ import java.util.Optional;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.ColorUIResource;
 import forms.CreateLayoutProperties;
 import forms.JpanelLoader;
+import forms.BookListForm2.ButtonRenderer;
 
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -50,6 +54,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 
 import javax.swing.JComboBox;
@@ -203,7 +208,6 @@ public class BookListForm extends JPanel {
 		table.getColumnModel().getColumn(5).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(6).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
-		
 		table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
 		
 		//scroll 
@@ -218,7 +222,7 @@ public class BookListForm extends JPanel {
 		this.originalBookList = this.bookService.findAllBooksforList();
 		List<Book> bookList = optionalBook.orElseGet(() -> originalBookList);
 		bookList.forEach(e -> {
-			Object[] row = new Object[8];
+			Object[] row = new Object[7];
 			row[0] = e.getPhoto();
 			row[1] = e.getId();
 			row[2] = e.getName();
@@ -226,7 +230,7 @@ public class BookListForm extends JPanel {
 			row[4] = e.getStockamount();
 			row[5] = e.getShelf_number();
 			row[6] = e.getRemark();
-			row[7] = e.getRemark();
+			
 			
 			dtm.addRow(row);
 		});
@@ -274,44 +278,48 @@ public class BookListForm extends JPanel {
 		this.authorList.forEach(a -> cboAuthors.addItem(a.getName()));
 	}
 	
-	class ButtonRenderer extends JButton implements TableCellRenderer{
+	class ButtonRenderer extends JButton implements TableCellRenderer {
 
 		public ButtonRenderer() {
 			setOpaque(true);
 		}
+
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object obj, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			// TODO Auto-generated method stub
-			setText((obj==null) ? "":obj.toString());
-//			System.out.println("Obj "+ obj.toString());
 			
+			ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
+			setIcon(img);
+			setContentAreaFilled(false);
+			setBorder(new EmptyBorder(5, 5, 5, 5));
+			setBackground(Color.red);
 			return this;
 		}
-		
+
 	}
-	
-	class ButtonEditor extends DefaultCellEditor{
+
+	class ButtonEditor extends DefaultCellEditor {
 
 		protected JButton btn;
 		private String lbl;
 		private Boolean clicked;
-		
+
 		public ButtonEditor(JTextField textField) {
 			super(textField);
-			// TODO Auto-generated constructor stub
-			
 			btn = new JButton();
-			btn.setOpaque(true);
+
 			btn.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					fireEditingStopped();
-					
+					String id = table.getValueAt(table.getSelectedRow(), 1).toString();
+					book = bookService.findById(id);
+					//book.setId(id);
+					jloader.jPanelLoader(panel, new BookForm(book));
+
 				}
-				
+
 			});
 		}
 
@@ -319,13 +327,13 @@ public class BookListForm extends JPanel {
 		public Component getTableCellEditorComponent(JTable table, Object obj, boolean isSelected, int row,
 				int column) {
 			// TODO Auto-generated method stub
-			
-			//set text to button , set clicked to true
-			lbl = (obj==null) ? "":obj.toString();
-			System.out.println("lbl "+lbl);
+
+			// set text to button , set clicked to true
+			lbl = (obj == null) ? "" : obj.toString();
+			System.out.println("lbl " + lbl);
 			btn.setText(lbl);
-			
-			clicked=true;
+
+			clicked = true;
 			return btn;
 //			return super.getTableCellEditorComponent(table, obj, isSelected, row, column);
 		}
@@ -333,61 +341,452 @@ public class BookListForm extends JPanel {
 		@Override
 		public Object getCellEditorValue() {
 			// TODO Auto-generated method stub
-			
-			if(clicked) {
-				JOptionPane.showInternalMessageDialog(btn, lbl+ " clicked");
+
+			if (clicked) {
+				JOptionPane.showMessageDialog(btn, lbl + "Clicked");
 			}
-			
-			//set it to false now that its click
+
+			// set it to false now that its click
 			clicked = false;
 			return new String(lbl);
 		}
-		
+
 		@Override
 		public boolean stopCellEditing() {
 			// TODO Auto-generated method stub
-			//set clicked to false first
+			// set clicked to false first
 			return super.stopCellEditing();
 		}
-		
+
 		@Override
 		protected void fireEditingStopped() {
 			// TODO Auto-generated method stub
 			super.fireEditingStopped();
 		}
-		
-		
+
 	}
-	private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
-	    WordWrapCellRenderer() {
-	        setLineWrap(true);
-	        setWrapStyleWord(true);
-	        setAlignmentX(CENTER_ALIGNMENT);
-	          setAlignmentY(CENTER_ALIGNMENT);
-	          setFont(new Font("Tahoma", Font.BOLD, 12));
-	          
-	        
-	        
-	    }
 
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	    	  setText( (value == null) ? "" : value.toString() );
-	          setSize(160, 120);
-	      
-
-	          //  Recalculate the preferred height now that the text and renderer width have been set.
-
-//	          int preferredHeight = getPreferredSize().height;
+	
+	
+	
+	
+//	class EditDeleteButton extends JPanel implements TableCellRenderer {
+//        public Component getTableCellRendererComponent(
+//                            final JTable table, Object value,
+//                            boolean isSelected, boolean hasFocus,
+//                            int row, int column) {
+//                //this.add( new JTextField( value.toString()  ) );
+//        	JButton hello = new JButton();
+//        	hello.addActionListener(new ActionListener() {
 //
-//	          if (table.getRowHeight(row) != preferredHeight)
-//	          {
-//	              table.setRowHeight(row, preferredHeight);
-//	          }
+//    			@Override
+//    			public void actionPerformed(ActionEvent e) {
+//    				// TODO Auto-generated method stub
+//    				JOptionPane.showMessageDialog(null, "Hello");
+//    			}
+//
+//    		});
+//        	
+//        	JButton test = new JButton();
+//        	test.setBounds(new Rectangle(600, 0, 0, 0));
+////    		test.setMargin(new Insets(2, 1, 2, 1));
+////    		test.setIconTextGap(1);
+//    		test.setBorderPainted(false);
+//    		test.setForeground(SystemColor.textHighlightText);
+//    		test.setHorizontalAlignment(SwingConstants.CENTER);
+//    		test.setBackground(new Color(153, 51, 204));
+//    		test.setFont(new Font("Tahoma", Font.BOLD, 14));
+//    		test.setOpaque(true);
+//    		test.setForeground(Color.WHITE);
+//    		test.setBorder(new LineBorder(new Color(0, 0, 0)));
+//    		test.setRequestFocusEnabled(false);
+//
+//        	hello.addActionListener(new ActionListener() {
+//
+//    			@Override
+//    			public void actionPerformed(ActionEvent e) {
+//    				// TODO Auto-generated method stub
+//    				JOptionPane.showMessageDialog(null, "test");
+//    			}
+//
+//    		});
+//                this.add(hello);
+//                this.add(test);
+//                return this;
+//        }
+//	
+////	class ButtonRenderer extends JButton implements TableCellRenderer{
+////
+////		public ButtonRenderer() {
+////			setOpaque(true);
+////		}
+////		@Override
+////		public Component getTableCellRendererComponent(JTable table, Object obj, boolean isSelected, boolean hasFocus,
+////				int row, int column) {
+////			ImageIcon imgedit = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
+////			ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/delete.png")).getImage());
+////			
+////			JPanel panel = new JPanel();
+////			
+////			GroupLayout groupLayout = new GroupLayout(this);
+////			groupLayout.setHorizontalGroup(
+////				groupLayout.createParallelGroup(Alignment.LEADING)
+////					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+////			);
+////			groupLayout.setVerticalGroup(
+////				groupLayout.createParallelGroup(Alignment.LEADING)
+////					.addGroup(groupLayout.createSequentialGroup()
+////						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+////						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+////			);
+////			
+////			JButton btnedit = new JButton("");
+////			btnedit.setHorizontalAlignment(SwingConstants.LEADING);
+////			btnedit.setIcon(imgedit);
+////			btnedit.setContentAreaFilled(false);
+////			btnedit.setBorder(new EmptyBorder(5, 5, 5, 5));
+////			btnedit.setBackground(Color.red);
+////			
+////			JButton btndelete = new JButton("");
+////			btndelete.setIcon(img);
+////			btndelete.setContentAreaFilled(false);
+////			btndelete.setBorder(new EmptyBorder(5, 5, 5, 5));
+////			btndelete.setBackground(Color.red);
+////			GroupLayout gl_panel = new GroupLayout(panel);
+////			gl_panel.setHorizontalGroup(
+////				gl_panel.createParallelGroup(Alignment.LEADING)
+////					.addGroup(gl_panel.createSequentialGroup()
+////						.addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+////						.addGap(10)
+////						.addComponent(btndelete, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+////						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+////			);
+////			gl_panel.setVerticalGroup(
+////				gl_panel.createParallelGroup(Alignment.LEADING)
+////					.addGroup(gl_panel.createSequentialGroup()
+////						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+////							.addComponent(btnedit)
+////							.addComponent(btndelete))
+////						.addContainerGap(62, Short.MAX_VALUE))
+////			);
+////			panel.setLayout(gl_panel);
+////			setLayout(groupLayout);
+////			btnedit.addActionListener(new ActionListener() {
+////
+////				@Override
+////				public void actionPerformed(ActionEvent e) {
+////					// TODO Auto-generated method stub
+////					String id = table.getValueAt(table.getSelectedRow(), 1).toString();
+////					book = bookService.findById(id);
+////					book.setId(id);
+////					jloader.jPanelLoader(panel, new BookForm(book));
+////					
+////				}
+////				
+////			});
+////			
+////			btndelete.addActionListener(new ActionListener() {
+////
+////				@Override
+////				public void actionPerformed(ActionEvent e) {
+////					// TODO Auto-generated method stub
+////					String id = table.getValueAt(table.getSelectedRow(), 1).toString();
+////					book = bookService.findById(id);
+////					book.setId(id);
+////					jloader.jPanelLoader(panel, new BookForm(book));
+////					
+////				}
+////				
+////			});
+////			return this;
+////		}
+////		
+////	}
+//	
+////	class ButtonEditor extends DefaultCellEditor{
+////
+////		protected JButton btn,btndelete;
+////		private String lbl;
+////		private Boolean clicked;
+////		
+////		ImageIcon imgedit = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
+////		ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/delete.png")).getImage());
+////		
+////		JPanel panel = new JPanel();
+////		
+////		GroupLayout groupLayout = new GroupLayout(this);
+////		groupLayout.setHorizontalGroup(
+////			groupLayout.createParallelGroup(Alignment.LEADING)
+////				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+////		);
+////		groupLayout.setVerticalGroup(
+////			groupLayout.createParallelGroup(Alignment.LEADING)
+////				.addGroup(groupLayout.createSequentialGroup()
+////					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+////					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+////		);
+////		
+////		JButton btnedit = new JButton("");
+////		btnedit.setHorizontalAlignment(SwingConstants.LEADING);
+////		btnedit.setIcon(imgedit);
+////		btnedit.setContentAreaFilled(false);
+////		btnedit.setBorder(new EmptyBorder(5, 5, 5, 5));
+////		btnedit.setBackground(Color.red);
+////		
+////		JButton btndelete = new JButton("");
+////		btndelete.setIcon(img);
+////		btndelete.setContentAreaFilled(false);
+////		btndelete.setBorder(new EmptyBorder(5, 5, 5, 5));
+////		btndelete.setBackground(Color.red);
+////		GroupLayout gl_panel = new GroupLayout(panel);
+////		gl_panel.setHorizontalGroup(
+////			gl_panel.createParallelGroup(Alignment.LEADING)
+////				.addGroup(gl_panel.createSequentialGroup()
+////					.addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+////					.addGap(10)
+////					.addComponent(btndelete, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+////					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+////		);
+////		gl_panel.setVerticalGroup(
+////			gl_panel.createParallelGroup(Alignment.LEADING)
+////				.addGroup(gl_panel.createSequentialGroup()
+////					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+////						.addComponent(btnedit)
+////						.addComponent(btndelete))
+////					.addContainerGap(62, Short.MAX_VALUE))
+////		);
+////		panel.setLayout(gl_panel);
+////		setLayout(groupLayout);
+////		btnedit.addActionListener(new ActionListener() {
+////
+////			@Override
+////			public void actionPerformed(ActionEvent e) {
+////				// TODO Auto-generated method stub
+////				String id = table.getValueAt(table.getSelectedRow(), 1).toString();
+////				book = bookService.findById(id);
+////				book.setId(id);
+////				jloader.jPanelLoader(panel, new BookForm(book));
+////				
+////			}
+////			
+////		});
+////		
+////		btndelete.addActionListener(new ActionListener() {
+////
+////			@Override
+////			public void actionPerformed(ActionEvent e) {
+////				// TODO Auto-generated method stub
+////				String id = table.getValueAt(table.getSelectedRow(), 1).toString();
+////				book = bookService.findById(id);
+////				book.setId(id);
+////				jloader.jPanelLoader(panel, new BookForm(book));
+////				
+////			}
+////			
+////		});
+////		return this;
+////	}
+//
+//			
+//		}
+//
+//		@Override
+//		public Component getTableCellEditorComponent(JTable table, Object obj, boolean isSelected, int row,
+//				int column) {
+//			// TODO Auto-generated method stub
+//			
+//			//set text to button , set clicked to true
+//			lbl = (obj==null) ? "":obj.toString();
+//			System.out.println("lbl "+lbl);
+//			btn.setText(lbl);
+//			
+//			clicked=true;
+//			return btn;
+////			return super.getTableCellEditorComponent(table, obj, isSelected, row, column);
+//		}
 
-	          return this;
-	      }
+//		@Override
+//		public Object getCellEditorValue() {
+//			// TODO Auto-generated method stub
+//			
+//			if(clicked) {
+//				JOptionPane.showMessageDialog(btn, lbl + "Clicked");
+//			}
+//			
+//			//set it to false now that its click
+//			clicked = false;
+//			return new String(lbl);
+//		}
+//		
+//		@Override
+//		public boolean stopCellEditing() {
+//			// TODO Auto-generated method stub
+//			//set clicked to false first
+//			return super.stopCellEditing();
+//		}
+//		
+//		@Override
+//		protected void fireEditingStopped() {
+//			// TODO Auto-generated method stub
+//			super.fireEditingStopped();
+//		}
+//		
+//		
+//	}
+//	private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
+//	    WordWrapCellRenderer() {
+//	        setLineWrap(true);
+//	        setWrapStyleWord(true);
+//	        setAlignmentX(CENTER_ALIGNMENT);
+//	          setAlignmentY(CENTER_ALIGNMENT);
+//	          setFont(new Font("Tahoma", Font.BOLD, 12));
+//	          
+//	        
+//	        
+//	    }
+
+//	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//	    	  setText( (value == null) ? "" : value.toString() );
+//	          setSize(160, 120);
+//	      
+//
+//	          //  Recalculate the preferred height now that the text and renderer width have been set.
+//
+////	          int preferredHeight = getPreferredSize().height;
+////
+////	          if (table.getRowHeight(row) != preferredHeight)
+////	          {
+////	              table.setRowHeight(row, preferredHeight);
+////	          }
+//
+//	          return this;
+//	      }
 	
 	    
 	}
-}
+//}
+
+
+
+//import java.awt.Component;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//import java.sql.SQLException;
+//import javax.swing.ImageIcon;
+//
+//public class CellAction extends TableCustomCell {
+//
+//    public CellAction() {
+//        initComponents();
+//    }
+//
+//    private void addEvent(TableCustom table, TableRowData data, int row) {
+//        cmdEdit.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent ae) {
+//                if (data.isEditing()) {
+//                    table.cancelEditRowAt(row);
+//                    cmdEdit.setIcon(new ImageIcon(getClass().getResource("/com/raven/icon/edit.png")));
+//                } else {
+//                    table.editRowAt(row);
+//                    cmdEdit.setIcon(new ImageIcon(getClass().getResource("/com/raven/icon/cancel.png")));
+//                }
+//            }
+//        });
+//        cmdDelete.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent ae) {
+//                int staffID = ((ModelStaff) data).getStaffID();
+//                if (staffID != 0) {
+//                    try {
+//                        new ServiceStaff().deleteStaff(staffID);
+//                        table.deleteRowAt(getRow(), true);
+//                    } catch (SQLException e) {
+//                        System.err.println(e);
+//                    }
+//                } else {
+//                    table.deleteRowAt(getRow(), true);
+//                }
+//            }
+//        });
+//    }
+//
+//    private void checkIcon(TableRowData data) {
+//        if (data.isEditing()) {
+//            cmdEdit.setIcon(new ImageIcon(getClass().getResource("/com/raven/icon/cancel.png")));
+//        } else {
+//            cmdEdit.setIcon(new ImageIcon(getClass().getResource("/com/raven/icon/edit.png")));
+//        }
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+//    private void initComponents() {
+//
+//        cmdEdit = new com.raven.swing.Button();
+//        cmdDelete = new com.raven.swing.Button();
+//
+//        cmdEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/edit.png"))); // NOI18N
+//
+//        cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/delete.png"))); // NOI18N
+//
+//        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+//        this.setLayout(layout);
+//        layout.setHorizontalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(layout.createSequentialGroup()
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                .addComponent(cmdEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(cmdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
+//        layout.setVerticalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(layout.createSequentialGroup()
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                    .addComponent(cmdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                    .addComponent(cmdEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
+//    }// </editor-fold>//GEN-END:initComponents
+//
+//    @Override
+//    public void setData(Object o) {
+//
+//    }
+//
+//    @Override
+//    public Object getData() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Component createComponentCellRender(TableCustom table, TableRowData data, int row, int column) {
+//        CellAction cell = new CellAction();
+//        cell.checkIcon(data);
+//        cell.addEvent(table, data, row);
+//        return cell;
+//    }
+//
+//    @Override
+//    public Component createComponentCellRenderOnEditor(TableCustom table, TableRowData data, int row, int column) {
+//        return null;
+//    }
+//
+//    @Override
+//    public TableCustomCell createComponentCellEditor(TableCustom table, TableRowData data, Object o, int row, int column) {
+//        CellAction cell = new CellAction();
+//        cell.checkIcon(data);
+//        cell.addEvent(table, data, row);
+//        return cell;
+//    }
+//
+//
+//    // Variables declaration - do not modify//GEN-BEGIN:variables
+//    private com.raven.swing.Button cmdDelete;
+//    private com.raven.swing.Button cmdEdit;
+//    // End of variables declaration//GEN-END:variables
+//}
 
