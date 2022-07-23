@@ -137,6 +137,7 @@ public class BookForm extends JPanel {
 		this.loadCategoryForComboBox();
 		this.loadPublisherForComboBox();
 		this.setData();
+
 	}
 
 	private void setData() {
@@ -149,23 +150,29 @@ public class BookForm extends JPanel {
 		txtBookName.setText(book.getName());
 		txtShelfNo.setText(String.valueOf(book.getShelf_number()));
 		txtRemark.setText(book.getRemark());
+
+
 		if (!book.getPhoto().isEmpty()) {
 			lblAddPhoto.setText("");
 			ImageIcon imageIcon = new ImageIcon(new ImageIcon(book.getPhoto().toString()).getImage()
 					.getScaledInstance(171, 169, Image.SCALE_SMOOTH));
 			lblAddPhoto.setIcon(imageIcon);
+
+		} else if(book.getPhoto().isEmpty() || book.getPhoto() == null){
+
+			lblAddPhoto.setOpaque(true);
+			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage()
+					.getScaledInstance(lblAddPhoto.getWidth(), lblAddPhoto.getHeight(), Image.SCALE_DEFAULT));
+			lblAddPhoto.setIcon(imageIcon);
+
 		}
 
-		// lblAddPhoto.setIcon();
 
 	}
 
 	private void initialize() {
 
-		// System.out.println("Book ID " + ( ));
-
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// setBounds(100, 100, 800, 450);
+		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		JPanel panel = new JPanel();
@@ -471,13 +478,25 @@ public class BookForm extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
+//<<<<<<< HEAD
+//
+//					toSaveBookDataFromForm(book);
+//					if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
+//							&& book.getPublisher() != null) {
+//						if (Checking.IsAllDigit(txtShelfNo.getText())) {
+//
+//							bookService.saveBooks(book);
+//
+//=======
 
-					toSaveBookDataFromForm(book);
+					toSaveBookDataFromForm();
+
 					if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
 							&& book.getPublisher() != null) {
 						if (Checking.IsAllDigit(txtShelfNo.getText())) {
 
 							bookService.saveBooks(book);
+
 
 							jLoader.jPanelLoader(BookForm.this, new BookListForm());
 							clearForm();
@@ -507,7 +526,7 @@ public class BookForm extends JPanel {
 				// TODO Auto-generated method stub
 				if (book != null && book.getId() != null) {
 
-					toSaveBookDataFromForm(book);
+					toSaveBookDataFromForm();
 
 					if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
 							&& book.getPublisher() != null) {
@@ -567,9 +586,18 @@ public class BookForm extends JPanel {
 //				}
 	}
 
-	private void toSaveBookDataFromForm(Book book) {
+	private void toSaveBookDataFromForm() {
 
-		book.setPhoto(destinationFile.toString());
+
+		if(destinationFile == null) {
+			book.setPhoto(null);
+
+		} else {
+			book.setPhoto(destinationFile.toString());
+
+		}
+		
+
 		book.setName(txtBookName.getText());
 		book.setRemark(txtRemark.getText());
 		book.setShelf_number(Integer.parseInt(txtShelfNo.getText().isBlank() ? "0" : txtShelfNo.getText()));

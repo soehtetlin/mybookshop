@@ -7,9 +7,11 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 import javax.swing.JToggleButton;
 import java.awt.Font;
+import java.awt.PopupMenu;
 import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -135,6 +137,11 @@ public class HomeFormNew {
 			}
 		});
 		cLayout.setToggleButton(btnPublisher);
+
+//		final JPopupMenu menu = new JPopupMenu();
+//		menu.add("Author");
+//		menu.add("Publisher");
+//		
 
 		JToggleButton btnBook = new JToggleButton("Book");
 		btnBook.addActionListener(new ActionListener() {
