@@ -151,14 +151,13 @@ public class BookForm extends JPanel {
 		txtShelfNo.setText(String.valueOf(book.getShelf_number()));
 		txtRemark.setText(book.getRemark());
 
-
 		if (!book.getPhoto().isEmpty()) {
 			lblAddPhoto.setText("");
 			ImageIcon imageIcon = new ImageIcon(new ImageIcon(book.getPhoto().toString()).getImage()
 					.getScaledInstance(171, 169, Image.SCALE_SMOOTH));
 			lblAddPhoto.setIcon(imageIcon);
 
-		} else if(book.getPhoto().isEmpty() || book.getPhoto() == null){
+		} else if (book.getPhoto().isEmpty() || book.getPhoto() == null) {
 
 			lblAddPhoto.setOpaque(true);
 			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage()
@@ -167,12 +166,10 @@ public class BookForm extends JPanel {
 
 		}
 
-
 	}
 
 	private void initialize() {
 
-		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		JPanel panel = new JPanel();
@@ -497,7 +494,6 @@ public class BookForm extends JPanel {
 
 							bookService.saveBooks(book);
 
-
 							jLoader.jPanelLoader(BookForm.this, new BookListForm());
 							clearForm();
 						} else {
@@ -587,15 +583,13 @@ public class BookForm extends JPanel {
 
 	private void toSaveBookDataFromForm() {
 
-
-		if(destinationFile == null) {
+		if (destinationFile == null) {
 			book.setPhoto(null);
 
 		} else {
 			book.setPhoto(destinationFile.toString());
 
 		}
-		
 
 		book.setName(txtBookName.getText());
 		book.setRemark(txtRemark.getText());

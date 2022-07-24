@@ -405,7 +405,15 @@ public class HomeForm {
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
-		panel_loader.setLayout(gl_panel_loader);
+
+		menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+		GroupLayout gl_panel_loader1 = new GroupLayout(panel_loader);
+		gl_panel_loader1.setHorizontalGroup(
+				gl_panel_loader1.createParallelGroup(Alignment.LEADING).addGap(0, 720, Short.MAX_VALUE));
+		gl_panel_loader1.setVerticalGroup(
+				gl_panel_loader1.createParallelGroup(Alignment.LEADING).addGap(0, 431, Short.MAX_VALUE));
+
+		panel_loader.setLayout(gl_panel_loader1);
 		menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		groupLayout.setAutoCreateGaps(true);
@@ -437,7 +445,7 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				AuthorFormnew authForm = new AuthorFormnew();
+				AuthorForm authForm = new AuthorForm();
 				jploader.jPanelLoader(panel_loader, authForm);
 			}
 		});
@@ -531,8 +539,8 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				EmployeeForm femployee = new EmployeeForm();
-				jploader.jPanelLoader(panel_loader, femployee);
+				EmployeeFormNew employee = new EmployeeFormNew();
+				jploader.jPanelLoader(panel_loader, employee);
 			}
 
 		});

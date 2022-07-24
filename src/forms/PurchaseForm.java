@@ -234,8 +234,6 @@ public class PurchaseForm extends JPanel {
 
 	}
 
-
-
 	private void setTableDesignForPurchaseTable() {
 		dtmpurchase.addColumn("No");
 		dtmpurchase.addColumn("Book");
@@ -265,7 +263,6 @@ public class PurchaseForm extends JPanel {
 		tblshowPurchase.getColumnModel().getColumn(4).setPreferredWidth(100);
 
 	}
-
 
 	private void deleteRow() {
 		// TODO Auto-generated method stub
@@ -331,7 +328,6 @@ public class PurchaseForm extends JPanel {
 		lbltotalprice.setText(sumAmount(vtotalPrice, 1));
 		lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
 	}
-
 
 	public void input_productFromPopover(Book books) {
 		PurchaseDetails purchaseDetails = new PurchaseDetails();
@@ -786,11 +782,11 @@ public class PurchaseForm extends JPanel {
 						savedata1[0] = cboPublisher.getSelectedItem().toString();
 						savedata1[1] = LocalDateTime.now().toString();
 						savedata1[2] = lblemployee.getText();
-						
+
 						System.out.println("Publisher Name :" + savedata1[0]);
 						System.out.println("Local Time :" + savedata1[1]);
 						System.out.println("Employee Name :" + savedata1[2]);
-						
+
 						purchaseService.createPurchase(savedata1);
 						for (int i = 0; i < vno.size(); i++) {
 							savedata2[0] = (String) tblshowPurchase.getValueAt(i, 2);// get quantity
@@ -872,7 +868,7 @@ public class PurchaseForm extends JPanel {
 								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)));
 		pnshowpurchaseitem.setLayout(gl_pnshowpurchaseitem);
 
-		 dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser();
 		dateChooser.setDate(new Date());
 		Date date = dateChooser.getDate();
 		System.out.println("Selected date :" + date);

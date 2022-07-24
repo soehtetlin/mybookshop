@@ -86,10 +86,8 @@ public class PublisherForm extends JPanel {
 		txtSupName = new JTextField();
 		cLayout.setTextField(txtSupName);
 
-
 		txtSupMail = new JTextField();
 		cLayout.setTextField(txtSupMail);
-
 
 		btnDelete = new JButton("Delete");
 		cLayout.setButton(btnDelete);
@@ -104,113 +102,94 @@ public class PublisherForm extends JPanel {
 
 		btnCancel = new JButton("Cancel");
 		cLayout.setButton(btnCancel);
-	
+
 		JPanel panel_1 = new JPanel();
 
 		JScrollPane scrollPane = new JScrollPane();
 
 		tblPublisher = new JTable();
-		
+
 		scrollPane.setViewportView(tblPublisher);
-		
+
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE))
-					.addGap(0))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(5)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-					.addGap(34))
-		);
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
+								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE))
+						.addGap(0)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addGap(5)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE).addGap(10)
+						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE).addGap(34)));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-		);
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addComponent(scrollPane,
+				GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE));
+		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addComponent(scrollPane,
+				GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE));
 		panel_1.setLayout(gl_panel_1);
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(211)
-					.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(191, Short.MAX_VALUE))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(39)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblPublisherAds, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-							.addGap(32)
-							.addComponent(txtSupAddress, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
-							.addComponent(lblPublisherMail, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-							.addGap(48)
-							.addComponent(txtSupMail, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblPublisherName)
-							.addGap(17)
-							.addComponent(txtSupName, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
-							.addComponent(lblPublisherPhNo, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
-							.addGap(27)
-							.addComponent(txtSupPhone, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)))
-					.addGap(98))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(28)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(211)
+						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(191, Short.MAX_VALUE))
+				.addGroup(gl_panel.createSequentialGroup().addGap(39)
+						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel.createSequentialGroup()
+										.addComponent(lblPublisherAds, GroupLayout.PREFERRED_SIZE, 92,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(32)
+										.addComponent(txtSupAddress, GroupLayout.PREFERRED_SIZE, 125,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+										.addComponent(lblPublisherMail, GroupLayout.PREFERRED_SIZE, 92,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(48).addComponent(txtSupMail, GroupLayout.PREFERRED_SIZE, 125,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addComponent(lblPublisherName).addGap(17)
+										.addComponent(txtSupName, GroupLayout.PREFERRED_SIZE, 125,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+										.addComponent(lblPublisherPhNo, GroupLayout.PREFERRED_SIZE, 113,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(27).addComponent(txtSupPhone, GroupLayout.PREFERRED_SIZE, 125,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGap(98)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addGap(28)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblPublisherPhNo, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(2)
-							.addComponent(txtSupPhone, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(txtSupPhone,
+								GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblPublisherName, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(2)
-							.addComponent(txtSupName, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(19)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPublisherMail, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(2)
-									.addComponent(txtSupMail, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(18)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPublisherAds, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(2)
-									.addComponent(txtSupAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))))
-					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(txtSupName,
+								GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup().addGap(19)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblPublisherMail, GroupLayout.PREFERRED_SIZE, 28,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(txtSupMail,
+												GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_panel.createSequentialGroup().addGap(18)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblPublisherAds, GroupLayout.PREFERRED_SIZE, 28,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(txtSupAddress,
+												GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))))
+				.addGap(18)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
+				.addContainerGap()));
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 
@@ -220,7 +199,7 @@ public class PublisherForm extends JPanel {
 				btnSave.setVisible(false);
 				btnUpdate.setVisible(true);
 				btnDelete.setVisible(true);
-				
+
 				String id = tblPublisher.getValueAt(tblPublisher.getSelectedRow(), 0).toString();
 
 				publisher = pubService.findById(id);
@@ -236,10 +215,10 @@ public class PublisherForm extends JPanel {
 	}
 
 	private void setTableDesign() {
-		
+
 		tblPublisher.setBounds(150, 251, 555, -184);
 		cLayout.setTable(tblPublisher);
-		
+
 		dtm.addColumn("ID");
 		dtm.addColumn("Name");
 		dtm.addColumn("Phone");
@@ -248,11 +227,6 @@ public class PublisherForm extends JPanel {
 
 		this.tblPublisher.setModel(
 				new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Name", "Phone", "Address", "Mail" }));
-
-//		        DefaultTableColumnModel tcm=(DefaultTableColumnModel) tblPublisher.getColumnModel();
-//		        TableColumn tc= tcm.getColumn(0);
-//		        tc.setWidth(WIDTH);
-
 	}
 
 	private void clearForm() {
@@ -330,7 +304,7 @@ public class PublisherForm extends JPanel {
 					pubService.deletePublisher(String.valueOf(publisher.getId()));
 					clearForm();
 					buttonVisible();
-					loadAllPublishers(Optional.empty());
+//					loadAllPublishers(Optional.empty());
 					publisher = null;
 				} else {
 					JOptionPane.showMessageDialog(null, "Choose Publisher!");

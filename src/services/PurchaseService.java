@@ -110,7 +110,6 @@ public class PurchaseService implements PurchaseRepo {
 
 		try {
 			{
-				
 
 				Book storedBook = bookService.findById(data[2]);
 				storedBook.setPrice(Integer.valueOf(data[1]));

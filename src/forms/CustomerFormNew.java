@@ -81,7 +81,6 @@ public class CustomerFormNew extends JPanel {
 	private CategoryService categoryService = new CategoryService();
 	private List<Category> categoryList;
 	private List<Author> authorList;
-	
 
 	public CustomerFormNew() {
 		initialize();
@@ -121,32 +120,22 @@ public class CustomerFormNew extends JPanel {
 				groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 438, Short.MAX_VALUE).addContainerGap()));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(20)
-					.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-					.addGap(30)
-					.addComponent(cboCategory, 0, 100, Short.MAX_VALUE)
-					.addGap(29)
-					.addComponent(cboAuthors, 0, 100, Short.MAX_VALUE)
-					.addGap(243)
-					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-					.addGap(19))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(15)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
-		);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(20)
+						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE).addGap(30)
+						.addComponent(cboCategory, 0, 100, Short.MAX_VALUE).addGap(29)
+						.addComponent(cboAuthors, 0, 100, Short.MAX_VALUE).addGap(243)
+						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE).addGap(19))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(15)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 
@@ -157,7 +146,7 @@ public class CustomerFormNew extends JPanel {
 		table = new JTable();
 		cLayout.setTable(table);
 		scrollPane.setViewportView(table);
-		
+
 		dtm.addColumn("Book Cover");
 		dtm.addColumn("ID");
 		dtm.addColumn("Name");
@@ -168,7 +157,7 @@ public class CustomerFormNew extends JPanel {
 		table.setModel(dtm);
 		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
 		dfcr.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		table.getColumnModel().getColumn(0).setCellRenderer(new ImagerRender());
 		table.getColumnModel().getColumn(1).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(2).setCellRenderer(new WordWrapCellRenderer());
@@ -176,7 +165,6 @@ public class CustomerFormNew extends JPanel {
 		table.getColumnModel().getColumn(4).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(5).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(6).setCellRenderer(dfcr);
-	
 
 	}
 
@@ -210,22 +198,22 @@ public class CustomerFormNew extends JPanel {
 
 	private class ImagerRender extends DefaultTableCellRenderer {
 
-	@Override
-	public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
-			int arg5) {
-		
-		System.out.println("Show store file address :" + photo.toString());
+		@Override
+		public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
+				int arg5) {
 
-		ImageIcon imageIcon = null;
-		
-			imageIcon = new ImageIcon(new ImageIcon(photo.toString()).getImage().getScaledInstance(160, 115, Image.SCALE_SMOOTH));
+			System.out.println("Show store file address :" + photo.toString());
 
-		return new JLabel(imageIcon);
+			ImageIcon imageIcon = null;
+
+			imageIcon = new ImageIcon(
+					new ImageIcon(photo.toString()).getImage().getScaledInstance(160, 115, Image.SCALE_SMOOTH));
+
+			return new JLabel(imageIcon);
+		}
+
 	}
 
-	}
-	
-	
 	private void loadCategoryForComboBox() {
 		cboCategory.addItem("All Category");
 		System.out.println("Cate count " + categoryService.findAllCategories().size());
@@ -240,26 +228,24 @@ public class CustomerFormNew extends JPanel {
 		this.authorList = this.authorService.findAllAuthors();
 		this.authorList.forEach(a -> cboAuthors.addItem(a.getName()));
 	}
-	
-	
+
 	private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
-	    WordWrapCellRenderer() {
-	        setLineWrap(true);
-	        setWrapStyleWord(true);
-	        setAlignmentX(CENTER_ALIGNMENT);
-	          setAlignmentY(CENTER_ALIGNMENT);
-	          setFont(new Font("Tahoma", Font.BOLD, 12));
-	          
-	        
-	        
-	    }
+		WordWrapCellRenderer() {
+			setLineWrap(true);
+			setWrapStyleWord(true);
+			setAlignmentX(CENTER_ALIGNMENT);
+			setAlignmentY(CENTER_ALIGNMENT);
+			setFont(new Font("Tahoma", Font.BOLD, 12));
 
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	    	  setText( (value == null) ? "" : value.toString() );
-	          setSize(160, 120);
-	      
+		}
 
-	          //  Recalculate the preferred height now that the text and renderer width have been set.
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			setText((value == null) ? "" : value.toString());
+			setSize(160, 120);
+
+			// Recalculate the preferred height now that the text and renderer width have
+			// been set.
 
 //	          int preferredHeight = getPreferredSize().height;
 //
@@ -268,10 +254,8 @@ public class CustomerFormNew extends JPanel {
 //	              table.setRowHeight(row, preferredHeight);
 //	          }
 
-	          return this;
-	      }
-	
-	    
+			return this;
+		}
+
 	}
 }
-

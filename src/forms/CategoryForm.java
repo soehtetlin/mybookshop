@@ -1,60 +1,219 @@
 package forms;
 
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import entities.Category;
-import services.CategoryService;
+
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.awt.event.ActionEvent;
-import java.awt.Dimension;
-import javax.swing.ListSelectionModel;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import entities.Author;
+import entities.Category;
+import services.CategoryService;
+
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class CategoryForm extends JPanel {
 
-	private JTextField txtName, txtSearch;
-	private JTable tblshowCategory;
-	private JLabel lblCategoryID, lblCategory;
 	private Category category;
-	private CategoryService categoryService = new CategoryService();
-	private DefaultTableModel dtm = new DefaultTableModel();
+	private CategoryService categoryService;
 	private List<Category> originalCategoryList = new ArrayList<>();
+
+	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
+
+	private DefaultTableModel dtm = new DefaultTableModel();
+	
+	private JTextField txtSearch;
+	private JTextField txtCategoryName;
+	private JLabel lblCategoryName;
+	private JButton btnUpdate, btnSave, btnDelete, btnCancel, btnSearch;
+	
+	private JScrollPane scrollPane;
+	
+	private JTable table;
 
 	/**
 	 * Create the panel.
 	 */
-
 	public CategoryForm() {
+
+		categoryService = new CategoryService();
 		initialize();
-		this.setTableDesign();
-		this.loadAllCategories(Optional.empty());
+		setTableDesign();
+		loadAllCategories(Optional.empty());
+	}
+
+	private void initialize() {
+
+		JPanel panel = new JPanel();
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(2)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+		);
+		
+		txtSearch = new JTextField();
+		cLayout.setTextField(txtSearch);
+		
+		btnSearch = new JButton("Search");
+		cLayout.setButton(btnSearch);
+		
+		txtCategoryName = new JTextField();
+		cLayout.setTextField(txtCategoryName);
+		
+		lblCategoryName = new JLabel(" Category Name");
+		cLayout.setLabel(lblCategoryName);
+		
+		btnUpdate = new JButton("Update");
+		cLayout.setButton(btnUpdate);
+		btnUpdate.setVisible(false);
+		
+		btnSave = new JButton("Save");
+		cLayout.setButton(btnSave);
+		
+		btnDelete = new JButton("Delete");
+		cLayout.setButton(btnDelete);
+		btnDelete.setVisible(false);
+		
+		btnCancel = new JButton("Cancel");
+		cLayout.setButton(btnCancel);
+		
+		scrollPane = new JScrollPane();
+		
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(21)
+					.addComponent(lblCategoryName, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addGap(12)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+							.addGap(12)
+							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtCategoryName, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE))
+					.addGap(333))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(596, Short.MAX_VALUE)
+					.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+					.addGap(49))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(22)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCategoryName)
+						.addComponent(txtCategoryName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
+		);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		panel.setLayout(gl_panel);
+		
+		setLayout(groupLayout);
+		
+		this.table.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+
+			if (!table.getSelectionModel().isSelectionEmpty()) {
+
+				btnSave.setVisible(false);
+				btnUpdate.setVisible(true);
+				btnDelete.setVisible(true);
+
+				String id = table.getValueAt(table.getSelectedRow(), 0).toString();
+
+				category = categoryService.findById(id);
+				
+				txtCategoryName.setText(category.getName());
+
+			}
+
+		});
+		
+
+		buttonOnClick();
+	}
+
+	private void setTableDesign() {
+
+		table.setBounds(150, 251, 555, -184);
+		cLayout.setTable(table);
+
+		dtm.addColumn("Category ID");
+		dtm.addColumn("Category Name");
+		
+
+		this.table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Category ID", "Category Name" }));
+
+		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
+		dfcr.setHorizontalAlignment(JLabel.CENTER);
+
+		table.getColumnModel().getColumn(0).setCellRenderer(dfcr);
+		table.getColumnModel().getColumn(1).setCellRenderer(dfcr);
+
+	}
+
+	private void buttonVisible() {
+		btnSave.setVisible(true);
+		btnUpdate.setVisible(false);
+		btnCancel.setVisible(true);
+		btnDelete.setVisible(false);
 	}
 
 	private void loadAllCategories(Optional<List<Category>> optionalCategories) {
-		this.dtm = (DefaultTableModel) this.tblshowCategory.getModel();
+		
+		this.dtm = (DefaultTableModel) this.table.getModel();
 		this.dtm.getDataVector().removeAllElements();
 		this.dtm.fireTableDataChanged();
 
 		this.originalCategoryList = this.categoryService.findAllCategories();
-		List<Category> authors = optionalCategories.orElseGet(() -> originalCategoryList);
+		List<Category> categoryList = optionalCategories.orElseGet(() -> originalCategoryList);
 
-		authors.forEach(b -> {
+		categoryList.forEach(b -> {
 			Object[] row = new Object[2];
 			row[0] = b.getId();
 			row[1] = b.getName();
@@ -62,190 +221,119 @@ public class CategoryForm extends JPanel {
 			dtm.addRow(row);
 		});
 
-		tblshowCategory.setModel(dtm);
+		table.setModel(dtm);
 
 	}
+	
+	private void searchCategory() {
 
-	private void setTableDesign() {
-		dtm.addColumn("Category ID");
-		dtm.addColumn("Category Name");
-		tblshowCategory.setModel(dtm);
-		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
-		dfcr.setHorizontalAlignment(JLabel.CENTER);
-		tblshowCategory.getColumnModel().getColumn(0).setCellRenderer(dfcr);
-		tblshowCategory.getColumnModel().getColumn(1).setCellRenderer(dfcr);
+		String keyword = txtSearch.getText();
 
+		loadAllCategories(Optional.of(originalCategoryList.stream()
+				.filter(b -> b.getName().toLowerCase(Locale.ROOT).startsWith(keyword.toLowerCase(Locale.ROOT)))
+				.collect(Collectors.toList())));
+	
 	}
+	
+	private void buttonOnClick() {
+		
+		btnSave.addActionListener(new ActionListener() {
 
-	private void resetFormData() {
-		txtName.setText("");
-	}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
 
-	private void initialize() {
-		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		setLayout(null);
-		setBounds(42, 11, 809, 450);
+				Category category = new Category();
+				if (!txtCategoryName.getText().isBlank())
+					category.setName(txtCategoryName.getText());
+				else
+					JOptionPane.showMessageDialog(null, "Enter Category Name");
 
-		JLabel lblAuthorName = new JLabel("Category Name");
-		lblAuthorName.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAuthorName.setBounds(10, 52, 116, 39);
-		add(lblAuthorName);
+				if (!category.getName().isBlank()) {
 
-		txtName = new JTextField();
-		txtName.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+					categoryService.saveCategory(category);
+					txtCategoryName.setText("");
 
-				if (null != category && !category.getId().isBlank()) {
-					category.setName(txtName.getText());
-					if (!category.getName().isBlank()) {
-						categoryService.updateCategory(String.valueOf(category.getId()), category);
-						resetFormData();
-						loadAllCategories(Optional.empty());
-						category = null;
-					} else {
-						JOptionPane.showMessageDialog(null, "Please enter Author Name!");
-					}
+					loadAllCategories(Optional.empty());
+
+					category = null;
 				} else {
-					Category author = new Category();
-					author.setName(txtName.getText());
-					if (null != author.getName() && !author.getName().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+				}
+			}
 
-						categoryService.saveCategory(author);
-						resetFormData();
+		});
+		
+		
+		btnUpdate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (category != null && category.getId() != null) {
+
+					category.setName(txtCategoryName.getText());
+
+					if (!category.getName().isBlank()) {
+
+						categoryService.updateCategory(category.getId(), category);
+						txtCategoryName.setText("");
+
 						loadAllCategories(Optional.empty());
+
+						category = null;
 					} else {
 						JOptionPane.showMessageDialog(null, "Enter Required Field!");
 					}
 				}
-
+				buttonVisible();
 			}
 		});
-		txtName.setBounds(136, 52, 222, 39);
-		add(txtName);
-		txtName.setColumns(10);
-
-		lblCategoryID = new JLabel("Category ID");
-		lblCategoryID.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCategoryID.setBounds(10, 2, 116, 39);
-		add(lblCategoryID);
-
-		lblCategory = new JLabel("Show Category ID");
-		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCategory.setBounds(136, 2, 116, 39);
-		add(lblCategory);
-
-		JLabel lblSearch = new JLabel("Search");
-		lblSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblSearch.setBounds(422, 9, 62, 39);
-		add(lblSearch);
-
-		txtSearch = new JTextField();
-		txtSearch.setColumns(10);
-		txtSearch.setBounds(484, 11, 173, 39);
-		add(txtSearch);
-
-		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				Category category = new Category();
-				category.setName(txtName.getText());
-				if (null != category.getName() && !category.getName().isBlank()) {
-
-					categoryService.saveCategory(category);
-					resetFormData();
-					loadAllCategories(Optional.empty());
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
-
-				}
-			}
-		});
-		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSave.setBounds(10, 102, 116, 41);
-		add(btnSave);
-
-		JButton btnDelete = new JButton("Delete");
+		
 		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (null != category) {
-					categoryService.deleteCategory(category.getId() + "");
-					resetFormData();
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (category != null) {
+					categoryService.deleteCategory(String.valueOf(category.getId()));
+					txtCategoryName.setText("");
+					buttonVisible();
 					loadAllCategories(Optional.empty());
 					category = null;
 				} else {
-					JOptionPane.showMessageDialog(null, "Please Select Author");
+					JOptionPane.showMessageDialog(null, "Choose Category!");
 				}
+
+				buttonVisible();
 			}
-		});
-		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnDelete.setBounds(149, 102, 116, 41);
-		add(btnDelete);
 
-		JButton btnUpdate = new JButton("Update");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (null != category && !category.getId().isBlank()) {
-					category.setName(txtName.getText());
-					if (!category.getName().isBlank()) {
-						categoryService.updateCategory(String.valueOf(category.getId()), category);
-						resetFormData();
-						loadAllCategories(Optional.empty());
-						category = null;
-					} else {
-						JOptionPane.showMessageDialog(null, "Please enter Author Name!");
-					}
-
-				}
-			}
-		});
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnUpdate.setBounds(285, 102, 116, 41);
-		add(btnUpdate);
-
-		JPanel showtablepanel = new JPanel();
-		showtablepanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		showtablepanel.setBounds(10, 154, 789, 285);
-		add(showtablepanel);
-		showtablepanel.setLayout(null);
-
-		tblshowCategory = new JTable();
-		tblshowCategory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tblshowCategory.setSize(new Dimension(789, 288));
-		tblshowCategory.setRowHeight(30);
-		tblshowCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
-		tblshowCategory.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		this.tblshowCategory.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
-			if (!tblshowCategory.getSelectionModel().isSelectionEmpty()) {
-
-				String id = tblshowCategory.getValueAt(tblshowCategory.getSelectedRow(), 0).toString();
-				category = categoryService.findById(id);
-
-				lblCategory.setText(String.valueOf(category.getId()));
-				txtName.setText(category.getName());
-
-			}
 		});
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 789, 288);
-		showtablepanel.add(scrollPane);
-		scrollPane.setViewportView(tblshowCategory);
+		btnCancel.addActionListener(new ActionListener() {
 
-		JButton btnSearch = new JButton("Search");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtCategoryName.setText("");
+				loadAllCategories(Optional.empty());
+				buttonVisible();
+			}
+
+		});
+		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				String keyword = txtSearch.getText();
-
-				loadAllCategories(Optional.of(originalCategoryList.stream()
-						.filter(b -> b.getName().toLowerCase(Locale.ROOT).startsWith(keyword.toLowerCase(Locale.ROOT)))
-						.collect(Collectors.toList())));
+				searchCategory();
 			}
 		});
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSearch.setBounds(667, 8, 108, 41);
-		add(btnSearch);
+		
+		txtSearch.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				searchCategory();
+			}
+		});
 	}
 }

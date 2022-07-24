@@ -63,7 +63,6 @@ public class CreateLayoutProperties {
 		button.setBorder(new LineBorder(new Color(0, 0, 0)));
 		button.setRequestFocusEnabled(false);
 
-
 		// Image img=new
 		// ImageIcon(this.getClass().getResource("/add-20.png")).getImage();
 		// button.setIcon(new ImageIcon(img));
@@ -87,16 +86,16 @@ public class CreateLayoutProperties {
 
 //		button.setForeground(Color.WHITE);
 //		button.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
+
 	}
-	
+
 	public void setLabel(JLabel label) {
-		label.setForeground(new Color(10,44,42));
+		label.setForeground(new Color(10, 44, 42));
 		label.setFont(new Font("Tahoma", Font.BOLD, 14));
 	}
-	
+
 	public void setTable(JTable table) {
-		table.setSelectionBackground(new Color(191,148,228));
+		table.setSelectionBackground(new Color(191, 148, 228));
 		table.setShowVerticalLines(false);
 		table.setFocusable(false);
 
@@ -109,10 +108,10 @@ public class CreateLayoutProperties {
 		table.getTableHeader().setPreferredSize(new Dimension(70, 30));
 
 		table.setRowHeight(40);
-		
+
 //		tblPublisher.setBackground(new Color(255, 250, 240));
 //		tblPublisher.setForeground(Color.DARK_GRAY);
-		
+
 	}
 
 }

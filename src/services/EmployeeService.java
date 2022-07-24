@@ -15,30 +15,42 @@ import entities.Employee;
 import entities.UserRole;
 import repositories.EmployeeRepo;
 import shared.mapper.EmployeeMapper;
+import shared.mapper.GeneratePrimaryKey;
 
 public class EmployeeService implements EmployeeRepo {
 
 	private final EmployeeMapper employeeMapper;
 	private final DBconnector dbConfig;
-
+	private GeneratePrimaryKey generatePrimaryKey;
+	
 	public EmployeeService() {
 		this.employeeMapper = new EmployeeMapper();
 		this.dbConfig = new DBconnector();
+		this.generatePrimaryKey = new GeneratePrimaryKey();
 	}
 
 	public void createEmployee(Employee employee) {
 		try {
 
+			employee.setId(generatePrimaryKey.generateID("id", "employee", "ST"));
+			
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
-					"INSERT INTO employee (name, contact_no, email, address, emp_level) VALUES (?, ?, ?, ?, ?)");
+					"INSERT INTO employee (id, name, username, password, emp_level, age, gender, contact_no, address, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-			ps.setString(1, employee.getName());
-			ps.setString(2, employee.getPhone());
-			ps.setString(3, employee.getEmail());
-			ps.setString(4, employee.getAddress());
-			ps.setString(5, UserRole.USER.toString());
+			ps.setString(1, employee.getId());
+			ps.setString(2, employee.getName());
+			ps.setString(3, employee.getUsername());
+			ps.setString(4, employee.getPassword());
+			ps.setString(5, employee.getEmp_level());
+			ps.setInt(6, employee.getage());
+			ps.setString(7, employee.getgender());
+			ps.setString(8, employee.getPhone());
+			ps.setString(9, employee.getAddress());
+			ps.setString(10, employee.getEmail());
+
 			ps.executeUpdate();
 			ps.close();
+			JOptionPane.showMessageDialog(null, "Record Saved Successfully.");
 
 		} catch (Exception e) {
 			// if (e instanceof MySQLIntegrityConstraintViolationException)
@@ -92,7 +104,7 @@ public class EmployeeService implements EmployeeRepo {
 		List<Employee> employeeList = new ArrayList<>();
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM employee";
+			String query = "SELECT * FROM employee ORDER BY employee.id DESC;";
 
 			ResultSet rs = st.executeQuery(query);
 

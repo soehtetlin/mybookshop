@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import database_config.DBconnector;
 
 public class GeneratePrimaryKey {
-	private final DBconnector dbConfig= new DBconnector();
+	private final DBconnector dbConfig = new DBconnector();
 
 	public String generateID(String field, String table, String prefix) {
 		ResultSet rs = null;

@@ -124,11 +124,13 @@ public class SaleMapper {
 			book.setPrice(rs.getInt("book.price"));// 7
 			System.out.println("Price id : 	" + book.getPrice());
 
+
 			Author author = new Author();
 			author.setName(rs.getString("author_name"));// 8
 
 			Category category = new Category();
 			category.setName(rs.getString("category_name"));// 9
+
 
 			book.setAuthor(author);
 			book.setCategory(category);

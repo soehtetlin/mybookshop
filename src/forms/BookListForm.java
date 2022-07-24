@@ -91,7 +91,9 @@ public class BookListForm extends JPanel {
 	private CategoryService categoryService = new CategoryService();
 	private List<Category> categoryList;
 	private List<Author> authorList;
+
 	private JTextField txtSearch;
+
 
 	public BookListForm() {
 		initialize();
@@ -163,6 +165,7 @@ public class BookListForm extends JPanel {
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(20)
+
 						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
@@ -171,15 +174,18 @@ public class BookListForm extends JPanel {
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnSearch).addGap(18)
 						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap())
+
 				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(15)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+
 								.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnSearch))
+
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
@@ -277,6 +283,11 @@ public class BookListForm extends JPanel {
 		});
 		this.table.setModel(dtm);
 
+		table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
+		table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
+
+
+
 	}
 
 	private void loadAllBooks(Optional<List<Book>> optionalBook) {
@@ -297,6 +308,7 @@ public class BookListForm extends JPanel {
 			row[6] = e.getShelf_number();
 			row[7] = e.getRemark();
 
+
 			dtm.addRow(row);
 		});
 		this.table.setModel(dtm);
@@ -316,7 +328,6 @@ public class BookListForm extends JPanel {
 		public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
 				int arg5) {
 
-			System.out.println("Show store file address :" + photo.toString());
 
 			ImageIcon imageIcon = null;
 
@@ -326,7 +337,10 @@ public class BookListForm extends JPanel {
 			return new JLabel(imageIcon);
 		}
 
+
 	}
+
+
 
 	private void loadAuthorForComboBox() {
 		cboAuthors.addItem("All Author");
@@ -424,7 +438,9 @@ public class BookListForm extends JPanel {
 
 	}
 
+
 	class DeleteButtonRenderer extends JButton implements TableCellRenderer {
+
 
 		public DeleteButtonRenderer() {
 			setOpaque(true);
@@ -441,6 +457,7 @@ public class BookListForm extends JPanel {
 			setBackground(Color.red);
 			return this;
 		}
+
 
 	}
 

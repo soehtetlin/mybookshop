@@ -91,7 +91,7 @@ public class PurchaseDetailForm extends JPanel {
 		this.employee = new Employee();
 		this.book = new Book();
 		this.purchaseServices = new PurchaseService();
-		
+
 	}
 
 	private void setTableDesign() {
@@ -198,7 +198,6 @@ public class PurchaseDetailForm extends JPanel {
 		
 	}
 
-	
 
 	private void initialize() {
 		// TODO Auto-generated method stub
@@ -213,8 +212,6 @@ public class PurchaseDetailForm extends JPanel {
 		cLayout.setTable(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		scrollPane.setViewportView(table);
-
-
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -234,11 +231,15 @@ public class PurchaseDetailForm extends JPanel {
 		cboPublisher = new JComboBox<String>();
 		cboPublisher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (cboPublisher.getSelectedIndex() == 0) {
+	if (cboPublisher.getSelectedIndex() == 0) {
 					loadAllPurchase(Optional.empty());
 				} else {
 					loadPurchaseDetailByPublisher(cboPublisher.getSelectedItem().toString());
 				}
+
+
+				// loadAllPurchasebyPublisher(Optional.empty());
+
 			}
 		});
 
@@ -277,23 +278,21 @@ public class PurchaseDetailForm extends JPanel {
 
 		JLabel lbldateto = new JLabel("to");
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
+				groupLayout.createSequentialGroup().addGap(10)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 745,
+										Short.MAX_VALUE)
+								.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 745,
+										Short.MAX_VALUE))
+						.addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
-		);
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)));
 		GroupLayout gl_panel = new GroupLayout(panel);
+
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -358,6 +357,8 @@ public class PurchaseDetailForm extends JPanel {
 						.addComponent(btnSearchBook)
 						.addComponent(btnShowAll)))
 		);
+
+
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 
