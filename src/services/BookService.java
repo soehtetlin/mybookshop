@@ -25,6 +25,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 	private final DBconnector dbConfig = new DBconnector();
 	private final BookMapper bookMapper = new BookMapper();
+	
 	private final PurchaseMapper purchaseMapper = new PurchaseMapper();
 
 //	private PurchaseService purchaseService= new PurchaseService();
@@ -142,6 +143,8 @@ public class BookService implements BookRepo, PurchaseRepo {
 		}
 		return bookList;
 	}
+	
+	
 
 	public Book findById(String bookID) {
 		Book book = new Book();
@@ -151,6 +154,28 @@ public class BookService implements BookRepo, PurchaseRepo {
 			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
 					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
 					+ "ON author.id = book.author_id\n" + "WHERE book.id = '" + bookID + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				book = this.bookMapper.mapToProduct(book, rs);
+			}
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+
+		return book;
+	}
+	
+	public Book findByName(String name) {
+		Book book = new Book();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
+					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
+					+ "ON author.id = book.author_id\n" + "WHERE book.name = '" + name + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -199,6 +224,37 @@ public class BookService implements BookRepo, PurchaseRepo {
 			}
 			return bookList;
 		}
+	
+	public List<Book> findBookByAuthorName(String authorname) {
+		
+		AuthorService authService = new AuthorService();
+		String id = authService.findByName(authorname);
+
+		List<Book> bookList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+
+			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
+					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
+					+ "ON author.id = book.author_id where author_id='" + id + "' ORDER BY book.id DESC ;";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Book book = new Book();
+
+				bookList.add(this.bookMapper.mapToProduct(book, rs));
+				
+
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+
+		}
+		return bookList;
+	}
 	
 
 	@Override
@@ -301,29 +357,21 @@ public class BookService implements BookRepo, PurchaseRepo {
 		return null;
 	}
 
-//	
-//	   public Purchase findPurchaseById(String id) {
-//	        Purchase purchase = new Purchase();
-//
-//	        try (Statement st = this.dbConfig.getConnection().createStatement()) {
-//
-//	            String query = "SELECT * FROM purchase\n" +
-//	                    "INNER JOIN employee\n" +
-//	                    "on employee.emp_id = purchase.employee_id\n" +
-//	                    "INNER JOIN supplier\n" +
-//	                    "ON supplier.sup_id = purchase.supplier_id\n" +
-//	                    "WHERE purchase_id=" + id + ";";
-//
-//	            ResultSet rs = st.executeQuery(query);
-//
-//	            while (rs.next()) {
-////	                this.purchaseMapper.mapToPurchase(purchase, rs);
-//	            }
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-//
-//	        return purchase;
-//	    }
+	public int CountBook() {
+		int bookcount =0;
+		
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select count(*) from book;";
+
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			bookcount = rs.getInt("count(*)");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bookcount;
+	}
 
 }

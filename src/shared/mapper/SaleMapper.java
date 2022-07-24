@@ -36,8 +36,8 @@ public class SaleMapper {
 		try {
 
 			sale.setId(rs.getString("id"));
-			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale_date"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			sale.setSaleDate(
+					LocalDateTime.parse(rs.getString("sale_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Employee employee = new Employee();
 			employee.setId(rs.getString("employee.id"));
 			employee.setName(rs.getString("employee.name"));
@@ -62,8 +62,8 @@ public class SaleMapper {
 		try {
 
 			sale.setId(rs.getString("id"));
-			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale_date"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			sale.setSaleDate(
+					LocalDateTime.parse(rs.getString("sale_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Employee employee = new Employee();
 			employee.setId(rs.getString("employee_id"));
 			Customer customer = new Customer();
@@ -88,13 +88,27 @@ public class SaleMapper {
 
 		return saleDetails;
 	}
+	
+	public SaleDetails mapToSaleDetailstopten(SaleDetails saleDetails, ResultSet rs) {
+		try {
+			saleDetails.setQuantity(rs.getInt("sum(quantity)"));
+			Book book = new Book();
+			book.setPhoto(rs.getString("book.photo"));
+			book.setName(rs.getString("book.name"));
+			saleDetails.setBook(book);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return saleDetails;
+	}
+
 
 	public SaleDetails mapAllSaleDetails(SaleDetails saleDetails, ResultSet rs) {
 		try {
-			Sale puchase = new Sale();
-			puchase.setId(rs.getString("sale.id"));// 1
-			System.out.println("Sale id : 	" + puchase.getId());
-			puchase.setSaleDate(LocalDateTime.parse(rs.getString("sale.sale_date"), // 2
+			Sale sale = new Sale();
+			sale.setId(rs.getString("sale.id"));// 1
+			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale.sale_date"), // 2
 					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Book book = new Book();
 			book.setName(rs.getString("book.name"));// 3
@@ -109,42 +123,23 @@ public class SaleMapper {
 
 			book.setPrice(rs.getInt("book.price"));// 7
 			System.out.println("Price id : 	" + book.getPrice());
-			
-//			book.setSale_price(rs.getInt("book.sale_price"));
-//			System.out.println("SalePrce : " + book.getSale_price());
+
 			Author author = new Author();
 			author.setName(rs.getString("author_name"));// 8
 
 			Category category = new Category();
 			category.setName(rs.getString("category_name"));// 9
 
-			// sale.setCustomer(customer);
-
-			//book.setCustomer(customer);
 			book.setAuthor(author);
 			book.setCategory(category);
-			puchase.setEmployee(employee);
+			sale.setEmployee(employee);
 			saleDetails.setBook(book);
-			saleDetails.setSale(puchase);
+			saleDetails.setSale(sale);
 
-			// System.out.println("Inside salemapper sale id : " +
-			// saleDetails.getSale().getId() );
-			// DateTimeFormatter df = new DateTimeFormatterBuilder()
-//			    // case insensitive to parse JAN and FEB
-//			    .parseCaseInsensitive()
-//			    // add pattern
-//			    .appendPattern("dd-MMM-yyyy")
-//			    // create formatter (use English Locale to parse month names)
-//			    .toFormatter(Locale.ENGLISH);
-//		sale.setSaleDate(LocalDateTime.parse(rs.getString("sale_date"),
-//				df));
-//		saleDetails.setBook(this.bookRepo.findById(String.valueOf(rs.getString("book_id"))));
-//		saleDetails.setSale(this.saleRepo.findSaleById(rs.getString("sale_id")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// System.out.println("Inside salemapper return sale id : " +
-		// saleDetails.getSale().getId() );
+
 		return saleDetails;
 	}
 

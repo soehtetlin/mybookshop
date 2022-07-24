@@ -208,4 +208,29 @@ public class AuthorService implements AuthorRepo {
 		return prefix + "0000001";
 	}
 
+	public String findByName(String authorname) {
+		// TODO Auto-generated method stub
+		
+		
+			// TODO Auto-generated method stub
+			String id = null;
+
+			try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+				String query = "SELECT id FROM Author WHERE name = '" + authorname + "';";
+
+				ResultSet rs = st.executeQuery(query);
+
+				while (rs.next()) {
+					id = rs.getString("id");
+					
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return id;
+	}
+
 }

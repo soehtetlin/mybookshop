@@ -244,7 +244,7 @@ public class PurchaseForm extends JPanel {
 		dtmpurchase.addColumn("Quantity");
 		dtmpurchase.addColumn("Price");
 		dtmpurchase.addColumn("Amount");
-		this.tblshowPurchase.setModel(dtmpurchase);
+		//this.tblshowPurchase.setModel(dtmpurchase);
 
 		tblshowPurchase.setRowHeight(40);
 
@@ -547,7 +547,13 @@ public class PurchaseForm extends JPanel {
 		txtsearchbook = new JTextField();
 		txtsearchbook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				searchBook();
+				if(txtsearchbook.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Enter Book Name!");
+					txtsearchbook.requestFocus();
+				}else {
+					searchBook();
+				}
+				
 
 			}
 		});
@@ -558,7 +564,13 @@ public class PurchaseForm extends JPanel {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				searchBook();
+				if(txtsearchbook.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Enter Book Name!");
+					txtsearchbook.requestFocus();
+				}else {
+					searchBook();
+				}
+				
 
 			}
 		});

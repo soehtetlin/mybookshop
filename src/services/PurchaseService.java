@@ -253,6 +253,49 @@ public class PurchaseService implements PurchaseRepo {
 		return purchaseList;
 
 	}
+	
+	
+	public List<PurchaseDetails> findPurchaseDetailByPublisher(String name) {
+		
+		
+		PublisherService publisherService = new PublisherService();
+		Publisher publisher = publisherService.findByName(name);
+		
+		System.out.println("Return publisher name :" + publisher.getName());
+		System.out.println("Return publisher id :" + publisher.getId());
+
+
+		List<PurchaseDetails> purchaseList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select purchase.id,purchase.purchase_date,book.name,\r\n"
+					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
+					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
+					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
+					+ "from purchase \r\n"
+					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
+					+ "inner join employee on employee.id = purchase.employee_id\r\n"
+					+ "inner join book on book.id = purchase_detail.book_id\r\n"
+					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
+					+ "inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id where purchase.publisher_id='"+ publisher.getId()+"'order by purchase.purchase_date desc;";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				PurchaseDetails purchase = new PurchaseDetails();
+				purchaseList.add(this.purchaseMapper.mapAllPurchaseDetails(purchase, rs));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return purchaseList;
+
+	}
+
 
 	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
 

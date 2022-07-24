@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import database_config.DBconnector;
 import entities.Customer;
 import entities.Purchase;
+import entities.PurchaseDetails;
 import repositories.CustomerRepo;
 import shared.exception.AppException;
 import shared.mapper.CustomerMapper;
@@ -62,6 +63,23 @@ public class CustomerService implements CustomerRepo {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public int CountCustomer() {
+		int customercount =0;
+		
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select count(*) from customer;";
+
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			customercount = rs.getInt("count(*)");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return customercount;
 	}
 
 	@Override

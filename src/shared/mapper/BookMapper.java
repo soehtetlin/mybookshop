@@ -13,7 +13,6 @@ public class BookMapper {
 		try {
 			book.setId(rs.getString("id"));
 			book.setName(rs.getString("name"));
-			System.out.println("Mappter Book Name " + book.getName());
 			book.setPrice(rs.getInt("price"));
 			book.setSale_price(rs.getInt("sale_price"));
 			book.setStockamount(rs.getInt("stockamount"));

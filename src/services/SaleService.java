@@ -104,6 +104,36 @@ public class SaleService implements SaleRepo {
 		});
 
 	}
+	
+	public List<SaleDetails> findtoptenbooks() {
+		List<SaleDetails> saleDetailsList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+//			String query = "SELECT * FROM book";
+
+			String query = "select book.photo,book.name,sum(quantity)"
+					+ " from sale_detail inner join book on book.id = sale_detail.book_id"
+					+ " inner join sale on sale.id = sale_detail.vouncher_id "
+					+ "where month(sale.sale_date)=month(localtime())"
+					+ " group by book_id  "
+					+ "order by sum(quantity) desc limit 10;";
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				SaleDetails saledetail = new SaleDetails();
+
+				saleDetailsList.add(this.saleMapper.mapToSaleDetailstopten(saledetail, rs));
+
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
+
+		}
+		return saleDetailsList;
+	}
+
 
 	public void createSaleDetails(String[] data,int status) {
 
@@ -182,6 +212,24 @@ public class SaleService implements SaleRepo {
 		}
 
 		return saleDetailsList;
+	}
+	
+	
+	public int TotalSale() {
+		int saletotal =0;
+		
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select sum(sale_price*quantity) from sale_detail inner join sale on sale.id = sale_detail.vouncher_id where day(sale.sale_date)=day(localtime());";
+
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			saletotal = rs.getInt("sum(sale_price*quantity)");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return saletotal;
 	}
 
 	public Sale findSaleById(String id) {

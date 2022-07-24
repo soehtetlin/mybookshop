@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import shared.checker.Checking;
@@ -53,6 +54,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
 import java.awt.SystemColor;
 
+import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -62,6 +64,9 @@ import javax.swing.UIManager;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import com.toedter.calendar.JDateChooser;
@@ -122,8 +127,9 @@ public class SaleForm extends JPanel {
 		// txtsearchbook.requestFocusInWindow();
 		this.showTodayDate();
 		this.loadAllBooks(Optional.empty());
-		// this.loadAllSaleDetails();
+		///this.loadAllSaleDetails();
 		this.loadCategoryForComboBox();
+		new AutoCompleteComboBox(customerList);
 		this.loadCustomerForComboBox();
 		this.initializeLoggedInUser();
 
@@ -457,7 +463,13 @@ public class SaleForm extends JPanel {
 		cboCategory = new JComboBox<String>();
 		cboCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				comboFilter(cboCategory.getSelectedItem().toString());
+				 if(cboCategory.getSelectedIndex()==0) {
+					 loadAllBooks(Optional.empty());
+				 }else {
+					 loadAllBooksByCategory(cboCategory.getSelectedItem().toString());
+				 }
+				
+			
 			}
 		});
 
@@ -561,7 +573,13 @@ public class SaleForm extends JPanel {
 		txtsearchbook = new JTextField();
 		txtsearchbook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				searchBook();
+				if(txtsearchbook.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Enter Book Name!");
+					txtsearchbook.requestFocus();
+				}else {
+					searchBook();
+				}
+				
 
 			}
 		});
@@ -572,7 +590,13 @@ public class SaleForm extends JPanel {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				searchBook();
+				if(txtsearchbook.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Enter Book Name!");
+					txtsearchbook.requestFocus();
+				}else {
+					searchBook();
+				}
+				
 
 			}
 		});
@@ -1123,4 +1147,46 @@ public class SaleForm extends JPanel {
 			textfield.setText(enteredText);
 		}
 	}
+	
+	class AutoCompleteComboBox extends JComboBox {
+		   public int caretPos = 0;
+		   public JTextField tfield = null;
+		   public AutoCompleteComboBox(List<Customer> customerList) {
+		      super();
+		      setEditor(new BasicComboBoxEditor());
+		      setEditable(true);
+		   }
+		   public void setSelectedIndex(int index) {
+		      super.setSelectedIndex(index);
+		      tfield.setText(getItemAt(index).toString());
+		      tfield.setSelectionEnd(caretPos + tfield.getText().length());
+		      tfield.moveCaretPosition(caretPos);
+		   }
+		   public void setEditor(ComboBoxEditor editor) {
+		      super.setEditor(editor);
+		      if(editor.getEditorComponent() instanceof JTextField) {
+		         tfield = (JTextField) editor.getEditorComponent();
+		         tfield.addKeyListener((KeyListener) new KeyAdapter() {
+		            public void keyReleased(KeyEvent ke) {
+		               char key = ke.getKeyChar();
+		               if (!(Character.isLetterOrDigit(key) || Character.isSpaceChar(key) )) return;
+		               caretPos = tfield.getCaretPosition();
+		               String text="";
+		               try {
+		                  text = tfield.getText(0, caretPos);
+		               } catch (javax.swing.text.BadLocationException e) {
+		                  e.printStackTrace();
+		               }
+		               for (int i=0; i < getItemCount(); i++) {
+		                  String element = (String) getItemAt(i);
+		                  if (element.startsWith(text)) {
+		                     setSelectedIndex(i);
+		                     return;
+		                  }
+		               }
+		            }
+		         });
+		      }
+		   }
+		}
 }
