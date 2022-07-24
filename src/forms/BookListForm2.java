@@ -271,7 +271,7 @@ public class BookListForm2 extends JPanel {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object obj, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			
+
 			ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
 			setIcon(img);
 			setContentAreaFilled(false);

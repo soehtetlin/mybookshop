@@ -110,10 +110,10 @@ public class HomeFormNew {
 
 		JToggleButton btnCustomer = new JToggleButton("Customer");
 		btnCustomer.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CustomerListFormNew customerListForm= new CustomerListFormNew();
+				CustomerListFormNew customerListForm = new CustomerListFormNew();
 				jploader.jPanelLoader(panel_loader, customerListForm);
 			}
 
@@ -195,7 +195,6 @@ public class HomeFormNew {
 		// TODO Auto-generated method stub
 
 	}
-
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {

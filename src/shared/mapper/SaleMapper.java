@@ -36,8 +36,8 @@ public class SaleMapper {
 		try {
 
 			sale.setId(rs.getString("id"));
-			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale_date"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			sale.setSaleDate(
+					LocalDateTime.parse(rs.getString("sale_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Employee employee = new Employee();
 			employee.setId(rs.getString("employee.id"));
 			employee.setName(rs.getString("employee.name"));
@@ -62,8 +62,8 @@ public class SaleMapper {
 		try {
 
 			sale.setId(rs.getString("id"));
-			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale_date"),
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			sale.setSaleDate(
+					LocalDateTime.parse(rs.getString("sale_date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Employee employee = new Employee();
 			employee.setId(rs.getString("employee_id"));
 			Customer customer = new Customer();
@@ -109,7 +109,7 @@ public class SaleMapper {
 
 			book.setPrice(rs.getInt("book.price"));// 7
 			System.out.println("Price id : 	" + book.getPrice());
-			
+
 //			book.setSale_price(rs.getInt("book.sale_price"));
 //			System.out.println("SalePrce : " + book.getSale_price());
 			Author author = new Author();
@@ -120,7 +120,7 @@ public class SaleMapper {
 
 			// sale.setCustomer(customer);
 
-			//book.setCustomer(customer);
+			// book.setCustomer(customer);
 			book.setAuthor(author);
 			book.setCategory(category);
 			puchase.setEmployee(employee);

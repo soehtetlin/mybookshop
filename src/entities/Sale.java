@@ -15,14 +15,12 @@ public class Sale {
 
 	private LocalDateTime saleDate;
 
-
 	private List<Sale> sales = new ArrayList<>();
 
 	public Sale() {
 	}
 
-	public Sale(String id, Employee employee, Customer customer, LocalDateTime saleDate,
-			List<Sale> sales) {
+	public Sale(String id, Employee employee, Customer customer, LocalDateTime saleDate, List<Sale> sales) {
 		super();
 		this.id = id;
 		this.saleDate = saleDate;
@@ -63,7 +61,6 @@ public class Sale {
 		this.saleDate = saleDate;
 	}
 
-	
 	public List<Sale> getSales() {
 		return sales;
 	}

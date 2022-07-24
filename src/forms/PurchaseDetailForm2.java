@@ -90,7 +90,7 @@ public class PurchaseDetailForm2 extends JPanel {
 		this.employee = new Employee();
 		this.book = new Book();
 		this.purchaseServices = new PurchaseService();
-		
+
 	}
 
 	private void setTableDesign() {

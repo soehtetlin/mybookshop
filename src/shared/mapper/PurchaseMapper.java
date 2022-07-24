@@ -107,7 +107,7 @@ public class PurchaseMapper {
 			purchaseDetails.setQuantity(rs.getInt("quantity"));// 6
 
 			book.setPrice(rs.getInt("book.price"));// 7
-			
+
 			Author author = new Author();
 			author.setName(rs.getString("author_name"));// 8
 
@@ -123,7 +123,7 @@ public class PurchaseMapper {
 			purchaseDetails.setBook(book);
 			purchaseDetails.setPurchase(puchase);
 
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return purchaseDetails;

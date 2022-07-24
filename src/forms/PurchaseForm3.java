@@ -503,8 +503,6 @@ public class PurchaseForm3 extends JPanel {
 		this.tblshowPurchase.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
 			if (!tblshowPurchase.getSelectionModel().isSelectionEmpty()) {
 
-		
-
 				String bookName = tblshowPurchase.getValueAt(tblshowPurchase.getSelectedRow(), 1).toString();
 				selectedPurchaseDetails = purchaseDetailsList.stream()
 						.filter(pd -> pd.getBook().getName().equals(bookName)).findFirst().get();
@@ -533,7 +531,7 @@ public class PurchaseForm3 extends JPanel {
 		cLayout.setTable(tblshowbooklist);
 		this.tblshowbooklist.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
 			if (!tblshowbooklist.getSelectionModel().isSelectionEmpty()) {
-			
+
 				String id = tblshowbooklist.getValueAt(tblshowbooklist.getSelectedRow(), 0).toString();
 				selectedbook = bookList.stream().filter(pd -> pd.getId().equals(id)).findFirst().get();
 				lblBookID.setText(selectedbook.getId());

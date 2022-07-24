@@ -54,10 +54,12 @@ public class CustomerService implements CustomerRepo {
 
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
-			
+
 			ps.executeUpdate();
 
 			ps.close();
+			
+			JOptionPane.showMessageDialog(null, "Record Saved Successfully.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,19 +124,20 @@ public class CustomerService implements CustomerRepo {
 	public void updateAutoNoActive(String customerId) {
 		try {
 			PreparedStatement ps = this.dbConfig.getConnection()
-        			.prepareStatement("UPDATE customer SET active=? WHERE id=?");
+					.prepareStatement("UPDATE customer SET active=? WHERE id=?");
 
 			ps.setInt(1, 0);
-			
+
 			ps.setString(2, customerId);
-			
-            ps.executeUpdate();
-            ps.close();
-			
-		} catch(Exception e) {
-			 if (e instanceof SQLIntegrityConstraintViolationException)
-	                JOptionPane.showMessageDialog(null, e.getMessage());
-	            else e.printStackTrace();
+
+			ps.executeUpdate();
+			ps.close();
+
+		} catch (Exception e) {
+			if (e instanceof SQLIntegrityConstraintViolationException)
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			else
+				e.printStackTrace();
 		}
 	}
 
@@ -177,7 +180,7 @@ public class CustomerService implements CustomerRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM customer";
+			String query = "SELECT * FROM customer ORDER BY customer.id DESC;";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -274,19 +277,18 @@ public class CustomerService implements CustomerRepo {
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
 			String query = "select sum(sale_price*quantity) from sale_detail inner join sale on sale_detail.vouncher_id=sale.id "
-					+ "where sale.customer_id='"+id +"' AND month(sale.sale_date)=month(localtime()) ;";
-
+					+ "where sale.customer_id='" + id + "' AND month(sale.sale_date)=month(localtime()) ;";
 
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
 				total = rs.getInt(1);
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return total;
 	}
 

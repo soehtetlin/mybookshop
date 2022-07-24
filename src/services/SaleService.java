@@ -58,9 +58,9 @@ public class SaleService implements SaleRepo {
 			sale.setId(generateID("id", "Sale", "SL"));
 
 			emp = employeeService.findEmployeeByName(data[2]);
-			//customer = customerService.findByName(data[0]);
-			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
-					"INSERT INTO sale (id,sale_date, employee_id, customer_id) VALUES (?, ?, ?, ?)");
+			// customer = customerService.findByName(data[0]);
+			PreparedStatement ps = this.dbConfig.getConnection()
+					.prepareStatement("INSERT INTO sale (id,sale_date, employee_id, customer_id) VALUES (?, ?, ?, ?)");
 			ps.setString(1, sale.getId());
 			ps.setString(2, LocalDateTime.now().toString());
 			ps.setString(3, emp.getId());
@@ -80,22 +80,20 @@ public class SaleService implements SaleRepo {
 		saleDetailsList.forEach(pd -> {
 
 			try {
-				PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
-						"INSERT INTO sale_detail (quantity, product_id, sale_id) VALUES (?, ?, ?)");
+				PreparedStatement ps = this.dbConfig.getConnection()
+						.prepareStatement("INSERT INTO sale_detail (quantity, product_id, sale_id) VALUES (?, ?, ?)");
 
 				Book originalbook = bookService.findById(pd.getBook().getId());
-				pd.getBook().setSale_price((pd.getBook().getPrice()/10)+pd.getBook().getPrice());
-				pd.getBook().setStockamount(pd.getBook().getStockamount()+ originalbook.getStockamount());
+				pd.getBook().setSale_price((pd.getBook().getPrice() / 10) + pd.getBook().getPrice());
+				pd.getBook().setStockamount(pd.getBook().getStockamount() + originalbook.getStockamount());
 				bookService.updateBooks(originalbook.getId(), originalbook);
 				ps.setInt(1, pd.getQuantity());
 				ps.setString(2, pd.getBook().getId());
-				ps.setString(3,sale.getId());
+				ps.setString(3, sale.getId());
 
 				ps.executeUpdate();
 
 				ps.close();
-
-
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -105,36 +103,34 @@ public class SaleService implements SaleRepo {
 
 	}
 
-	public void createSaleDetails(String[] data,int status) {
+	public void createSaleDetails(String[] data, int status) {
 
 		try {
-				int newprice =0;
-				Book storedBook = bookService.findById(data[2]);
-				//storedBook.setPrice(Integer.valueOf(data[1]));
-				//storedBook.setSale_price(((Integer.valueOf(data[1]) / 10) + Integer.valueOf(data[1])));
-				storedBook.setStockamount(storedBook.getStockamount() - Integer.valueOf(data[0]));
-				
-				bookService.updateBooks(storedBook.getId(), storedBook);
-				
-			
-					PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
-						"INSERT INTO sale_detail (vouncher_id, book_id, sale_price,quantity) VALUES (?, ?, ?,?)");
+			int newprice = 0;
+			Book storedBook = bookService.findById(data[2]);
+			// storedBook.setPrice(Integer.valueOf(data[1]));
+			// storedBook.setSale_price(((Integer.valueOf(data[1]) / 10) +
+			// Integer.valueOf(data[1])));
+			storedBook.setStockamount(storedBook.getStockamount() - Integer.valueOf(data[0]));
 
-				ps.setString(1, sale.getId());
-				ps.setString(2, storedBook.getId());
-				if(status == 1) {
-					newprice = (int) (Integer.valueOf(data[1]) - (Integer.valueOf(data[1])*0.05));
-					ps.setInt(3, newprice);
-				}else {
-					ps.setString(3,data[1]);
-				}
-				
-				ps.setString(4, data[0]);
-				ps.executeUpdate();
+			bookService.updateBooks(storedBook.getId(), storedBook);
 
-				ps.close();
+			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
+					"INSERT INTO sale_detail (vouncher_id, book_id, sale_price,quantity) VALUES (?, ?, ?,?)");
 
-			
+			ps.setString(1, sale.getId());
+			ps.setString(2, storedBook.getId());
+			if (status == 1) {
+				newprice = (int) (Integer.valueOf(data[1]) - (Integer.valueOf(data[1]) * 0.05));
+				ps.setInt(3, newprice);
+			} else {
+				ps.setString(3, data[1]);
+			}
+
+			ps.setString(4, data[0]);
+			ps.executeUpdate();
+
+			ps.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,8 +163,8 @@ public class SaleService implements SaleRepo {
 
 			String que = "SELECT id,saledate,book.name,customer.name,employee.name,quantity,price,author.name,category,name,sale.description FROM sale_detail\n"
 					+ "INNER JOIN category\n" + "ON category.id = book.category_id\n" + "INNER JOIN customer\n"
-					+ "ON customer.id = book.customer_id\n" + "INNER JOIN author\n"
-					+ "ON author.id = book.author_id\n" + "WHERE sale_id = '" + bookID + "';";
+					+ "ON customer.id = book.customer_id\n" + "INNER JOIN author\n" + "ON author.id = book.author_id\n"
+					+ "WHERE sale_id = '" + bookID + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -189,9 +185,8 @@ public class SaleService implements SaleRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n"
-					+ "on employee.emp_id = sale.employee_id\n" + "INNER JOIN customer\n"
-					+ "ON customer.sup_id = sale.customer_id\n" + "WHERE sale_id=" + id + ";";
+			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n" + "on employee.emp_id = sale.employee_id\n"
+					+ "INNER JOIN customer\n" + "ON customer.sup_id = sale.customer_id\n" + "WHERE sale_id=" + id + ";";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -211,9 +206,8 @@ public class SaleService implements SaleRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n"
-					+ "on employee.emp_id = sale.employee_id\n" + "INNER JOIN customer\n"
-					+ "ON customer.sup_id = sale.customer_id\n";
+			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n" + "on employee.emp_id = sale.employee_id\n"
+					+ "INNER JOIN customer\n" + "ON customer.sup_id = sale.customer_id\n";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -246,12 +240,11 @@ public class SaleService implements SaleRepo {
 //					+ "inner join customer on customer.id = book.customer_id\r\n"
 //					+ "inner join author on author.id = book.author_id";
 
-			String query = "select sale.id,sale.sale_date,book.name,\r\n"
-					+ "customer.name as customer_name,\r\n" + "employee.name as employee_name,\r\n"
+			String query = "select sale.id,sale.sale_date,book.name,\r\n" + "customer.name as customer_name,\r\n"
+					+ "employee.name as employee_name,\r\n"
 					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
 					+ "category.name as category_name,\r\n" + "sale.description as sale_description\r\n"
-					+ "from sale \r\n"
-					+ "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
+					+ "from sale \r\n" + "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
 					+ "inner join employee on employee.id = sale.employee_id\r\n"
 					+ "inner join book on book.id = sale_detail.book_id\r\n"
 					+ "inner join customer on customer.id = book.customer_id\r\n"
@@ -298,7 +291,6 @@ public class SaleService implements SaleRepo {
 
 	}
 
-	
 	public List<SaleDetails> loadAllSaleDetailsbyCustomerID(String customerid) {
 
 		List<SaleDetails> saleList = new ArrayList<>();
@@ -317,17 +309,17 @@ public class SaleService implements SaleRepo {
 //					+ "inner join customer on customer.id = book.customer_id\r\n"
 //					+ "inner join author on author.id = book.author_id";
 
-			String query = "select sale.id,sale.sale_date,book.name,\r\n"
-					+ "customer.name as customer_name,\r\n" + "employee.name as employee_name,\r\n"
+			String query = "select sale.id,sale.sale_date,book.name,\r\n" + "customer.name as customer_name,\r\n"
+					+ "employee.name as employee_name,\r\n"
 					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
 					+ "category.name as category_name,\r\n" + "sale.description as sale_description\r\n"
-					+ "from sale \r\n"
-					+ "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
+					+ "from sale \r\n" + "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
 					+ "inner join employee on employee.id = sale.employee_id\r\n"
 					+ "inner join book on book.id = sale_detail.book_id\r\n"
 					+ "inner join customer on customer.id = book.customer_id\r\n"
 					+ "inner join author on author.id = book.author_id\r\n"
-					+ "inner join category on category.id = book.category_id order by sale.sale_date desc where customer.name='"+customerid+"';";
+					+ "inner join category on category.id = book.category_id order by sale.sale_date desc where customer.name='"
+					+ customerid + "';";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -420,9 +412,9 @@ public class SaleService implements SaleRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n"
-					+ "on employee.emp_id = sale.employee_id\n" + "INNER JOIN customer\n"
-					+ "ON customer.sup_id = sale.customer_id\n" + "WHERE customer_id=" + customerId + ";";
+			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n" + "on employee.emp_id = sale.employee_id\n"
+					+ "INNER JOIN customer\n" + "ON customer.sup_id = sale.customer_id\n" + "WHERE customer_id="
+					+ customerId + ";";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -443,9 +435,9 @@ public class SaleService implements SaleRepo {
 		List<Sale> saleList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n"
-					+ "on employee.emp_id = sale.employee_id\n" + "INNER JOIN customer\n"
-					+ "ON customer.sup_id = sale.customer_id\n" + "WHERE employee_id=" + employeeId + ";";
+			String query = "SELECT * FROM sale\n" + "INNER JOIN employee\n" + "on employee.emp_id = sale.employee_id\n"
+					+ "INNER JOIN customer\n" + "ON customer.sup_id = sale.customer_id\n" + "WHERE employee_id="
+					+ employeeId + ";";
 
 			ResultSet rs = st.executeQuery(query);
 

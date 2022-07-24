@@ -87,24 +87,19 @@ public class HomeForm {
 		panel_loader.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(menuPanel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_loader, GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(menuPanel, GroupLayout.PREFERRED_SIZE, 695, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-						.addComponent(panel_loader, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)))
-		);
+						.addComponent(menuPanel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(panel_loader, GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE).addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(menuPanel, GroupLayout.PREFERRED_SIZE, 695,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap())
+								.addComponent(panel_loader, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))));
 		menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 		GroupLayout gl_panel_loader = new GroupLayout(panel_loader);
 		gl_panel_loader.setHorizontalGroup(
@@ -126,15 +121,15 @@ public class HomeForm {
 
 	private void addMenuItem() {
 
-        ImageIcon iconHome = new ImageIcon(getClass().getResource("/home-20.png"));
-        ImageIcon iconSale = new ImageIcon(getClass().getResource("/salefill-20.png"));
-        ImageIcon iconPurchase = new ImageIcon(getClass().getResource("/puchase-20.png"));
-        ImageIcon iconCustomer = new ImageIcon(getClass().getResource("/customer.png"));
-        ImageIcon iconBook = new ImageIcon(getClass().getResource("/book-20.png"));
-        ImageIcon iconAuthor = new ImageIcon(getClass().getResource("/author-20.png"));
-        ImageIcon iconPublisher = new ImageIcon(getClass().getResource("/publisher-18.png"));
-        ImageIcon iconEmployee = new ImageIcon(getClass().getResource("/employee-20.png"));
-        ImageIcon iconCategory = new ImageIcon(getClass().getResource("/category-19.png"));
+		ImageIcon iconHome = new ImageIcon(getClass().getResource("/home-20.png"));
+		ImageIcon iconSale = new ImageIcon(getClass().getResource("/salefill-20.png"));
+		ImageIcon iconPurchase = new ImageIcon(getClass().getResource("/puchase-20.png"));
+		ImageIcon iconCustomer = new ImageIcon(getClass().getResource("/customer.png"));
+		ImageIcon iconBook = new ImageIcon(getClass().getResource("/book-20.png"));
+		ImageIcon iconAuthor = new ImageIcon(getClass().getResource("/author-20.png"));
+		ImageIcon iconPublisher = new ImageIcon(getClass().getResource("/publisher-18.png"));
+		ImageIcon iconEmployee = new ImageIcon(getClass().getResource("/employee-20.png"));
+		ImageIcon iconCategory = new ImageIcon(getClass().getResource("/category-19.png"));
 
 		// create sub menu
 		MenuItem menuAuthor = new MenuItem(iconAuthor, "Author", new ActionListener() {
@@ -142,7 +137,7 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				AuthorFormnew authForm = new AuthorFormnew();
+				AuthorForm authForm = new AuthorForm();
 				jploader.jPanelLoader(panel_loader, authForm);
 			}
 		});
@@ -220,15 +215,16 @@ public class HomeForm {
 
 		});
 
-		MenuItem menuBookManage = new MenuItem(iconBook, "Book Manage", null, menuAuthor, menuPublisher, menuCategory, menuBookList);
+		MenuItem menuBookManage = new MenuItem(iconBook, "Book Manage", null, menuAuthor, menuPublisher, menuCategory,
+				menuBookList);
 
 		MenuItem menuEmployee = new MenuItem(iconEmployee, "Employee", new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				EmployeeForm femployee = new EmployeeForm();
-				jploader.jPanelLoader(panel_loader, femployee);
+				EmployeeFormNew employee = new EmployeeFormNew();
+				jploader.jPanelLoader(panel_loader, employee);
 			}
 
 		});

@@ -93,7 +93,7 @@ public class PurchaseDetailForm extends JPanel {
 		this.employee = new Employee();
 		this.book = new Book();
 		this.purchaseServices = new PurchaseService();
-		
+
 	}
 
 	private void setTableDesign() {
@@ -169,7 +169,6 @@ public class PurchaseDetailForm extends JPanel {
 
 	}
 
-	
 //	private void loadAllPurchasebyPublisher(Optional<List<PurchaseDetails>> optionalBook) {
 //		this.dtm = (DefaultTableModel) this.table.getModel();
 //		this.dtm.getDataVector().removeAllElements();
@@ -215,8 +214,6 @@ public class PurchaseDetailForm extends JPanel {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		scrollPane.setViewportView(table);
 
-
-
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
@@ -235,9 +232,9 @@ public class PurchaseDetailForm extends JPanel {
 		cboPublisher = new JComboBox<String>();
 		cboPublisher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-			//	loadAllPurchasebyPublisher(Optional.empty());
-				
+
+				// loadAllPurchasebyPublisher(Optional.empty());
+
 			}
 		});
 
@@ -294,106 +291,102 @@ public class PurchaseDetailForm extends JPanel {
 		txttime = new JTextField();
 		txttime.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
+				groupLayout.createSequentialGroup().addGap(10)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 745,
+										Short.MAX_VALUE)
+								.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 745,
+										Short.MAX_VALUE))
+						.addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
-		);
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(8)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addGap(8)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+						.createSequentialGroup()
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false).addGroup(gl_panel
+								.createSequentialGroup()
+								.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(
+										lblPurchaseId, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lbldatefrom, GroupLayout.PREFERRED_SIZE, 46,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup().addGap(41).addComponent(dcfrom,
+												GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lbldateto, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(dcto,
+										GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(lblPurchaseId, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lbldatefrom, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(41)
-											.addComponent(dcfrom, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lbldateto, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(dcto, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addGap(25)
-									.addComponent(btnSearchBook, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-									.addGap(25)
-									.addComponent(btnShowAll, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-									.addGap(46)
-									.addComponent(txttime, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-									.addGap(65)
-									.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED))
+										.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(25)
+										.addComponent(btnSearchBook, GroupLayout.PREFERRED_SIZE, 118,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(25)
+										.addComponent(btnShowAll, GroupLayout.PREFERRED_SIZE, 118,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(46)
+										.addComponent(txttime, GroupLayout.PREFERRED_SIZE, 118,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(65).addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 118,
+												GroupLayout.PREFERRED_SIZE)))
+						.addPreferredGap(ComponentPlacement.RELATED))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(cboPurchase, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(38)
-							.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(9)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(cboPurchase, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(38).addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 150,
+										GroupLayout.PREFERRED_SIZE)))
+				.addGap(18)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addGap(9)
+				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblPurchaseId, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPurchaseId, GroupLayout.PREFERRED_SIZE, 30,
+										GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addComponent(lbldatefrom, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-							.addComponent(dcfrom, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lbldateto, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dcto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))))
-					.addGap(11)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lbldatefrom, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dcfrom, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lbldateto, GroupLayout.PREFERRED_SIZE, 20,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(dcto, GroupLayout.PREFERRED_SIZE, 23,
+												GroupLayout.PREFERRED_SIZE))))
+				.addGap(11)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cboPurchase, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(4)
-							.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-					.addGap(20)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(1)
-							.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnSearchBook)
-						.addComponent(btnShowAll)
+						.addGroup(gl_panel.createSequentialGroup().addGap(4)
+								.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+				.addGap(20)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup().addGap(1).addComponent(txtSearchPurchase,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSearchBook).addComponent(btnShowAll)
 						.addComponent(txttime, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPrint)))
-		);
+						.addComponent(btnPrint))));
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 

@@ -18,8 +18,11 @@ import entities.Publisher;
 import entities.Purchase;
 import services.AuthorService;
 import shared.exception.AppException;
+import shared.mapper.GeneratePrimaryKey;
 
 public class PublisherService {
+	
+	private GeneratePrimaryKey genPrimaryKey = new GeneratePrimaryKey();
 
 	private final DBconnector dbConfig = new DBconnector();
 
@@ -27,7 +30,7 @@ public class PublisherService {
 		try {
 			AuthorService authService = new AuthorService();
 
-			publisher.setId(authService.generateID2("id", "Publisher", "Pub"));
+			publisher.setId(genPrimaryKey.generateID2("id", "Publisher", "Pub"));
 			PreparedStatement ps = this.dbConfig.getConnection()
 					.prepareStatement("INSERT INTO publisher (id,name, contact_no,address, email) VALUES (?,?,?,?,?);");
 
@@ -75,7 +78,7 @@ public class PublisherService {
 		List<Publisher> publisherList = new ArrayList<>();
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM publisher";
+			String query = "SELECT * FROM publisher ORDER BY publisher.id DESC;";
 
 			ResultSet rs = st.executeQuery(query);
 

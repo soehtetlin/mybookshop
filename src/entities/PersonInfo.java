@@ -15,11 +15,13 @@ public abstract class PersonInfo {
 	private String gender;
 
 	private int age;
+	
+	private String emp_level;
 
 	public PersonInfo() {
 	}
 
-	public PersonInfo(String id, String name, String phone, String email, String gender, int age, String address) {
+	public PersonInfo(String id, String name, String phone, String email, String gender, int age, String address, String emp_level) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,6 +30,15 @@ public abstract class PersonInfo {
 		this.age = age;
 		this.gender = gender;
 		this.address = address;
+		this.emp_level = emp_level;
+	}
+
+	public String getEmp_level() {
+		return emp_level;
+	}
+
+	public void setEmp_level(String emp_level) {
+		this.emp_level = emp_level;
 	}
 
 	public String getId() {

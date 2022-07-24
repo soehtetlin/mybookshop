@@ -88,7 +88,6 @@ public class BookListForm extends JPanel {
 	private CategoryService categoryService = new CategoryService();
 	private List<Category> categoryList;
 	private List<Author> authorList;
-	
 
 	public BookListForm() {
 		initialize();
@@ -104,7 +103,7 @@ public class BookListForm extends JPanel {
 		this.bookService = new BookService();
 
 		panel = new JPanel();
-		
+
 		table = new JTable();
 
 		scrollPane = new JScrollPane();
@@ -132,44 +131,34 @@ public class BookListForm extends JPanel {
 				groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 438, Short.MAX_VALUE).addContainerGap()));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(20)
-					.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-					.addGap(30)
-					.addComponent(cboCategory, 0, 100, Short.MAX_VALUE)
-					.addGap(29)
-					.addComponent(cboAuthors, 0, 100, Short.MAX_VALUE)
-					.addGap(243)
-					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-					.addGap(19))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(15)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
-		);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(20)
+						.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE).addGap(30)
+						.addComponent(cboCategory, 0, 100, Short.MAX_VALUE).addGap(29)
+						.addComponent(cboAuthors, 0, 100, Short.MAX_VALUE).addGap(243)
+						.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE).addGap(19))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(15)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblFilter, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboAuthors, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 
 	}
 
 	private void setTableDesign() {
-		
-		table.setSelectionBackground(new Color(191,148,228));
+
+		table.setSelectionBackground(new Color(191, 148, 228));
 		table.setShowVerticalLines(false);
 		table.setFocusable(false);
 		table.setBounds(12, 254, 404, -216);
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 		table.setAutoCreateRowSorter(true);
@@ -179,12 +168,11 @@ public class BookListForm extends JPanel {
 		table.getTableHeader().setForeground(new Color(245, 245, 245));
 		table.getTableHeader().setPreferredSize(new Dimension(80, 35));
 		table.setRowHeight(65);
-		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
-	
-		
+
 		scrollPane.setViewportView(table);
-		
+
 		dtm.addColumn("Book Cover");
 		dtm.addColumn("ID");
 		dtm.addColumn("Name");
@@ -194,12 +182,11 @@ public class BookListForm extends JPanel {
 		dtm.addColumn("Remark");
 		dtm.addColumn("Action");
 
-		
 		table.setModel(dtm);
-		
+
 		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
 		dfcr.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		table.getColumnModel().getColumn(0).setCellRenderer(new ImagerRender());
 		table.getColumnModel().getColumn(1).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(2).setCellRenderer(dfcr);
@@ -209,8 +196,8 @@ public class BookListForm extends JPanel {
 		table.getColumnModel().getColumn(6).setCellRenderer(dfcr);
 		table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 		table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
-		
-		//scroll 
+
+		// scroll
 
 	}
 
@@ -230,8 +217,7 @@ public class BookListForm extends JPanel {
 			row[4] = e.getStockamount();
 			row[5] = e.getShelf_number();
 			row[6] = e.getRemark();
-			
-			
+
 			dtm.addRow(row);
 		});
 		this.table.setModel(dtm);
@@ -247,22 +233,22 @@ public class BookListForm extends JPanel {
 
 	private class ImagerRender extends DefaultTableCellRenderer {
 
-	@Override
-	public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
-			int arg5) {
-		
-		System.out.println("Show store file address :" + photo.toString());
+		@Override
+		public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
+				int arg5) {
 
-		ImageIcon imageIcon = null;
-		
-			imageIcon = new ImageIcon(new ImageIcon(photo.toString()).getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
+//		System.out.println("Show store file address :" + photo.toString());
 
-		return new JLabel(imageIcon);
+			ImageIcon imageIcon = null;
+
+			imageIcon = new ImageIcon(
+					new ImageIcon(photo.toString()).getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
+
+			return new JLabel(imageIcon);
+		}
+
 	}
 
-	}
-	
-	
 	private void loadCategoryForComboBox() {
 		cboCategory.addItem("All Category");
 		System.out.println("Cate count " + categoryService.findAllCategories().size());
@@ -277,7 +263,7 @@ public class BookListForm extends JPanel {
 		this.authorList = this.authorService.findAllAuthors();
 		this.authorList.forEach(a -> cboAuthors.addItem(a.getName()));
 	}
-	
+
 	class ButtonRenderer extends JButton implements TableCellRenderer {
 
 		public ButtonRenderer() {
@@ -287,7 +273,7 @@ public class BookListForm extends JPanel {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object obj, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			
+
 			ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
 			setIcon(img);
 			setContentAreaFilled(false);
@@ -365,10 +351,6 @@ public class BookListForm extends JPanel {
 
 	}
 
-	
-	
-	
-	
 //	class EditDeleteButton extends JPanel implements TableCellRenderer {
 //        public Component getTableCellRendererComponent(
 //                            final JTable table, Object value,
@@ -660,12 +642,9 @@ public class BookListForm extends JPanel {
 //
 //	          return this;
 //	      }
-	
-	    
-	}
+
+}
 //}
-
-
 
 //import java.awt.Component;
 //import java.awt.event.ActionEvent;
@@ -788,4 +767,3 @@ public class BookListForm extends JPanel {
 //    private com.raven.swing.Button cmdEdit;
 //    // End of variables declaration//GEN-END:variables
 //}
-

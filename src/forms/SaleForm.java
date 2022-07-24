@@ -235,7 +235,6 @@ public class SaleForm extends JPanel {
 		cboCategory.setSelectedIndex(0);
 		lblshowBookCover.setIcon(null);
 		lblshowBookCover.setText("Show selected book cover");
-		
 
 	}
 

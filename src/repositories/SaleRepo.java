@@ -6,7 +6,7 @@ import entities.Sale;
 import entities.SaleDetails;
 
 public interface SaleRepo {
-	
+
 	void createSale(Sale purchase);
 
 	void createSaleDetails(List<SaleDetails> purchaseDetailsList);
@@ -22,5 +22,5 @@ public interface SaleRepo {
 	List<SaleDetails> findSaleDetailsListByProductId(String productId);
 
 	List<SaleDetails> findAllSaleDetailsBySaleId(String purchaseId);
-	
+
 }

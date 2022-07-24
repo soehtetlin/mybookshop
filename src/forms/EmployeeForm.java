@@ -187,7 +187,7 @@ public class EmployeeForm extends JPanel {
 
 		JButton btnUpdate = new JButton();
 		ImageIcon img = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage());
-		 btnUpdate.setIcon(img);
+		btnUpdate.setIcon(img);
 
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
