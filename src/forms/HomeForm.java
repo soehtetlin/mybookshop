@@ -165,7 +165,7 @@ public class HomeForm {
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setBackground(Color.WHITE);
-		frame.setBounds(0, 0, 1000, 500);
+		frame.setBounds(0, 0, 1321, 653);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationRelativeTo(panel_loader);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -198,6 +198,7 @@ public class HomeForm {
 		panel.setBackground(Color.WHITE);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
@@ -235,6 +236,7 @@ public class HomeForm {
 		panel_3.setLayout(gl_panel_3);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 
 		JLabel lbltopten = new JLabel("Top 10 Books for July");
 		lbltopten.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -254,6 +256,7 @@ public class HomeForm {
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)));
 
 		tbltopten = new JTable();
+		cLayout.setTable(tbltopten);
 		tbltopten.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -274,17 +277,17 @@ public class HomeForm {
 				// txtStockAmount.setText(String.valueOf(book.getStockamount()));
 			}
 		});
-		tbltopten.setFont(new Font("Tahoma", Font.BOLD, 14));
-		tbltopten.setBackground(Color.WHITE);
-		// tbltopten.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tbltopten.setForeground(Color.DARK_GRAY);
+//		tbltopten.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		tbltopten.setBackground(Color.WHITE);
+//		// tbltopten.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		tbltopten.setForeground(Color.DARK_GRAY);
 		tbltopten.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbltopten.setDefaultEditor(Object.class, null);
 		tbltopten.setAutoCreateRowSorter(true);
-		JTableHeader jtableheader = tbltopten.getTableHeader();
-		jtableheader.setBackground(SystemColor.textHighlight);
-		jtableheader.setForeground(Color.white);
-		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		JTableHeader jtableheader = tbltopten.getTableHeader();
+//		jtableheader.setBackground(SystemColor.textHighlight);
+//		jtableheader.setForeground(Color.white);
+//		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
 		scrollPane.setViewportView(tbltopten);
 		panel_2.setLayout(gl_panel_2);
 		panel_1.setLayout(gl_panel_1);
@@ -293,7 +296,7 @@ public class HomeForm {
 		lblbookquantity.setForeground(new Color(245, 245, 245));
 		lblbookquantity.setBackground(new Color(153, 50, 204));
 		lblbookquantity.setOpaque(true);
-		lblbookquantity.setBorder(BorderFactory.createEtchedBorder(new Color(128, 0, 128), Color.black));
+//		lblbookquantity.setBorder(BorderFactory.createEtchedBorder(new Color(128, 0, 128), Color.black));
 		lblbookquantity.setText(
 				"<html>Total Books<br></hmtl><html><h1>" + Integer.toString(bookservice.CountBook()) + "</h1><br>View all books-></html>");
 		lblbookquantity.addMouseListener(new MouseAdapter() {
@@ -383,25 +386,25 @@ public class HomeForm {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(54)
 					.addComponent(lblbookquantity, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addGap(54)
 					.addComponent(lblDisplayCustomer, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addGap(41)
 					.addComponent(lblDisplaySaleTotal, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
+					.addGap(65)
 					.addComponent(lblshowPurchase, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(111, Short.MAX_VALUE))
+					.addContainerGap(76, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblbookquantity, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblDisplaySaleTotal, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-							.addComponent(lblshowPurchase, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblDisplayCustomer, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblbookquantity, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+						.addComponent(lblDisplayCustomer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblDisplaySaleTotal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblshowPurchase, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
