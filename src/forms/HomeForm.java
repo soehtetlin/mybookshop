@@ -55,6 +55,7 @@ import javax.swing.JTextField;
 
 import services.BookService;
 import services.CustomerService;
+import services.PurchaseService;
 import services.SaleService;
 
 import java.awt.event.MouseAdapter;
@@ -74,6 +75,8 @@ public class HomeForm {
 	private DefaultTableModel dtmtblopen = new DefaultTableModel();
 	private BookService bookservice = new BookService();
 	private SaleService saleservice = new SaleService();
+	private PurchaseService purchaseService = new PurchaseService();
+	
 	private List<SaleDetails> originalSaleDetails = new ArrayList<>();
 
 	private CustomerService customerService = new CustomerService();
@@ -105,7 +108,7 @@ public class HomeForm {
 		dtmtblopen.addColumn("Quantity");
 		tbltopten.setRowHeight(40);
 		tbltopten.setModel(dtmtblopen);
-
+		
 		DefaultTableCellRenderer dfcr = new DefaultTableCellRenderer();
 		dfcr.setHorizontalAlignment(JLabel.CENTER);
 		tbltopten.getColumnModel().getColumn(0).setCellRenderer(dfcr);
@@ -167,9 +170,10 @@ public class HomeForm {
 		frame.setBackground(Color.WHITE);
 		frame.setBounds(0, 0, 1000, 500);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setLocationRelativeTo(panel_loader);
+		//frame.setLocationRelativeTo(panel_loader);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		
 		menuPanel = new JPanel();
 		menuPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		menuPanel.setBackground(new Color(153, 51, 204));
@@ -329,6 +333,8 @@ public class HomeForm {
 		lblDisplaySaleTotal.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				SaleDetailForm saledetail = new SaleDetailForm();
+				jploader.jPanelLoader(panel_loader, saledetail);
 				
 			}
 		});
@@ -337,34 +343,32 @@ public class HomeForm {
 		lblDisplaySaleTotal.setOpaque(true);
 		lblDisplaySaleTotal.setBorder(BorderFactory.createEtchedBorder(new Color(128, 0, 128), Color.black));
 		String s = Integer.toString(saleservice.TotalSale());
-		int len = s.length(), index = 0;
-		StringBuffer str = new StringBuffer("");
-		for (int i = 0; i < len; i++) {
-			if (index == 3) {
-				str.append(",");
-				index = 0;
-				i--;
-			} else {
-				str.append(String.valueOf(s).charAt(len - i - 1));
-				index++;
-			}
-		}
+	
 
 		lblDisplaySaleTotal.setText(
-				"<html>Today's total sale<br></hmtl><html><h1>" + str.reverse().toString() + " Kyats </h1><br>View sale details-></html>");
+				"<html>Today's total sale<br></hmtl><html><h1>" + changeFormat(s) + " Kyats </h1><br>View sale details-></html>");
 		lblDisplaySaleTotal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDisplaySaleTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		GroupLayout gl_panel_loader = new GroupLayout(panel_loader);
-		gl_panel_loader.setHorizontalGroup(gl_panel_loader.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
-				.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE));
-		gl_panel_loader.setVerticalGroup(gl_panel_loader.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_loader.createSequentialGroup().addGap(7)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE).addGap(7)));
+		gl_panel_loader.setHorizontalGroup(
+			gl_panel_loader.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
+				.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
+		);
+		gl_panel_loader.setVerticalGroup(
+			gl_panel_loader.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_loader.createSequentialGroup()
+					.addGap(7)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+					.addGap(7))
+		);
 		
-		JLabel lblshowPurchase = new JLabel("<html>Today's total Purchase<br></hmtl><html><h1> Kyats </h1><br>View purchase details-></html>");
+		
+		String ps = Integer.toString(purchaseService.TotalPurchase());
+		
+		JLabel lblshowPurchase = new JLabel("<html>Today's total Purchase<br></hmtl><html><h1>"+ changeFormat(ps)+" Kyats </h1><br>View purchase details-></html>");
 		lblshowPurchase.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -390,18 +394,17 @@ public class HomeForm {
 					.addComponent(lblDisplaySaleTotal, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
 					.addGap(27)
 					.addComponent(lblshowPurchase, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(111, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblbookquantity, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblDisplaySaleTotal, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-							.addComponent(lblshowPurchase, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblDisplayCustomer, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblbookquantity, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblDisplaySaleTotal, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+						.addComponent(lblDisplayCustomer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblshowPurchase, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
@@ -576,4 +579,20 @@ public class HomeForm {
 		}
 
 		}
+	
+	private String changeFormat(String s) {
+		int len = s.length(), index = 0;
+		StringBuffer str = new StringBuffer("");
+		for (int i = 0; i < len; i++) {
+			if (index == 3) {
+				str.append(",");
+				index = 0;
+				i--;
+			} else {
+				str.append(String.valueOf(s).charAt(len - i - 1));
+				index++;
+			}
+		}
+		return str.reverse().toString();
+	}
 }

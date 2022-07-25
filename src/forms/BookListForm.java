@@ -324,6 +324,7 @@ public class BookListForm extends JPanel {
 
 	private class ImagerRender extends DefaultTableCellRenderer {
 
+		
 		@Override
 		public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
 				int arg5) {

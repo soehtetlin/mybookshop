@@ -160,7 +160,7 @@ public class BookForm extends JPanel {
 		} else if (book.getPhoto().isEmpty() || book.getPhoto() == null) {
 
 			lblAddPhoto.setOpaque(true);
-			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/edit.png")).getImage()
+			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/defautcover.jpg")).getImage()
 					.getScaledInstance(171, 169, Image.SCALE_DEFAULT));
 			lblAddPhoto.setIcon(imageIcon);
 
@@ -475,16 +475,6 @@ public class BookForm extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-//<<<<<<< HEAD
-//
-//					toSaveBookDataFromForm(book);
-//					if (!book.getName().isBlank() && book.getAuthor() != null && book.getCategory() != null
-//							&& book.getPublisher() != null) {
-//						if (Checking.IsAllDigit(txtShelfNo.getText())) {
-//
-//							bookService.saveBooks(book);
-//
-//=======
 
 					toSaveBookDataFromForm();
 
@@ -584,7 +574,7 @@ public class BookForm extends JPanel {
 	private void toSaveBookDataFromForm() {
 
 		if (destinationFile == null) {
-			book.setPhoto(null);
+			book.setPhoto("resources/defaultcover.jpg");
 
 		} else {
 			book.setPhoto(destinationFile.toString());

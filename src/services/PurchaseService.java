@@ -226,17 +226,25 @@ public class PurchaseService implements PurchaseRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "select purchase.id,purchase.purchase_date,book.name,\r\n"
-					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
-					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
-					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
-					+ "from purchase \r\n"
-					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
-					+ "inner join employee on employee.id = purchase.employee_id\r\n"
-					+ "inner join book on book.id = purchase_detail.book_id\r\n"
-					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
-					+ "inner join author on author.id = book.author_id\r\n"
-					+ "inner join category on category.id = book.category_id order by purchase.purchase_date desc;";
+//			String query = "select purchase.id,purchase.purchase_date,book.name as book_name,\r\n"
+//					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
+//					+ "purchase_detail.quantity,purchase_detail.purchase_price,author.name as author_name,\r\n"
+//					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
+//					+ "from purchase \r\n"
+//					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
+//					+ "inner join employee on employee.id = purchase.employee_id\r\n"
+//					+ "inner join book on book.id = purchase_detail.book_id\r\n"
+//					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
+//					+ "inner join author on author.id = book.author_id\r\n"
+//					+ "inner join category on category.id = book.category_id order by purchase.purchase_date desc;";
+			
+			String query = "select publisher.name as publisher_name,purchase.id as purchase_id\r\n"
+					+ ",purchase.purchase_date,book.name as book_name,employee.name as employee_name,\r\n"
+					+ "purchase_detail.purchase_price,purchase_detail.quantity,author.name as author_name,category.name as category_name, purchase.description as purchase_description  from purchase inner join purchase_detail on purchase_detail.purchase_id = purchase.id \r\n"
+					+ "inner join book on purchase_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id\r\n"
+					+ "inner join publisher on publisher.id = purchase.publisher_id \r\n"
+					+ "left join employee on purchase.employee_id = employee.id order by purchase.purchase_date desc;";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -268,18 +276,50 @@ public class PurchaseService implements PurchaseRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "select purchase.id,purchase.purchase_date,book.name,\r\n"
-					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
-					+ "purchase_detail.quantity,book.price,author.name as author_name,\r\n"
-					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
-					+ "from purchase \r\n"
-					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
-					+ "inner join employee on employee.id = purchase.employee_id\r\n"
-					+ "inner join book on book.id = purchase_detail.book_id\r\n"
-					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
-					+ "inner join author on author.id = book.author_id\r\n"
-					+ "inner join category on category.id = book.category_id where purchase.publisher_id='"+ publisher.getId()+"'order by purchase.purchase_date desc;";
+			String query = "select publisher.name as publisher_name,purchase.id as purchase_id\r\n"
+					+ ",purchase.purchase_date,book.name as book_name,employee.name as employee_name,\r\n"
+					+ "purchase_detail.purchase_price as purchase_price,purchase_detail.quantity,author.name as author_name,category.name as category_name,purchase.description as purchase_description "
+					+ "from purchase inner join purchase_detail on purchase_detail.purchase_id = purchase.id \r\n"
+					+ "inner join book on purchase_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id\r\n"
+					+ "inner join publisher on publisher.id = purchase.publisher_id \r\n"
+					+ "left join employee on purchase.employee_id = employee.id where purchase.publisher_id='"+publisher.getId()+"' order by purchase.purchase_date desc;";
+			ResultSet rs = st.executeQuery(query);
 
+			while (rs.next()) {
+				PurchaseDetails purchase = new PurchaseDetails();
+				purchaseList.add(this.purchaseMapper.mapAllPurchaseDetails(purchase, rs));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return purchaseList;
+
+	}
+	
+	
+public List<PurchaseDetails> findPurchaseDetailByEmployee(String name) {
+		
+		
+		PublisherService publisherService = new PublisherService();
+		Employee employee = employeeService.findEmployeeByName(name);
+		
+	
+
+		List<PurchaseDetails> purchaseList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select publisher.name as publisher_name,purchase.id as purchase_id\r\n"
+					+ ",purchase.purchase_date,book.name as book_name,employee.name as employee_name,\r\n"
+					+ "purchase_detail.purchase_price as purchase_price,purchase_detail.quantity,author.name as author_name,category.name as category_name,purchase.description as purchase_description "
+					+ "from purchase inner join purchase_detail on purchase_detail.purchase_id = purchase.id \r\n"
+					+ "inner join book on purchase_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id\r\n"
+					+ "inner join publisher on publisher.id = purchase.publisher_id \r\n"
+					+ "left join employee on purchase.employee_id = employee.id where purchase.employee_id='"+employee.getId()+"' order by purchase.purchase_date desc;";
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -295,6 +335,23 @@ public class PurchaseService implements PurchaseRepo {
 
 	}
 
+
+public int TotalPurchase() {
+	int purchasetotal =0;
+	
+	try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+		String query = "select sum(purchase_price*quantity) from purchase_detail inner join purchase on purchase.id = purchase_detail.purchase_id where day(purchase.purchase_date)=day(localtime());";
+
+		ResultSet rs = st.executeQuery(query);
+		rs.next();
+		purchasetotal = rs.getInt("sum(purchase_price*quantity)");
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	return purchasetotal;
+}
 
 	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
 

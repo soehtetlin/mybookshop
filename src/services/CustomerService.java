@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import database_config.DBconnector;
 import entities.Customer;
+import entities.Publisher;
 import entities.Purchase;
 import entities.PurchaseDetails;
 import repositories.CustomerRepo;
@@ -212,6 +213,29 @@ public class CustomerService implements CustomerRepo {
 		}
 		return customerList;
 	}
+	
+
+	public List<Customer> findbyactive() {
+
+		List<Customer> customerList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM customer where active = 1 ORDER BY customer.id DESC;";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Customer customer = new Customer();
+
+				customerList.add(this.customerMapper.mapToCustomer(customer, rs));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return customerList;
+	}
+
 
 	public Customer findAllCustomersByCustomerName(String cid) {
 
@@ -230,6 +254,31 @@ public class CustomerService implements CustomerRepo {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return customer;
+	}
+	
+	public Customer findByName(String name) {
+		Customer customer = new Customer();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "SELECT * FROM customer WHERE name = '" + name + "';";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				customer.setId(rs.getString("id"));
+				customer.setName(rs.getString("name"));
+				customer.setContact_no(rs.getString("contact_no"));
+				customer.setAddress(rs.getString("address"));
+				customer.setEmail(rs.getString("email"));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return customer;
 	}
 

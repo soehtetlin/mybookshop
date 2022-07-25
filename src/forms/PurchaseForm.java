@@ -44,6 +44,7 @@ import javax.swing.JComboBox;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
@@ -82,6 +83,7 @@ public class PurchaseForm extends JPanel {
 	private DefaultTableModel dtmpurchase = new DefaultTableModel();
 	private CategoryService categoryService;
 	private EmployeeService employeeService;
+	private JLabel lblshowTime;
 	private PublisherService publisherService;
 	private BookService bookService;
 	private Book book;
@@ -106,7 +108,6 @@ public class PurchaseForm extends JPanel {
 	private JLabel lblemployee;
 	private JButton btnaddbook;
 	private JLabel lblshowBookCover;
-	private JDateChooser dateChooser;
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	/**
@@ -127,22 +128,23 @@ public class PurchaseForm extends JPanel {
 
 	}
 
-	private void initializeLoggedInUser() {
-		employee = CurrentUserHolder.getCurrentUser();
-		if (employee != null)
-			lblemployee.setText(employee.getName());
-	}
-
 	private void showTodayDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Calendar now = Calendar.getInstance();
-				// lblshowdate.setText(dateFormat.format(now.getTime()));
+				lblshowTime.setText(dateFormat.format(now.getTime()));
 			}
 		}).start();
 	}
+	private void initializeLoggedInUser() {
+		employee = CurrentUserHolder.getCurrentUser();
+		if (employee != null)
+			lblemployee.setText(employee.getName());
+	}
+
+	
 
 	private void setTableDesign() {
 		// TODO Auto-generated method stub
@@ -179,6 +181,29 @@ public class PurchaseForm extends JPanel {
 
 		this.originalBookList = this.bookService.findAllBooksforList();
 		List<Book> bookList = optionalBook.orElseGet(() -> originalBookList);
+		bookList.forEach(e -> {
+			Object[] row = new Object[9];
+			row[0] = e.getId();
+			row[1] = e.getName();
+			row[2] = e.getPrice();
+			row[3] = e.getStockamount();
+			row[4] = e.getShelf_number();
+			row[5] = e.getAuthor().getName();
+			row[6] = e.getCategory().getName();
+			row[7] = e.getPublisher().getName();
+			row[8] = e.getRemark();
+			dtm.addRow(row);
+		});
+		this.tblshowbooklist.setModel(dtm);
+
+	}
+	
+	private void loadAllBooksByCategory(String s) {
+		this.dtm = (DefaultTableModel) this.tblshowbooklist.getModel();
+		this.dtm.getDataVector().removeAllElements();
+		this.dtm.fireTableDataChanged();
+		List<Book> bookList = new ArrayList<>();
+		bookList = bookService.findBookByCategoryName(s);
 		bookList.forEach(e -> {
 			Object[] row = new Object[9];
 			row[0] = e.getId();
@@ -456,7 +481,19 @@ public class PurchaseForm extends JPanel {
 		});
 
 		cboCategory = new JComboBox<String>();
+		cboCategory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				 if(cboCategory.getSelectedIndex()==0) {
+					 loadAllBooks(Optional.empty());
+				 }else {
+					 loadAllBooksByCategory(cboCategory.getSelectedItem().toString());
+				 }
+				
+			}
+		});
 
+		
 		JLabel lblPublisher = new JLabel("Publisher");
 		lblPublisher.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -867,31 +904,49 @@ public class PurchaseForm extends JPanel {
 								.addPreferredGap(ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
 								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)));
 		pnshowpurchaseitem.setLayout(gl_pnshowpurchaseitem);
+		SimpleDateFormat simpledate = new SimpleDateFormat("dd-MM-yyyy");
+//		System.out.println("Datee " + s);
+		String ss = "2022-07-20";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = null;
+		try {
+			d = sdf.parse(ss);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+		lblshowTime = new JLabel("Show Time");
+		lblshowTime.setFont(new Font("Tahoma", Font.BOLD, 12));
+		//Calendar cal = Calendar.getInstance();
+		//cal.setTime(date);
 
-		dateChooser = new JDateChooser();
-		dateChooser.setDate(new Date());
-		Date date = dateChooser.getDate();
-		System.out.println("Selected date :" + date);
+		//System.out.println("Selected date :" + date);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel_1.createSequentialGroup().addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane_1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addComponent(pnshowpurchaseitem, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 531,
-								Short.MAX_VALUE)
-						.addGroup(gl_panel_1.createSequentialGroup()
-								.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 233, Short.MAX_VALUE).addComponent(
-										lblemployee, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)))
-						.addGap(51)));
-		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblemployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-						.addGap(7).addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(pnshowpurchaseitem, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane_1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addComponent(pnshowpurchaseitem, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(lblshowTime, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+							.addComponent(lblemployee, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)))
+					.addGap(51))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblemployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblshowTime, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(7)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(pnshowpurchaseitem, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
 		panel_1.setLayout(gl_panel_1);
 		setLayout(groupLayout);
 
@@ -947,9 +1002,7 @@ public class PurchaseForm extends JPanel {
 			JOptionPane.showMessageDialog(null, "This item is already added");
 			clearform();
 		} else if (null != book && !book.getId().isBlank()) {
-			System.out.println("Book Name : " + book.getName());
-			Date date = dateChooser.getDate();
-			System.out.println("Selected date :" + date);
+			
 			addBookToPurchaseTable();
 			// loadAllPurchaseDetails();
 

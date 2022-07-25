@@ -197,7 +197,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 		return null;
 	}
 
-	public List<Book> findBookByCategoryName(String categoryId) {
+	public List<Book> findBookByCategoryName(String categoryName) {
 
 		List<Book> bookList = new ArrayList<>();
 
@@ -207,7 +207,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
 					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
-					+ "ON author.id = book.author_id where category_id='" + categoryId
+					+ "ON author.id = book.author_id where category.name='" + categoryName
 					+ "' and book.price > 0 and book.stockamount > 0 ORDER BY book.id DESC ;";
 
 			ResultSet rs = st.executeQuery(query);

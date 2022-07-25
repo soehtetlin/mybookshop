@@ -5,6 +5,7 @@ import entities.Book;
 import entities.Category;
 import entities.Customer;
 import entities.Employee;
+import entities.Publisher;
 import entities.Sale;
 import entities.SaleDetails;
 import entities.Sale;
@@ -107,21 +108,22 @@ public class SaleMapper {
 	public SaleDetails mapAllSaleDetails(SaleDetails saleDetails, ResultSet rs) {
 		try {
 			Sale sale = new Sale();
-			sale.setId(rs.getString("sale.id"));// 1
+			sale.setId(rs.getString("sale_id"));// 1
 			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale.sale_date"), // 2
 					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Book book = new Book();
-			book.setName(rs.getString("book.name"));// 3
+			book.setName(rs.getString("book_name"));// 3
 
 			Customer customer = new Customer();
 			customer.setName(rs.getString("customer_name"));// 4
+			sale.setCustomer(customer);
 
 			Employee employee = new Employee();
 			employee.setName(rs.getString("employee_name"));// 5
 
 			saleDetails.setQuantity(rs.getInt("quantity"));// 6
 
-			book.setPrice(rs.getInt("book.price"));// 7
+			saleDetails.setPrice(rs.getInt("sale_price"));// 7
 			System.out.println("Price id : 	" + book.getPrice());
 
 
@@ -130,13 +132,18 @@ public class SaleMapper {
 
 			Category category = new Category();
 			category.setName(rs.getString("category_name"));// 9
+			
+//			Publisher publisher = new Publisher();
+//			publisher.setName(rs.getString("publisher_name"));
 
 
 			book.setAuthor(author);
 			book.setCategory(category);
+			//book.setPublisher(publisher);
 			sale.setEmployee(employee);
 			saleDetails.setBook(book);
 			saleDetails.setSale(sale);
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

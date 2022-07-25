@@ -92,11 +92,11 @@ public class PurchaseMapper {
 	public PurchaseDetails mapAllPurchaseDetails(PurchaseDetails purchaseDetails, ResultSet rs) {
 		try {
 			Purchase puchase = new Purchase();
-			puchase.setId(rs.getString("purchase.id"));// 1
+			puchase.setId(rs.getString("purchase_id"));// 1
 			puchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchase.purchase_date"), // 2
 					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Book book = new Book();
-			book.setName(rs.getString("book.name"));// 3
+			book.setName(rs.getString("book_name"));// 3
 
 			Publisher publisher = new Publisher();
 			publisher.setName(rs.getString("publisher_name"));// 4
@@ -106,7 +106,8 @@ public class PurchaseMapper {
 
 			purchaseDetails.setQuantity(rs.getInt("quantity"));// 6
 
-			book.setPrice(rs.getInt("book.price"));// 7
+			//book.setPrice(rs.getInt("book.price"));// 7
+			purchaseDetails.setPrice(rs.getInt("purchase_price"));
 
 			Author author = new Author();
 			author.setName(rs.getString("author_name"));// 8

@@ -211,6 +211,84 @@ public class SaleService implements SaleRepo {
 	}
 	
 	
+public List<SaleDetails> findSaleDetailByEmployee(String name) {
+		
+		
+		CustomerService customerService = new CustomerService();
+		Employee employee = employeeService.findEmployeeByName(name);
+		
+	
+
+		List<SaleDetails> saleList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+
+			String query = "select sale.id as sale_id,author.name as author_name,category.name as category_name,sale_detail.sale_price,customer.name as customer_name,\r\n"
+					+ "sale.sale_date,sale_detail.quantity,book.name as book_name,employee.name as employee_name\r\n"
+					+ "from sale_detail inner join sale on sale.id = sale_detail.vouncher_id\r\n"
+					+ "inner join employee on employee.id = sale.employee_id \r\n"
+					+ "inner join customer on customer.id = sale.customer_id\r\n"
+					+ "inner join book on book.id = sale_detail.book_id\r\n"
+					+ "inner join category on book.category_id = category.id \r\n"
+					+ "inner join author on book.author_id = author.id\r\n"
+					+ "where employee.id ='"+employee.getId()+"' order by sale.sale_date desc;";
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				SaleDetails sale = new SaleDetails();
+				saleList.add(this.saleMapper.mapAllSaleDetails(sale, rs));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saleList;
+
+	}
+
+	
+public List<SaleDetails> findSaleDetailByCustomer(String name) {
+		System.out.println("Name Customer " + name);
+		
+		CustomerService customerService = new CustomerService();
+		Customer customer = customerService.findByName(name);
+		System.out.println("Customer ID " + customer.getId());
+		System.out.println("Return customer name :" + customer.getName());
+		System.out.println("Return customer id :" + customer.getId());
+
+
+		List<SaleDetails> saleList = new ArrayList<>();
+
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
+
+			String query = "select sale.id as sale_id,author.name as author_name,category.name as category_name,sale_detail.sale_price,customer.name as customer_name,\r\n"
+					+ "sale.sale_date,sale_detail.quantity,book.name as book_name,employee.name as employee_name\r\n"
+					+ "from sale_detail inner join sale on sale.id = sale_detail.vouncher_id\r\n"
+					+ "inner join employee on employee.id = sale.employee_id \r\n"
+					+ "inner join customer on customer.id = sale.customer_id\r\n"
+					+ "inner join book on book.id = sale_detail.book_id\r\n"
+					+ "inner join category on book.category_id = category.id \r\n"
+					+ "inner join author on book.author_id = author.id\r\n"
+					+ "where customer.id ='"+customer.getId()+"' order by sale.sale_date desc;";
+			
+			
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				SaleDetails sale = new SaleDetails();
+				saleList.add(this.saleMapper.mapAllSaleDetails(sale, rs));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saleList;
+
+	}
+	
 	public int TotalSale() {
 		int saletotal =0;
 		
@@ -288,16 +366,23 @@ public class SaleService implements SaleRepo {
 //					+ "inner join customer on customer.id = book.customer_id\r\n"
 //					+ "inner join author on author.id = book.author_id";
 
-			String query = "select sale.id,sale.sale_date,book.name,\r\n" + "customer.name as customer_name,\r\n"
-					+ "employee.name as employee_name,\r\n"
-					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
-					+ "category.name as category_name,\r\n" + "sale.description as sale_description\r\n"
-					+ "from sale \r\n" + "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
-					+ "inner join employee on employee.id = sale.employee_id\r\n"
-					+ "inner join book on book.id = sale_detail.book_id\r\n"
-					+ "inner join customer on customer.id = book.customer_id\r\n"
-					+ "inner join author on author.id = book.author_id\r\n"
-					+ "inner join category on category.id = book.category_id order by sale.sale_date desc;";
+//			String query = "select sale.id,sale.sale_date,book.name,\r\n" + "customer.name as customer_name,\r\n"
+//					+ "employee.name as employee_name,\r\n"
+//					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
+//					+ "category.name as category_name,\r\n" + "sale.description as sale_description\r\n"
+//					+ "from sale \r\n" + "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
+//					+ "inner join employee on employee.id = sale.employee_id\r\n"
+//					+ "inner join book on book.id = sale_detail.book_id\r\n"
+//					+ "inner join customer on customer.id = book.customer_id\r\n"
+//					+ "inner join author on author.id = book.author_id\r\n"
+//					+ "inner join category on category.id = book.category_id order by sale.sale_date desc;";
+			String query = "select customer.name as customer_name,sale.id as sale_id\r\n"
+					+ ",sale.sale_date,book.name as book_name,employee.name as employee_name,\r\n"
+					+ "sale_detail.sale_price,sale_detail.quantity,author.name as author_name,category.name as category_name  from sale inner join sale_detail on sale_detail.vouncher_id = sale.id \r\n"
+					+ "inner join book on sale_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id\r\n"
+					+ "inner join customer on customer.id = sale.customer_id \r\n"
+					+ "left join employee on sale.employee_id = employee.id order by sale.sale_date desc;";
 
 			ResultSet rs = st.executeQuery(query);
 
@@ -357,18 +442,22 @@ public class SaleService implements SaleRepo {
 //					+ "inner join customer on customer.id = book.customer_id\r\n"
 //					+ "inner join author on author.id = book.author_id";
 
-			String query = "select sale.id,sale.sale_date,book.name,\r\n" + "customer.name as customer_name,\r\n"
-					+ "employee.name as employee_name,\r\n"
-					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
-					+ "category.name as category_name,\r\n" + "sale.description as sale_description\r\n"
-					+ "from sale \r\n" + "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
-					+ "inner join employee on employee.id = sale.employee_id\r\n"
-					+ "inner join book on book.id = sale_detail.book_id\r\n"
-					+ "inner join customer on customer.id = book.customer_id\r\n"
-					+ "inner join author on author.id = book.author_id\r\n"
-					+ "inner join category on category.id = book.category_id order by sale.sale_date desc where customer.name='"
-					+ customerid + "';";
+			String query = "select customer.name as customer_name,sale.id as sale_id\r\n"
+					+ ",sale.sale_date,book.name as book_name,employee.name as employee_name,\r\n"
+					+ "sale_detail.sale_price,sale_detail.quantity,author.name as author_name,category.name as category_name  from sale inner join sale_detail on sale_detail.vouncher_id = sale.id \r\n"
+					+ "inner join book on sale_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
+					+ "inner join category on category.id = book.category_id\r\n"
+					+ "inner join customer on customer.id = sale.customer_id \r\n"
+					+ "left join employee on sale.employee_id = employee.id order by sale.sale_date desc where customer.name='\"\r\n"
+					+ "					+ customerid + \"'";
 
+			
+
+			
+			
+			
+			
+			
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
