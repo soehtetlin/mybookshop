@@ -32,8 +32,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -66,6 +68,8 @@ public class PurchaseDetailForm extends JPanel {
 	private List<Employee> employeelist;
 	private List<Publisher> publisherList;
 	private List<Purchase> purchaseListName;
+	private List<Book> originalBookList = new ArrayList<>();
+
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	/**
@@ -248,7 +252,12 @@ public class PurchaseDetailForm extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
-		JButton btnSearchBook = new JButton("Search Book");
+		JButton btnSearchBook = new JButton("Search");
+		btnSearchBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchBook();
+			}
+		});
 		btnSearchBook.setMnemonic('s');
 		btnSearchBook.setMargin(new Insets(2, 2, 2, 2));
 		btnSearchBook.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -365,6 +374,20 @@ public class PurchaseDetailForm extends JPanel {
 
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
+
+	}
+	
+	protected void searchBook() {
+		// TODO Auto-generated method stub
+		String keyword = txtSearchPurchase.getText();
+
+		loadAllPurchase(Optional.of(purchaseList.stream()
+				.filter(e -> e.getPurchase().getId().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT))
+						|| e.getBook().getName().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT))
+						|| e.getBook().getPublisher().getName().toLowerCase(Locale.ROOT)
+								.contains(keyword.toLowerCase(Locale.ROOT))
+						|| e.getBook().getAuthor().getName().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT)))
+				.collect(Collectors.toList())));
 
 	}
 

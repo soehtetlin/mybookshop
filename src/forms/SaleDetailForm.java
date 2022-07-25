@@ -32,8 +32,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -271,7 +273,12 @@ public class SaleDetailForm extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
-		JButton btnSearchBook = new JButton("Search Book");
+		JButton btnSearchBook = new JButton("Search");
+		btnSearchBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnSearchBook.setMnemonic('s');
 		btnSearchBook.setMargin(new Insets(2, 2, 2, 2));
 		btnSearchBook.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -388,6 +395,22 @@ public class SaleDetailForm extends JPanel {
 
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
+
+	}
+	
+	protected void searchBook() {
+		// TODO Auto-generated method stub
+		String keyword = txtSearchSale.getText();
+
+		loadAllSale(Optional.of(saleList.stream()
+				.filter(e -> e.getSale().getId().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT))
+						|| e.getBook().getName().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT))
+						|| e.getSale().getCustomer().getName().toLowerCase(Locale.ROOT)
+								.contains(keyword.toLowerCase(Locale.ROOT))
+								||  e.getSale().getEmployee().getName().toLowerCase(Locale.ROOT)
+								.contains(keyword.toLowerCase(Locale.ROOT))
+						|| e.getBook().getAuthor().getName().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT)))
+				.collect(Collectors.toList())));
 
 	}
 

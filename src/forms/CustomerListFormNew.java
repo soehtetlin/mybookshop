@@ -163,82 +163,107 @@ public class CustomerListFormNew extends JPanel {
 		txtRegisterDate.setColumns(10);
 
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(
+				Alignment.TRAILING).addGroup(
+						gl_panel.createSequentialGroup()
 
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(21)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblRegisterDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addGap(336))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblFilter, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(comboMemberActive, 0, 108, Short.MAX_VALUE)
-									.addGap(32)
-									.addComponent(txtSearch, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 109, Short.MAX_VALUE)
-									.addGap(27))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-											.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lblCustomerName, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)))
-									.addGap(123)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblContactNo, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(28)
-									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))))
-							.addGap(74))
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE))
-					.addGap(20))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(23)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRegisterDate)
-						.addComponent(txtRegisterDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(16)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCustomerName)
-						.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblContactNo)
-						.addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(21)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblEmail)
-						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_panel
+												.createSequentialGroup().addGap(21).addGroup(gl_panel
+														.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+																.createSequentialGroup().addComponent(lblRegisterDate)
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addComponent(txtRegisterDate,
+																		GroupLayout.PREFERRED_SIZE, 100,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGap(336))
+														.addGroup(gl_panel.createSequentialGroup()
+																.addPreferredGap(ComponentPlacement.RELATED)
+																.addComponent(lblFilter, GroupLayout.DEFAULT_SIZE, 95,
+																		Short.MAX_VALUE)
+																.addPreferredGap(ComponentPlacement.RELATED)
+																.addComponent(comboMemberActive, 0, 108,
+																		Short.MAX_VALUE)
+																.addGap(32)
+																.addComponent(txtSearch, GroupLayout.DEFAULT_SIZE, 140,
+																		Short.MAX_VALUE)
+																.addGap(18)
+																.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE,
+																		109, Short.MAX_VALUE)
+																.addGap(27))
+														.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel
+																.createParallelGroup(Alignment.LEADING, false)
+																.addGroup(gl_panel.createSequentialGroup()
+																		.addComponent(lblEmail,
+																				GroupLayout.PREFERRED_SIZE, 150,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.RELATED, 18,
+																				Short.MAX_VALUE)
+																		.addComponent(txtEmail,
+																				GroupLayout.PREFERRED_SIZE, 242,
+																				GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_panel.createSequentialGroup()
+																		.addComponent(lblCustomerName,
+																				GroupLayout.PREFERRED_SIZE, 150,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(18).addComponent(txtCustomerName,
+																				GroupLayout.PREFERRED_SIZE, 242,
+																				GroupLayout.PREFERRED_SIZE)))
+																.addGap(123)))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_panel
+														.createParallelGroup(Alignment.TRAILING)
+														.addComponent(lblContactNo, GroupLayout.PREFERRED_SIZE, 85,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																lblAddress, GroupLayout.PREFERRED_SIZE, 85,
+																GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+														.addGroup(gl_panel.createSequentialGroup()
+																.addPreferredGap(ComponentPlacement.RELATED)
+																.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGap(18)
+																.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91,
+																		GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addComponent(
+																		btnCancel, GroupLayout.PREFERRED_SIZE, 91,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGroup(gl_panel.createSequentialGroup().addGap(28).addGroup(
+																gl_panel.createParallelGroup(Alignment.TRAILING)
+																		.addComponent(txtAddress,
+																				GroupLayout.PREFERRED_SIZE, 242,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addComponent(txtContactNo,
+																				GroupLayout.PREFERRED_SIZE, 242,
+																				GroupLayout.PREFERRED_SIZE))))
+												.addGap(74))
+										.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE))
+								.addGap(20)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
+				.createSequentialGroup().addGap(23)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblRegisterDate).addComponent(
+						txtRegisterDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE))
+				.addGap(16)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblCustomerName)
+						.addComponent(txtCustomerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblContactNo).addComponent(txtContactNo, GroupLayout.PREFERRED_SIZE,
+								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGap(21)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblEmail)
+						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblAddress))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
 
 						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_panel.createSequentialGroup().addGap(21)
@@ -281,50 +306,41 @@ public class CustomerListFormNew extends JPanel {
 																		GroupLayout.PREFERRED_SIZE)))
 														.addGap(123)))
 										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(
-												gl_panel.createParallelGroup(Alignment.TRAILING)
-														.addGroup(gl_panel.createSequentialGroup()
-																.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE,
-																		85, GroupLayout.PREFERRED_SIZE)
-																.addGap(309))
-														.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel
-																.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
+												.createSequentialGroup()
+												.addComponent(lblAddress, GroupLayout.PREFERRED_SIZE, 85,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(309)).addGroup(gl_panel
+														.createSequentialGroup()
+														.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 																.addComponent(lblContactNo, GroupLayout.PREFERRED_SIZE,
 																		85, GroupLayout.PREFERRED_SIZE)
 																.addComponent(
 																		btnSave, GroupLayout.PREFERRED_SIZE, 91,
 																		GroupLayout.PREFERRED_SIZE))
-																.addGroup(gl_panel
-																		.createParallelGroup(Alignment.LEADING)
-																		.addGroup(gl_panel.createSequentialGroup()
-																				.addPreferredGap(
-																						ComponentPlacement.RELATED)
-																				.addComponent(btnUpdate,
-																						GroupLayout.PREFERRED_SIZE, 91,
+														.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_panel.createSequentialGroup()
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addComponent(btnUpdate,
+																				GroupLayout.PREFERRED_SIZE, 91,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(18)
+																		.addComponent(btnDelete,
+																				GroupLayout.PREFERRED_SIZE, 91,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.UNRELATED)
+																		.addComponent(btnCancel,
+																				GroupLayout.PREFERRED_SIZE, 91,
+																				GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_panel.createSequentialGroup().addGap(28)
+																		.addGroup(gl_panel
+																				.createParallelGroup(Alignment.TRAILING)
+																				.addComponent(txtAddress,
+																						GroupLayout.PREFERRED_SIZE, 242,
 																						GroupLayout.PREFERRED_SIZE)
-																				.addGap(18)
-																				.addComponent(btnDelete,
-																						GroupLayout.PREFERRED_SIZE, 91,
-																						GroupLayout.PREFERRED_SIZE)
-																				.addPreferredGap(
-																						ComponentPlacement.UNRELATED)
-																				.addComponent(
-																						btnCancel,
-																						GroupLayout.PREFERRED_SIZE, 91,
-																						GroupLayout.PREFERRED_SIZE))
-																		.addGroup(gl_panel.createSequentialGroup()
-																				.addGap(28)
-																				.addGroup(gl_panel
-																						.createParallelGroup(
-																								Alignment.TRAILING)
-																						.addComponent(txtAddress,
-																								GroupLayout.PREFERRED_SIZE,
-																								242,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(txtContactNo,
-																								GroupLayout.PREFERRED_SIZE,
-																								242,
-																								GroupLayout.PREFERRED_SIZE))))))
+																				.addComponent(txtContactNo,
+																						GroupLayout.PREFERRED_SIZE, 242,
+																						GroupLayout.PREFERRED_SIZE))))))
 										.addGap(74))
 								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE))
 						.addGap(20))));
@@ -360,11 +376,9 @@ public class CustomerListFormNew extends JPanel {
 						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-					.addContainerGap()));
-	
-				
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE).addContainerGap()));
+
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 
@@ -547,37 +561,37 @@ public class CustomerListFormNew extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Customer customer = new Customer();
+//				if (!customer.getName().isBlank() && customer.getAddress() != null && customer.getContact_no().getCategory() != null
+//						&& book.getPublisher() != null) {
+				if (txtCustomerName.getText().equals("") || txtAddress.getText().equals("")
+						|| txtAddress.getText().equals("") || txtContactNo.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+					txtCustomerName.requestFocus();
 
-				customer.setName(txtCustomerName.getText());
-				customer.setAddress(txtAddress.getText());
-				if (Checking.IsAllDigit(txtContactNo.getText()))
-					customer.setContact_no(txtContactNo.getText());
-				else
+				} else if (!Checking.IsAllDigit(txtContactNo.getText())) {
 					JOptionPane.showMessageDialog(null, "Phone number should be only digits.");
+					txtContactNo.requestFocus();
+					txtContactNo.selectAll();
 
-				customer.setEmail(txtEmail.getText());
-				customer.setActive(1);
+				} else {
+					Customer customer = new Customer();
 
-//				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				LocalDateTime registerDate = LocalDateTime.now();
-
-				LocalDateTime expireDate = registerDate.plusYears(2);
-
-				customer.setRegister_date(registerDate);
-				customer.setExpired_date(expireDate);
-
-				customer.setLast_date_use(LocalDateTime.now());
-
-				if (!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
+					customer.setName(txtCustomerName.getText());
+					customer.setAddress(txtAddress.getText());
+					customer.setContact_no(txtContactNo.getText());
+					customer.setEmail(txtEmail.getText());
+					customer.setActive(1);
 					customerService.saveCustomer(customer);
 					System.out.println("To Save " + customer.getRegister_date());
 					clearForm();
 					loadAllCustomers(Optional.empty());
 
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 				}
+//						&& book.getPublisher() != null) {
+
+					
+
+				
 			}
 
 		});
@@ -598,14 +612,14 @@ public class CustomerListFormNew extends JPanel {
 				customer.setEmail(txtEmail.getText());
 				customer.setActive(1);
 
-//				LocalDateTime registerDate = LocalDateTime.now();
-//				LocalDateTime expireDate = registerDate.plusYears(2);
+				LocalDateTime registerDate = LocalDateTime.now();
+				LocalDateTime expireDate = registerDate.plusYears(2);
 //
 //				
-//				customer.setRegister_date(registerDate);
-//				customer.setExpired_date(expireDate);
+				customer.setRegister_date(registerDate);
+				customer.setExpired_date(expireDate);
 //				
-//				customer.setLast_date_use(expireDate);
+				customer.setLast_date_use(registerDate);
 
 				if (!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
 

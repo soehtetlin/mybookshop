@@ -28,6 +28,7 @@ import javax.swing.table.TableColumn;
 
 import entities.Publisher;
 import services.PublisherService;
+import shared.checker.Checking;
 
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
@@ -248,23 +249,28 @@ public class PublisherForm extends JPanel {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				Publisher publisher = new Publisher();
-				publisher.setName(txtSupName.getText());
-				publisher.setName(txtSupName.getText());
-				publisher.setContact_no(txtSupPhone.getText());
-				publisher.setAddress(txtSupAddress.getText());
-				publisher.setEmail(txtSupMail.getText());
+				
+				if (txtSupName.getText().equals("") || txtSupMail.getText().equals("")
+||txtSupPhone.getText().equals("") || txtSupAddress.getText().equals("")) 
+				{
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 
-				if (!publisher.getName().isBlank() && !publisher.getContact_no().isBlank()
-						&& !publisher.getEmail().isBlank() && !publisher.getAddress().isBlank()) {
-
+				}else if(!Checking.checktxtprice(txtSupPhone.getText())) 
+				{
+					JOptionPane.showMessageDialog(null, "Phone is number only!");
+					txtSupPhone.requestFocus();
+					txtSupPhone.selectAll();
+				}else {
+					publisher.setName(txtSupName.getText());
+					publisher.setAddress(txtSupAddress.getText());
+					publisher.setContact_no(txtSupPhone.getText());
+					publisher.setEmail(txtSupMail.getText());
 					pubService.savePublisher(publisher);
 					clearForm();
 					loadAllPublishers(Optional.empty());
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
-				}
+				} 
+			
 			}
 		});
 
