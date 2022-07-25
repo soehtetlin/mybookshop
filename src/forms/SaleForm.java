@@ -120,6 +120,7 @@ public class SaleForm extends JPanel {
 	 * Create the panel.
 	 */
 	public SaleForm() {
+		setBackground(Color.WHITE);
 		initialize();
 		initializeDependency();
 		this.setTableDesign();
@@ -430,11 +431,14 @@ public class SaleForm extends JPanel {
 		setBounds(42, 11, 1051, 487);
 
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 
 		cboCustomer = new JComboBox();
+		cLayout.setComboBox(cboCustomer);
 
 		cboCustomer.addActionListener(new ActionListener() {
 			private int totalamount;
@@ -460,6 +464,8 @@ public class SaleForm extends JPanel {
 		});
 
 		cboCategory = new JComboBox<String>();
+		cLayout.setComboBox(cboCategory);
+		
 		cboCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				 if(cboCategory.getSelectedIndex()==0) {
@@ -475,36 +481,46 @@ public class SaleForm extends JPanel {
 		// 
 
 		JLabel lblcustomer = new JLabel("Customer");
-		lblcustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setLabel(lblcustomer);
+//		lblcustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel lblCategory = new JLabel("Category");
-		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setLabel(lblCategory);
+//		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel lblQuantity = new JLabel("Quantity");
-		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setLabel(lblQuantity);
+//		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		txtStockAmount = new JTextField();
+		cLayout.setTextField(txtStockAmount);
+		
 		txtStockAmount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				addBookAction();
 			}
 		});
-		txtStockAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtStockAmount.setColumns(10);
+//		txtStockAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		txtStockAmount.setColumns(10);
 
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setLabel(lblPrice);
+//		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		txtPrice = new JTextField();
 		txtPrice.setEditable(false);
-		txtPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtPrice.setColumns(10);
+		cLayout.setTextField(txtPrice);
+//		txtPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		txtPrice.setColumns(10);
 
 		lblBookID = new JLabel("");
-		lblBookID.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setLabel(lblBookID);
+//		lblBookID.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JButton btnedit = new JButton("Update");
+		cLayout.setButton(btnedit);
 		btnedit.setVisible(false);
+		
 		btnedit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -535,10 +551,11 @@ public class SaleForm extends JPanel {
 				}
 			}
 		});
-		btnedit.setMargin(new Insets(2, 2, 2, 2));
-		btnedit.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnedit.setMargin(new Insets(2, 2, 2, 2));
+//		btnedit.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JButton btnremove = new JButton("Remove");
+		cLayout.setButton(btnremove);
 		btnremove.setVisible(false);
 		btnremove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -553,10 +570,11 @@ public class SaleForm extends JPanel {
 			}
 
 		});
-		btnremove.setMargin(new Insets(2, 2, 2, 2));
-		btnremove.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnremove.setMargin(new Insets(2, 2, 2, 2));
+//		btnremove.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		btnaddbook = new JButton("Add Book");
+		cLayout.setButton(btnaddbook);
 		btnaddbook.setMnemonic('a');
 		btnaddbook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -566,10 +584,11 @@ public class SaleForm extends JPanel {
 
 		});
 
-		btnaddbook.setMargin(new Insets(2, 2, 2, 2));
-		btnaddbook.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnaddbook.setMargin(new Insets(2, 2, 2, 2));
+//		btnaddbook.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		txtsearchbook = new JTextField();
+		txtsearchbook = new JTextField("");
+		cLayout.setTextField(txtsearchbook);
 		txtsearchbook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(txtsearchbook.getText().isEmpty()) {
@@ -582,11 +601,12 @@ public class SaleForm extends JPanel {
 
 			}
 		});
-		txtsearchbook.setName("");
-		txtsearchbook.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtsearchbook.setColumns(10);
+//		txtsearchbook.setName("");
+//		txtsearchbook.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		txtsearchbook.setColumns(10);
 
 		JButton btnSearch = new JButton("Search");
+		cLayout.setButton(btnSearch);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(txtsearchbook.getText().isEmpty()) {
@@ -599,25 +619,29 @@ public class SaleForm extends JPanel {
 
 			}
 		});
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSearch.setMargin(new Insets(2, 2, 2, 2));
+//		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnSearch.setMargin(new Insets(2, 2, 2, 2));
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBackground(Color.WHITE);
 		tbldisplaysaleitem = new JTable();
-		tbldisplaysaleitem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		tbldisplaysaleitem.setBackground(new Color(255, 250, 240));
-		tbldisplaysaleitem.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		tbldisplaysaleitem.setForeground(Color.DARK_GRAY);
+		tbldisplaysaleitem.setBackground(Color.WHITE);
+		cLayout.setTable(tbldisplaysaleitem);
+//		tbldisplaysaleitem.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		tbldisplaysaleitem.setBackground(new Color(255, 250, 240));
+//		tbldisplaysaleitem.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		tbldisplaysaleitem.setForeground(Color.DARK_GRAY);
 		tbldisplaysaleitem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbldisplaysaleitem.setDefaultEditor(Object.class, null);
 		tbldisplaysaleitem.setAutoCreateRowSorter(true);
-		JTableHeader jtableheader = tbldisplaysaleitem.getTableHeader();
-		jtableheader.setBackground(SystemColor.textHighlight);
-		jtableheader.setForeground(Color.white);
-		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		JTableHeader jtableheader = tbldisplaysaleitem.getTableHeader();
+//		jtableheader.setBackground(SystemColor.textHighlight);
+//		jtableheader.setForeground(Color.white);
+//		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		this.tbldisplaysaleitem.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
 			if (!tbldisplaysaleitem.getSelectionModel().isSelectionEmpty()) {
@@ -653,10 +677,12 @@ public class SaleForm extends JPanel {
 		scrollPane_1.setViewportView(tbldisplaysaleitem);
 
 		lblemployee = new JLabel("Employee Name");
-		lblemployee.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setLabel(lblemployee);
+//		lblemployee.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		tblshowbooklist = new JTable();
-		tblshowbooklist.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tblshowbooklist.setBackground(Color.WHITE);
+//		tblshowbooklist.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		cLayout.setTable(tblshowbooklist);
 
 		this.tblshowbooklist.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
@@ -705,22 +731,23 @@ public class SaleForm extends JPanel {
 		}
 
 		scrollPane.setViewportView(tblshowbooklist);
-		jtableheader = tblshowbooklist.getTableHeader();
-		jtableheader.setBackground(SystemColor.textHighlight);
-		jtableheader.setForeground(Color.WHITE);
-		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 12));
+//		jtableheader = tblshowbooklist.getTableHeader();
+//		jtableheader.setBackground(SystemColor.textHighlight);
+//		jtableheader.setForeground(Color.WHITE);
+//		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		tableselection();
 
 		btnshowAll = new JButton("Show All");
+		cLayout.setButton(btnshowAll);
 		btnshowAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loadAllBooks(Optional.empty());
 				clearform();
 			}
 		});
-		btnshowAll.setMargin(new Insets(2, 2, 2, 2));
-		btnshowAll.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnshowAll.setMargin(new Insets(2, 2, 2, 2));
+//		btnshowAll.setFont(new Font("Tahoma", Font.BOLD, 14));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -735,14 +762,18 @@ public class SaleForm extends JPanel {
 						.addGap(0)));
 
 		lblshowStatus = new JLabel("Active or Expire");
+		cLayout.setLabel(lblshowStatus);
 
 		lblshowBookCover = new JLabel("Show Selected Book Cover");
+		cLayout.setLabel(lblshowBookCover);
 
 		lblshowBookCover.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblshowCustomer = new JLabel("Show Customer");
+		cLayout.setLabel(lblshowCustomer);
 		lblshowCustomer.setVisible(false);
-		lblshowCustomer.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+//		lblshowCustomer.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -848,8 +879,10 @@ public class SaleForm extends JPanel {
 		panel.setLayout(gl_panel);
 
 		JPanel pnshowsaleitem = new JPanel();
+		pnshowsaleitem.setBackground(Color.WHITE);
 
 		JButton btnSave = new JButton("Save");
+		cLayout.setButton(btnSave);
 		btnSave.setMnemonic('s');
 
 		btnSave.addActionListener(new ActionListener() {
@@ -900,14 +933,16 @@ public class SaleForm extends JPanel {
 			}
 
 		});
-		btnSave.setMargin(new Insets(2, 2, 2, 2));
-		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnSave.setMargin(new Insets(2, 2, 2, 2));
+//		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel lblTotalAmount = new JLabel("Total Amount");
-		lblTotalAmount.setFont(new Font("Tahoma", Font.BOLD, 16));
+		cLayout.setLabel(lblTotalAmount);
+//		lblTotalAmount.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		JLabel lblTotalQuantity = new JLabel("Total Quantity");
-		lblTotalQuantity.setFont(new Font("Tahoma", Font.BOLD, 16));
+		cLayout.setLabel(lblTotalQuantity);
+//		lblTotalQuantity.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		lbltotalquantity = new JLabel("0");
 		lbltotalquantity.setForeground(UIManager.getColor("ToolBar.dockingForeground"));
@@ -932,8 +967,10 @@ public class SaleForm extends JPanel {
 		lblTotalQuantity_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		JLabel lblNewLabel = new JLabel("Price Before Discount");
+		cLayout.setLabel(lblNewLabel);
 
 		lblbeforeprice = new JLabel("0");
+		
 		GroupLayout gl_pnshowsaleitem = new GroupLayout(pnshowsaleitem);
 		gl_pnshowsaleitem.setHorizontalGroup(gl_pnshowsaleitem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnshowsaleitem.createSequentialGroup()

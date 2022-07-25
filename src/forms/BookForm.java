@@ -122,6 +122,7 @@ public class BookForm extends JPanel {
 	 * Create the frame.
 	 */
 	public BookForm() {
+		setBackground(Color.WHITE);
 		initialize();
 		initializeDependency();
 		this.loadAuthorForComboBox();
@@ -173,6 +174,7 @@ public class BookForm extends JPanel {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 
 		JLabel lblAuthorId = new JLabel("Aurthor Id");
 		lblAuthorId.setVerticalAlignment(SwingConstants.TOP);
@@ -259,6 +261,7 @@ public class BookForm extends JPanel {
 		}
 
 		JPanel photoPanel = new JPanel();
+		photoPanel.setBackground(Color.WHITE);
 		lblAddPhoto = new JLabel("");
 		lblAddPhoto.addMouseListener(new MouseAdapter() {
 			@Override

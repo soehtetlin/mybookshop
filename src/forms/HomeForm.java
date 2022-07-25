@@ -437,7 +437,7 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				AuthorFormnew authForm = new AuthorFormnew();
+				AuthorForm authForm = new AuthorForm();
 				jploader.jPanelLoader(panel_loader, authForm);
 			}
 		});
@@ -531,8 +531,8 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				EmployeeForm femployee = new EmployeeForm();
-				jploader.jPanelLoader(panel_loader, femployee);
+				EmployeeFormNew employee = new EmployeeFormNew();
+				jploader.jPanelLoader(panel_loader, employee);
 			}
 
 		});

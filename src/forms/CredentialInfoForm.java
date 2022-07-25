@@ -71,6 +71,7 @@ public class CredentialInfoForm {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBounds(400, 150, 629, 459);
 		frame.addWindowFocusListener((WindowFocusListener) new WindowAdapter() {
 			public void windowGainedFocus(WindowEvent e) {
@@ -80,8 +81,11 @@ public class CredentialInfoForm {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel panel = new JPanel();
+		panel.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		panel.setBackground(Color.WHITE);
 
 		JPanel imgPanel = new JPanel();
+		imgPanel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
 				groupLayout.createSequentialGroup()
@@ -95,7 +99,7 @@ public class CredentialInfoForm {
 		JLabel lblImage = new JLabel("");
 		lblImage.setForeground(Color.WHITE);
 		lblImage.setBackground(Color.WHITE);
-		Image img = new ImageIcon(this.getClass().getResource("/img1.png")).getImage().getScaledInstance(275, 343,
+		Image img = new ImageIcon(this.getClass().getResource("/loginImg.jpg")).getImage().getScaledInstance(275, 343,
 				Image.SCALE_SMOOTH);
 		lblImage.setIcon(new ImageIcon(img));
 //		imageIcon = new ImageIcon(new ImageIcon(photo.toString()).getImage().getScaledInstance(160, 115, Image.SCALE_SMOOTH));
@@ -110,25 +114,20 @@ public class CredentialInfoForm {
 						.addComponent(lblImage, GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE).addContainerGap()));
 		imgPanel.setLayout(gl_imgPanel);
 
-		JLabel lblNewLabel = new JLabel("Login");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(Color.DARK_GRAY);
-		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 25));
-
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblUsername.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 
 		txtUserName = new JTextField();
-		txtUserName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtUserName.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		txtUserName.setColumns(10);
 
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setHorizontalAlignment(SwingConstants.LEFT);
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPassword.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 
 		passwordField = new JPasswordField();
-		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		passwordField.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 
 		JLabel lblMessage = new JLabel();
 		lblMessage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -136,6 +135,11 @@ public class CredentialInfoForm {
 		lblMessage.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 		btnLogin = new JButton("Login");
+		btnLogin.setForeground(Color.WHITE);
+		btnLogin.setBackground(new Color(218,112,214));
+		btnLogin.setRequestFocusEnabled(false);
+		btnLogin.setBorderPainted(false);
+
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (null != employee) {
@@ -171,39 +175,50 @@ public class CredentialInfoForm {
 			}
 
 		});
-		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnLogin.setFont(new Font("Times New Roman", Font.BOLD, 16));
+		
+		JLabel lblNewLabel = new JLabel("Login to Our Book Shop");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
-						.addGap(3)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createSequentialGroup().addGap(72).addComponent(lblNewLabel,
-										GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(lblPassword,
-								GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(63)
+							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(passwordField, Alignment.LEADING).addComponent(txtUserName,
-										Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup().addGap(49).addComponent(btnLogin,
-								GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap().addGap(51)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup().addGap(66).addComponent(lblUsername,
-										GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
-						.addGap(8).addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(10)
-						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(13)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(10).addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(10).addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(67, Short.MAX_VALUE)));
+							.addComponent(txtUserName, Alignment.LEADING)
+							.addComponent(passwordField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(67)
+					.addComponent(lblNewLabel)
+					.addGap(37)
+					.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGap(34)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(76, Short.MAX_VALUE))
+		);
 		panel.setLayout(gl_panel);
 		frame.getContentPane().setLayout(groupLayout);
 	}

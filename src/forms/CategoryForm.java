@@ -27,6 +27,7 @@ import services.CategoryService;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.Color;
 
 public class CategoryForm extends JPanel {
 
@@ -51,6 +52,7 @@ public class CategoryForm extends JPanel {
 	 * Create the panel.
 	 */
 	public CategoryForm() {
+		setBackground(Color.WHITE);
 
 		categoryService = new CategoryService();
 		initialize();
@@ -61,6 +63,7 @@ public class CategoryForm extends JPanel {
 	private void initialize() {
 
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -100,6 +103,7 @@ public class CategoryForm extends JPanel {
 		cLayout.setButton(btnCancel);
 		
 		scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(

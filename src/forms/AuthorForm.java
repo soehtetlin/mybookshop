@@ -27,6 +27,7 @@ import services.PublisherService;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class AuthorForm extends JPanel {
 	private JButton btnSave, btnCancel, btnUpdate, btnDelete;
@@ -46,6 +47,7 @@ public class AuthorForm extends JPanel {
 	 * Create the panel.
 	 */
 	public AuthorForm() {
+		setBackground(Color.WHITE);
 
 		authorService = new AuthorService();
 		initialize();
@@ -56,6 +58,7 @@ public class AuthorForm extends JPanel {
 	private void initialize() {
 
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -89,6 +92,7 @@ public class AuthorForm extends JPanel {
 		cLayout.setButton(btnCancel);
 		
 		scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(

@@ -96,6 +96,7 @@ public class BookListForm extends JPanel {
 
 
 	public BookListForm() {
+		setBackground(Color.WHITE);
 		initialize();
 		setTableDesign();
 		loadAllBooks(Optional.empty());
@@ -108,10 +109,13 @@ public class BookListForm extends JPanel {
 		this.bookService = new BookService();
 
 		panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 
 		table = new JTable();
+		table.setBackground(Color.WHITE);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		JLabel lblFilter = new JLabel("Filter By : ");
