@@ -73,6 +73,7 @@ public class CustomerListFormNew extends JPanel {
 	 * Create the panel.
 	 */
 	public CustomerListFormNew() {
+		setBackground(Color.WHITE);
 		this.customerService = new CustomerService();
 
 		initialize();
@@ -85,10 +86,13 @@ public class CustomerListFormNew extends JPanel {
 	private void initialize() {
 
 		panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 
 		table = new JTable();
+		table.setBackground(Color.WHITE);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		JLabel lblFilter = new JLabel("Filter By : ");

@@ -53,6 +53,7 @@ public class PublisherForm extends JPanel {
 	private DefaultTableModel dtm = new DefaultTableModel();
 
 	public PublisherForm() {
+		setBackground(Color.WHITE);
 		pubService = new PublisherService();
 		initialize();
 		setTableDesign();
@@ -65,6 +66,7 @@ public class PublisherForm extends JPanel {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 
 		lblPublisherPhNo = new JLabel("Phone No");
 		cLayout.setLabel(lblPublisherPhNo);
@@ -105,8 +107,10 @@ public class PublisherForm extends JPanel {
 		cLayout.setButton(btnCancel);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 
 		tblPublisher = new JTable();
 
