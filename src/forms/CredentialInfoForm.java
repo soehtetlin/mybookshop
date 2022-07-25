@@ -95,7 +95,7 @@ public class CredentialInfoForm {
 		JLabel lblImage = new JLabel("");
 		lblImage.setForeground(Color.WHITE);
 		lblImage.setBackground(Color.WHITE);
-		Image img = new ImageIcon(this.getClass().getResource("/img1.png")).getImage().getScaledInstance(275, 343,
+		Image img = new ImageIcon(this.getClass().getResource("/login.png")).getImage().getScaledInstance(275, 343,
 				Image.SCALE_SMOOTH);
 		lblImage.setIcon(new ImageIcon(img));
 //		imageIcon = new ImageIcon(new ImageIcon(photo.toString()).getImage().getScaledInstance(160, 115, Image.SCALE_SMOOTH));
@@ -145,7 +145,7 @@ public class CredentialInfoForm {
 					if (!employee.getUsername().isBlank() && !employee.getPassword().isBlank()) {
 						employeeService.updateEmployee(String.valueOf(employee.getId()), employee);
 						frame.setVisible(false);
-						EmployeeForm employeeForm = new EmployeeForm();
+						EmployeeFormNew employeeForm = new EmployeeFormNew();
 						employeeForm.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Fill required fields");
@@ -160,7 +160,7 @@ public class CredentialInfoForm {
 							CurrentUserHolder.setLoggedInUser(employeeService.findEmployeeById(loggedInUserId));
 							JOptionPane.showMessageDialog(null, "Successfully Login");
 							frame.setVisible(false);
-							HomeFormNew homeform = new HomeFormNew();
+							HomeForm homeform = new HomeForm();
 							homeform.frame.setVisible(true);
 						}
 					} else {
@@ -172,38 +172,72 @@ public class CredentialInfoForm {
 
 		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox chckboxshowpwd = new JCheckBox("Show Password");
+		chckboxshowpwd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(chckboxshowpwd.isSelected()) {
+					passwordField.setEchoChar((char)0);
+					
+				}else {
+					passwordField.setEchoChar('●');
+				}
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
-						.addGap(3)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(3)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createSequentialGroup().addGap(72).addComponent(lblNewLabel,
-										GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(lblPassword,
-								GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(72)
+									.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(chckboxshowpwd)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(passwordField, Alignment.LEADING).addComponent(txtUserName,
-										Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup().addGap(49).addComponent(btnLogin,
-								GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap().addGap(51)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup().addGap(66).addComponent(lblUsername,
-										GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
-						.addGap(8).addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(10)
-						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(13)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(10).addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addGap(10).addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(67, Short.MAX_VALUE)));
+							.addComponent(passwordField, Alignment.LEADING)
+							.addComponent(txtUserName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(49)
+							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(66)
+							.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
+					.addGap(8)
+					.addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
+					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(10)
+							.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(chckboxshowpwd)))
+					.addGap(10)
+					.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(67, Short.MAX_VALUE))
+		);
 		panel.setLayout(gl_panel);
 		frame.getContentPane().setLayout(groupLayout);
 	}

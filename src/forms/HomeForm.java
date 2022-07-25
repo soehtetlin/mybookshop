@@ -534,7 +534,7 @@ public class HomeForm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				EmployeeForm femployee = new EmployeeForm();
+				EmployeeFormNew femployee = new EmployeeFormNew();
 				jploader.jPanelLoader(panel_loader, femployee);
 			}
 
