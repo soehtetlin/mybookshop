@@ -230,7 +230,8 @@ public class CategoryForm extends JPanel {
 					JOptionPane.showMessageDialog(null, "Please Enter Name!");
 					txtCategoryName.requestFocus();
 				} else {
-
+					category = new Category();
+					category.setName(txtCategoryName.getText());
 					categoryService.saveCategory(category);
 					txtCategoryName.setText("");
 

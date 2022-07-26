@@ -255,9 +255,6 @@ public class BookForm extends JPanel {
 						}
 
 						lblAddPhoto.setText("");
-						System.out.println("ouput file to string : " + destinationFile.getAbsolutePath());
-						System.out.println("Photo Lbl width :" + lblAddPhoto.getWidth());
-						System.out.println("Photo Lbl height :" + lblAddPhoto.getHeight());
 						lblAddPhoto.getHeight();
 						ImageIcon imageIcon = new ImageIcon(
 								new ImageIcon(destinationFile.getAbsolutePath()).getImage().getScaledInstance(
@@ -528,7 +525,6 @@ public class BookForm extends JPanel {
 		book.setName(txtBookName.getText());
 		book.setRemark(txtRemark.getText());
 		book.setShelf_number(Integer.parseInt(txtShelfNo.getText().isBlank() ? "0" : txtShelfNo.getText()));
-		book.setStockamount(100);
 
 		Optional<Category> selectedCategory = categoryList.stream()
 				.filter(c -> c.getName().equals(cboCategory.getSelectedItem())).findFirst();

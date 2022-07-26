@@ -85,7 +85,8 @@ public class BookListForm extends JPanel {
 
 		JLabel lblFilter = new JLabel("Filter By : ");
 		cLayout.setLabel(lblFilter);
-
+		cboAuthors = new JComboBox<>();
+		cLayout.setComboBox(cboAuthors);
 		cboAuthors.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -96,7 +97,6 @@ public class BookListForm extends JPanel {
 				}
 			}
 		});
-		cLayout.setComboBox(cboAuthors);
 
 		btnAdd = new JButton("Add New Book");
 		cLayout.setButton(btnAdd);

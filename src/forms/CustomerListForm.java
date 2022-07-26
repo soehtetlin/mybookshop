@@ -42,7 +42,7 @@ public class CustomerListForm extends JPanel {
 	private JScrollPane scrollPane;
 	private JComboBox<String> comboMemberActive;
 	private DefaultTableModel dtm = new DefaultTableModel();
-	private CustomerService customerService;
+	private CustomerService customerService = new CustomerService();;
 	private List<Customer> originalCustomerList = new ArrayList<>();
 	private JpanelLoader jloader = new JpanelLoader();
 	private Customer customer;
@@ -55,7 +55,6 @@ public class CustomerListForm extends JPanel {
 
 	private JLabel lblRegisterDate, lblCustomerName, lblContactNo, lblEmail, lblAddress;
 
-	private Checking checking = new Checking();
 	private JTextField txtRegisterDate;
 
 	/**
@@ -63,7 +62,6 @@ public class CustomerListForm extends JPanel {
 	 */
 	public CustomerListForm() {
 		setBackground(Color.WHITE);
-		this.customerService = new CustomerService();
 
 		initialize();
 		setTableDesign();
@@ -632,14 +630,6 @@ public class CustomerListForm extends JPanel {
 
 				clearForm();
 				buttonVisible();
-			}
-		});
-
-		btnDelete.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
 			}
 		});
 
