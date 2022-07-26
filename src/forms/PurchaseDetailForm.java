@@ -161,7 +161,7 @@ public class PurchaseDetailForm extends JPanel {
 			row[4] = e.getBook().getPublisher().getName();
 			row[5] = e.getPurchase().getEmployee().getName();
 			row[6] = e.getQuantity();
-			row[7] = e.getBook().getPrice();
+			row[7] = e.getPrice();
 			row[8] = e.getBook().getAuthor().getName();
 			row[9] = e.getBook().getCategory().getName();
 			row[10] = e.getPurchase().getDescription();

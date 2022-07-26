@@ -30,7 +30,7 @@ public class PublisherService {
 		try {
 			AuthorService authService = new AuthorService();
 
-			publisher.setId(genPrimaryKey.generateID2("id", "Publisher", "Pub"));
+			publisher.setId(genPrimaryKey.generateID("id", "Publisher", "PU"));
 			PreparedStatement ps = this.dbConfig.getConnection()
 					.prepareStatement("INSERT INTO publisher (id,name, contact_no,address, email) VALUES (?,?,?,?,?);");
 

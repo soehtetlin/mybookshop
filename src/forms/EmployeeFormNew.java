@@ -269,19 +269,29 @@ public class EmployeeFormNew extends JPanel {
 
 				Employee employee = new Employee();
 				
-				toSaveDataCheck(employee);
 				
-				if (employee.getName() != null && !employee.getName().isBlank() &&
-						!employee.getUsername().isBlank() && employee.getUsername() != null &&
-						!employee.getPassword().isBlank() && employee.getPassword() != null &&
-						!employee.getAddress().isBlank() && employee.getAddress() != null &&
-						!employee.getPhone().isBlank() && employee.getPhone() != null) {
+				if (txtEmployeeName.getText().equals("") || txtUserName.getText().equals("") ||
+						txtPassword.getText().equals("")|| txtPhoneNo.getText().equals("") &&
+						txtAddress.getText().equals("") || txtAge.getText().equals("") ||
+						txtEmail.getText().equals("") || txtGender.getText().equals("")	) {
+					JOptionPane.showMessageDialog(null, "Enter Required Field!");
+				} else if(!Checking.IsAllDigit(txtPhoneNo.getText())) {
+					JOptionPane.showMessageDialog(null, "Phone No should be only digits.");
+					txtPhoneNo.requestFocus();
+					txtPhoneNo.selectAll();
+
+				} else if(!Checking.IsAllDigit(txtAge.getText())){
+					
+					JOptionPane.showMessageDialog(null, "Age should be only digits.");
+					txtAge.requestFocus();
+					txtAge.selectAll();
+				}else {
+					
+					toSaveDataCheck(employee);
 
 					employeeService.createEmployee(employee);
 					employee = null;
 					clearForm();
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 				}
 			}
 		});

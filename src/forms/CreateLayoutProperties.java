@@ -100,6 +100,10 @@ public class CreateLayoutProperties {
 		table.setFocusable(false);
 
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultEditor(Object.class, null);
+		table.setAutoCreateRowSorter(true);
 
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
 		table.getTableHeader().setOpaque(false);

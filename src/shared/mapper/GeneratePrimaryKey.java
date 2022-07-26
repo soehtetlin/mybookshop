@@ -65,9 +65,7 @@ public class GeneratePrimaryKey {
 
 			if (result.size() > 0) {
 
-				System.out.println(
-						"Current ; " + Integer.parseInt(result.get(result.size() - 1).toString().substring(3, 10)) + 1);
-
+				
 				current = Integer.parseInt(result.get(result.size() - 1).toString().substring(3, 10)) + 1;
 				if (current > 0 && current <= 9) {
 					return prefix + "000000" + current;

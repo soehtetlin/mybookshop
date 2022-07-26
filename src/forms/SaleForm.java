@@ -656,7 +656,7 @@ public class SaleForm extends JPanel {
 				txtStockAmount.selectAll();
 				txtPrice.setText((String) tbldisplaysaleitem.getValueAt(i, 3));
 				lblBookID.setText(vid.elementAt(i));
-				cboCategory.setSelectedItem(book.getCategory().getName());
+				//cboCategory.setSelectedItem(book.getCategory().getName());
 				book = bookService.findById(vid.elementAt(i));
 				System.out.println(
 						"Sale Item Table Book ID " + lblBookID.getText() + " Quantity = " + book.getStockamount());
@@ -960,7 +960,7 @@ public class SaleForm extends JPanel {
 		lblTotalQuantity_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		JLabel lblNewLabel = new JLabel("Price Before Discount");
-		cLayout.setLabel(lblNewLabel);
+		//cLayout.setLabel(lblNewLabel);
 
 		lblbeforeprice = new JLabel("0");
 		

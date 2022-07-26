@@ -46,7 +46,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.ColorUIResource;
 import forms.CreateLayoutProperties;
 import forms.JpanelLoader;
-import forms.BookListForm2.ButtonRenderer;
 
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -155,6 +154,7 @@ public class BookListForm extends JPanel {
 		txtSearch.setColumns(10);
 
 		JButton btnSearch = new JButton("Search By Book Name");
+		cLayout.setButton(btnSearch);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(txtSearch.getText().isEmpty()) {

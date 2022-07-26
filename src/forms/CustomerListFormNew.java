@@ -585,6 +585,14 @@ public class CustomerListFormNew extends JPanel {
 					customer.setContact_no(txtContactNo.getText());
 					customer.setEmail(txtEmail.getText());
 					customer.setActive(1);
+					LocalDateTime registerDate = LocalDateTime.now();
+					LocalDateTime expireDate = registerDate.plusYears(2);
+	//
+//					
+					customer.setRegister_date(registerDate);
+					customer.setExpired_date(expireDate);
+//					
+					customer.setLast_date_use(registerDate);
 					customerService.saveCustomer(customer);
 					System.out.println("To Save " + customer.getRegister_date());
 					clearForm();

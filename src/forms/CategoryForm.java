@@ -38,14 +38,14 @@ public class CategoryForm extends JPanel {
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 
 	private DefaultTableModel dtm = new DefaultTableModel();
-	
+
 	private JTextField txtSearch;
 	private JTextField txtCategoryName;
 	private JLabel lblCategoryName;
 	private JButton btnUpdate, btnSave, btnDelete, btnCancel, btnSearch;
-	
+
 	private JScrollPane scrollPane;
-	
+
 	private JTable table;
 
 	/**
@@ -65,101 +65,86 @@ public class CategoryForm extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(2)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
-		);
-		
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
+				groupLayout.createSequentialGroup().addGap(2).addComponent(panel, GroupLayout.DEFAULT_SIZE, 758,
+						Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
+				GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE));
+
 		txtSearch = new JTextField();
 		cLayout.setTextField(txtSearch);
-		
+
 		btnSearch = new JButton("Search");
 		cLayout.setButton(btnSearch);
-		
+
 		txtCategoryName = new JTextField();
 		cLayout.setTextField(txtCategoryName);
-		
+
 		lblCategoryName = new JLabel(" Category Name");
 		cLayout.setLabel(lblCategoryName);
-		
+
 		btnUpdate = new JButton("Update");
 		cLayout.setButton(btnUpdate);
 		btnUpdate.setVisible(false);
-		
+
 		btnSave = new JButton("Save");
 		cLayout.setButton(btnSave);
-		
+
 		btnDelete = new JButton("Delete");
 		cLayout.setButton(btnDelete);
 		btnDelete.setVisible(false);
-		
+
 		btnCancel = new JButton("Cancel");
 		cLayout.setButton(btnCancel);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.WHITE);
-		
+
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(21)
-					.addComponent(lblCategoryName, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
+				.createSequentialGroup().addGap(21)
+				.addComponent(lblCategoryName, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
+						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE).addGap(12)
+						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE).addGap(12)
+						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
 						.addComponent(txtCategoryName, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE))
-					.addGap(333))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap(596, Short.MAX_VALUE)
-					.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addGap(49))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(22)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGap(333))
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap(596, Short.MAX_VALUE)
+						.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE).addGap(49))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addGap(22)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCategoryName)
-						.addComponent(txtCategoryName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblCategoryName).addComponent(
+						txtCategoryName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE))
+				.addGap(18)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+								.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
-		);
-		
+				.addPreferredGap(ComponentPlacement.UNRELATED)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)));
+
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+
 		panel.setLayout(gl_panel);
-		
+
 		setLayout(groupLayout);
-		
+
 		this.table.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
 
 			if (!table.getSelectionModel().isSelectionEmpty()) {
@@ -171,13 +156,12 @@ public class CategoryForm extends JPanel {
 				String id = table.getValueAt(table.getSelectedRow(), 0).toString();
 
 				category = categoryService.findById(id);
-				
+
 				txtCategoryName.setText(category.getName());
 
 			}
 
 		});
-		
 
 		buttonOnClick();
 	}
@@ -189,7 +173,6 @@ public class CategoryForm extends JPanel {
 
 		dtm.addColumn("Category ID");
 		dtm.addColumn("Category Name");
-		
 
 		this.table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Category ID", "Category Name" }));
 
@@ -209,7 +192,7 @@ public class CategoryForm extends JPanel {
 	}
 
 	private void loadAllCategories(Optional<List<Category>> optionalCategories) {
-		
+
 		this.dtm = (DefaultTableModel) this.table.getModel();
 		this.dtm.getDataVector().removeAllElements();
 		this.dtm.fireTableDataChanged();
@@ -228,7 +211,7 @@ public class CategoryForm extends JPanel {
 		table.setModel(dtm);
 
 	}
-	
+
 	private void searchCategory() {
 
 		String keyword = txtSearch.getText();
@@ -236,24 +219,21 @@ public class CategoryForm extends JPanel {
 		loadAllCategories(Optional.of(originalCategoryList.stream()
 				.filter(b -> b.getName().toLowerCase(Locale.ROOT).startsWith(keyword.toLowerCase(Locale.ROOT)))
 				.collect(Collectors.toList())));
-	
+
 	}
-	
+
 	private void buttonOnClick() {
-		
+
 		btnSave.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				Category category = new Category();
-				if (!txtCategoryName.getText().isBlank())
-					category.setName(txtCategoryName.getText());
-				else
-					JOptionPane.showMessageDialog(null, "Enter Category Name");
-
-				if (!category.getName().isBlank()) {
+				if (txtCategoryName.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please Enter Name!");
+					txtCategoryName.requestFocus();
+				} else {
 
 					categoryService.saveCategory(category);
 					txtCategoryName.setText("");
@@ -261,16 +241,13 @@ public class CategoryForm extends JPanel {
 					loadAllCategories(Optional.empty());
 
 					category = null;
-				} else {
-					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 				}
 			}
 
 		});
-		
-		
+
 		btnUpdate.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -293,7 +270,7 @@ public class CategoryForm extends JPanel {
 				buttonVisible();
 			}
 		});
-		
+
 		btnDelete.addActionListener(new ActionListener() {
 
 			@Override
@@ -324,13 +301,13 @@ public class CategoryForm extends JPanel {
 			}
 
 		});
-		
+
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				searchCategory();
 			}
 		});
-		
+
 		txtSearch.addActionListener(new ActionListener() {
 
 			@Override

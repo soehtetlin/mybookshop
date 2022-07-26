@@ -260,11 +260,6 @@ public class PublisherForm extends JPanel {
 				{
 					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 
-				}else if(!Checking.checktxtprice(txtSupPhone.getText())) 
-				{
-					JOptionPane.showMessageDialog(null, "Phone is number only!");
-					txtSupPhone.requestFocus();
-					txtSupPhone.selectAll();
 				}else {
 					publisher.setName(txtSupName.getText());
 					publisher.setAddress(txtSupAddress.getText());

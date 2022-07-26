@@ -123,7 +123,8 @@ public class HomeForm {
 		addMenuItem();
 		setTableForTopTenBooks();
 		loadAllBooks(Optional.empty());
-		showPhoto();
+		
+		//showPhoto();
 	}
 
 	private void showPhoto() {
