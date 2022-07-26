@@ -93,6 +93,7 @@ public class SaleForm extends JPanel {
 	private JButton btnaddbook;
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 	List<Book> b = new ArrayList<>();
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Create the panel.
@@ -699,6 +700,9 @@ public class SaleForm extends JPanel {
 		cLayout.setLabel(lblshowCustomer);
 		lblshowCustomer.setVisible(false);
 
+		lblNewLabel_1 = new JLabel("Sale");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
+
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -743,19 +747,30 @@ public class SaleForm extends JPanel {
 												GroupLayout.PREFERRED_SIZE)
 										.addGap(10).addComponent(btnremove, GroupLayout.PREFERRED_SIZE, 100,
 												GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panel.createSequentialGroup().addGap(1)
+								.addComponent(lblcustomer, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+								.addGap(254)))
 						.addGroup(
-								gl_panel.createSequentialGroup().addGap(1)
-										.addComponent(lblcustomer, GroupLayout.PREFERRED_SIZE, 100,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(254)))
-						.addGap(60).addComponent(lblshowBookCover, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-						.addGap(74)));
+								gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup().addGap(60)
+												.addComponent(lblshowBookCover, GroupLayout.DEFAULT_SIZE, 141,
+														Short.MAX_VALUE)
+												.addGap(74))
+										.addGroup(gl_panel
+												.createSequentialGroup().addGap(35).addComponent(lblNewLabel_1,
+														GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+												.addContainerGap()))));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
 				.createSequentialGroup().addGap(6)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel.createSequentialGroup()
+				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
+						.createSequentialGroup()
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblcustomer, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 32,
+												GroupLayout.PREFERRED_SIZE)))
 						.addGap(11)
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblshowCustomer, GroupLayout.PREFERRED_SIZE, 32,
@@ -786,7 +801,7 @@ public class SaleForm extends JPanel {
 								GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnshowAll, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-				.addGap(27).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE).addGap(5))
+				.addGap(27).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE).addGap(5))
 				.addGroup(gl_panel.createSequentialGroup().addGap(48)
 						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(401, Short.MAX_VALUE)));

@@ -574,11 +574,15 @@ public class PurchaseForm extends JPanel {
 
 		lblshowBookCover = new JLabel("Show Selected Book Cover");
 
+		JLabel lblNewLabel = new JLabel("Purchase");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 				.createSequentialGroup().addGap(1)
 				.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE).addGap(10)
-				.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE).addGap(110))
+				.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE).addGap(18)
+				.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE).addGap(238))
 				.addGroup(gl_panel.createSequentialGroup()
 						.addComponent(txtsearchbook, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
 						.addGap(2).addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
@@ -614,13 +618,20 @@ public class PurchaseForm extends JPanel {
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 				.createSequentialGroup().addGap(6)
 				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel.createSequentialGroup()
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-						.addGap(11)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+								.createSequentialGroup()
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(11)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 						.addGap(11)
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)

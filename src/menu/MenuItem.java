@@ -61,6 +61,7 @@ public class MenuItem extends JPanel {
 		lbIcon.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbIcon.setBounds(0, 0, 45, 50);
 		lbIcon.setForeground(SystemColor.window);
+
 		lbName = new javax.swing.JLabel();
 		lbName.setHorizontalAlignment(SwingConstants.LEFT);
 		lbName.setBounds(52, 0, 108, 50);
@@ -71,6 +72,7 @@ public class MenuItem extends JPanel {
 		addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mousePressed(java.awt.event.MouseEvent evt) {
+
 				formMousePressed(evt);
 			}
 		});
