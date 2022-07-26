@@ -1,10 +1,30 @@
 package forms;
 
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Vector;
+import java.util.stream.Collectors;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 import entities.Book;
 import entities.Category;
@@ -17,39 +37,6 @@ import services.CategoryService;
 import services.EmployeeService;
 import services.PublisherService;
 import services.PurchaseService;
-
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.JButton;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.SystemColor;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Vector;
-import java.util.stream.Collectors;
-
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerDateModel;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-
-import com.toedter.calendar.JDateChooser;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PurchaseDetailForm extends JPanel {
 	private JTable table;
@@ -97,7 +84,7 @@ public class PurchaseDetailForm extends JPanel {
 	}
 
 	private void setTableDesign() {
-		// TODO Auto-generated method stub
+
 		dtm.addColumn("No");
 		dtm.addColumn("Purchase\n ID");
 		dtm.addColumn("Purchase\n Date");
@@ -202,7 +189,7 @@ public class PurchaseDetailForm extends JPanel {
 		this.table.setModel(dtm);
 
 	}
-	
+
 	private void loadPurchaseDetailByEmployee(String s) {
 
 		this.dtm = (DefaultTableModel) this.table.getModel();
@@ -236,7 +223,7 @@ public class PurchaseDetailForm extends JPanel {
 	}
 
 	private void initialize() {
-		// TODO Auto-generated method stub
+
 		setVisible(true);
 		revalidate();
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -254,6 +241,7 @@ public class PurchaseDetailForm extends JPanel {
 
 		JButton btnSearchBook = new JButton("Search");
 		btnSearchBook.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				searchBook();
 			}
@@ -271,6 +259,7 @@ public class PurchaseDetailForm extends JPanel {
 
 		cboPublisher = new JComboBox<String>();
 		cboPublisher.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (cboPublisher.getSelectedIndex() == 0) {
 					loadAllPurchase(Optional.empty());
@@ -278,8 +267,6 @@ public class PurchaseDetailForm extends JPanel {
 					cboEmployee.setSelectedIndex(0);
 					loadPurchaseDetailByPublisher(cboPublisher.getSelectedItem().toString());
 				}
-
-				// loadAllPurchasebyPublisher(Optional.empty());
 
 			}
 		});
@@ -289,6 +276,7 @@ public class PurchaseDetailForm extends JPanel {
 
 		cboEmployee = new JComboBox<String>();
 		cboEmployee.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (cboEmployee.getSelectedIndex() == 0) {
 					loadAllPurchase(Optional.empty());
@@ -301,8 +289,9 @@ public class PurchaseDetailForm extends JPanel {
 
 		JButton btnShowAll = new JButton("Show All");
 		btnShowAll.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// vno.removeAllElements();
+
 				loadAllPurchase(Optional.empty());
 			}
 		});
@@ -325,60 +314,62 @@ public class PurchaseDetailForm extends JPanel {
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(8)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(25)
-							.addComponent(btnSearchBook, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-							.addGap(25)
-							.addComponent(btnShowAll, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-							.addGap(35)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(8)
+						.addGroup(gl_panel
+								.createParallelGroup(
+										Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 468, Short.MAX_VALUE)))
-							.addGap(50)))
-					.addGap(18))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(25)
+										.addComponent(btnSearchBook, GroupLayout.PREFERRED_SIZE, 118,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(25)
+										.addComponent(btnShowAll, GroupLayout.PREFERRED_SIZE, 118,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 100,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 100,
+														GroupLayout.PREFERRED_SIZE))
+										.addGap(35)
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 100,
+														GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_panel.createSequentialGroup()
+														.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 100,
+																GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED, 468,
+																Short.MAX_VALUE)))
+										.addGap(50)))
+						.addGap(18)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addGap(20))
+								.addComponent(lblPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addGap(11)
+								.addComponent(cboPublisher, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addGap(20))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)))
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(1)
-							.addComponent(txtSearchPurchase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnSearchBook)
-						.addComponent(btnShowAll)))
-		);
+								.addComponent(lblEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addGap(11)
+								.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)))
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup().addGap(1).addComponent(txtSearchPurchase,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSearchBook).addComponent(btnShowAll))));
 
 		panel.setLayout(gl_panel);
 		setLayout(groupLayout);
 
 	}
-	
+
 	protected void searchBook() {
-		// TODO Auto-generated method stub
+
 		String keyword = txtSearchPurchase.getText();
 
 		loadAllPurchase(Optional.of(purchaseList.stream()
@@ -386,15 +377,14 @@ public class PurchaseDetailForm extends JPanel {
 						|| e.getBook().getName().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT))
 						|| e.getBook().getPublisher().getName().toLowerCase(Locale.ROOT)
 								.contains(keyword.toLowerCase(Locale.ROOT))
-						|| e.getBook().getAuthor().getName().toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT)))
+						|| e.getBook().getAuthor().getName().toLowerCase(Locale.ROOT)
+								.contains(keyword.toLowerCase(Locale.ROOT)))
 				.collect(Collectors.toList())));
 
 	}
 
 	private void loadEmployeeForComboBox() {
 		cboEmployee.addItem("- Select -");
-		// System.out.println("author count " +
-		// employeeService.findAllAuthors().size());
 
 		this.employeelist = this.employeeService.findAllEmployees();
 		this.employeelist.forEach(a -> cboEmployee.addItem(a.getName()));
@@ -402,8 +392,6 @@ public class PurchaseDetailForm extends JPanel {
 
 	private void loadPublisherForComboBox() {
 		cboPublisher.addItem("- Select -");
-		// System.out.println("pub count " +
-		// publisherService.findAllPublishers().size());
 
 		this.publisherList = this.publisherService.findAllPublishers();
 		this.publisherList.forEach(p -> cboPublisher.addItem(p.getName()));

@@ -1,80 +1,62 @@
 package forms;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Vector;
 import java.util.stream.Collectors;
-import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import shared.checker.Checking;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-
-//import com.mysql.cj.util.StringUtils;
-import entities.Author;
-import entities.Book;
-import entities.Category;
-import entities.Customer;
-import entities.Employee;
-import entities.Customer;
-import entities.Sale;
-import entities.SaleDetails;
-import services.EmployeeService;
-import services.BookService;
-import services.CategoryService;
-import services.CustomerService;
-import services.CustomerService;
-import services.SaleService;
-import shared.utils.CurrentUserHolder;
-import javax.swing.JComboBox;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.awt.event.ActionEvent;
-import javax.swing.ListSelectionModel;
-import javax.swing.Timer;
-import java.awt.SystemColor;
 
 import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import com.toedter.calendar.JDateChooser;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import entities.Book;
+import entities.Category;
+import entities.Customer;
+import entities.Employee;
+import entities.SaleDetails;
+import services.BookService;
+import services.CategoryService;
+import services.CustomerService;
+import services.SaleService;
+import shared.checker.Checking;
+import shared.utils.CurrentUserHolder;
 
 public class SaleForm extends JPanel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtsearchbook;
@@ -84,17 +66,14 @@ public class SaleForm extends JPanel {
 	private JTextField txtPrice;
 	private JComboBox<String> cboCategory, cboCustomer;
 	private List<Category> categoryList;
-	private List<Employee> employeelist;
 	private List<Customer> customerList;
 	private DefaultTableModel dtm = new DefaultTableModel();
 	private DefaultTableModel dtmsale = new DefaultTableModel();
 	private CategoryService categoryService;
-	private EmployeeService employeeService;
 	private CustomerService customerService;
 	private BookService bookService;
 	private Book book;
 	private JButton btnshowAll;
-	private Sale sale;
 	private JLabel lblshowdate = new JLabel();
 	private JLabel lblshowBookCover, lbldiscount, lbldisplaydiscount, lblshowCustomer;
 	private SaleService saleService = new SaleService();
@@ -109,7 +88,6 @@ public class SaleForm extends JPanel {
 	private int serialno;
 	private Employee employee;
 	private SaleDetails saleDetail;
-	private SaleDetailForm saleDetailForm;
 	private List<SaleDetails> saleDetailsList = new ArrayList<>();
 	private JLabel lblemployee;
 	private JButton btnaddbook;
@@ -125,10 +103,10 @@ public class SaleForm extends JPanel {
 		initializeDependency();
 		this.setTableDesign();
 		this.setTableDesignForSaleTable();
-		// txtsearchbook.requestFocusInWindow();
+
 		this.showTodayDate();
 		this.loadAllBooks(Optional.empty());
-		///this.loadAllSaleDetails();
+
 		this.loadCategoryForComboBox();
 		new AutoCompleteComboBox(customerList);
 		this.loadCustomerForComboBox();
@@ -157,7 +135,6 @@ public class SaleForm extends JPanel {
 	}
 
 	private void setTableDesign() {
-		// TODO Auto-generated method stub
 
 		dtm.addColumn("ID");
 		dtm.addColumn("Name");
@@ -215,7 +192,7 @@ public class SaleForm extends JPanel {
 		List<Book> bookList = new ArrayList<>();
 		bookList = bookService.findBookByCategoryName(s);
 		bookList.forEach(e -> {
-		
+
 			Object[] row = new Object[9];
 			row[0] = e.getId();
 			row[1] = e.getName();
@@ -233,7 +210,6 @@ public class SaleForm extends JPanel {
 	}
 
 	private void clearform() {
-		// TODO Auto-generated method stub
 
 		lblBookID.setText("");
 		txtStockAmount.setText("");
@@ -246,7 +222,6 @@ public class SaleForm extends JPanel {
 	}
 
 	private void clearAll() {
-		// TODO Auto-generated method stub
 
 		lblBookID.setText("");
 		txtStockAmount.setText("");
@@ -269,15 +244,12 @@ public class SaleForm extends JPanel {
 		vid.removeAllElements();
 		vtotalPrice.removeAllElements();
 
-		// cboBrand.setSelectedIndex(0);
-
 	}
 
 	private void setTableDesignForSaleTable() {
 		dtmsale.addColumn("No");
 		dtmsale.addColumn("Book");
-		// dtmsale.addColumn("Category");
-		// dtmsale.addColumn("Author");
+
 		dtmsale.addColumn("Quantity");
 		dtmsale.addColumn("Price");
 		dtmsale.addColumn("Amount");
@@ -304,7 +276,7 @@ public class SaleForm extends JPanel {
 	}
 
 	private void deleteRow() {
-		// TODO Auto-generated method stub
+
 		int i = tbldisplaysaleitem.getSelectedRow();
 
 		System.out.println("vid.size" + vid.size());
@@ -322,13 +294,12 @@ public class SaleForm extends JPanel {
 
 			System.out.println("vid after remove in delete row :" + vid.elementAt(i));
 
-			// int row = mtt.getSelectedRows()[0];// returns row position
 			dtmsale.removeRow(i);
 
 			for (int y = i; y < dtmsale.getRowCount(); y++) {
 				System.out.println("inside loop y value " + y);
 
-				dtmsale.setValueAt(y + 1, y, 0); // setValueAt(data,row,column)
+				dtmsale.setValueAt(y + 1, y, 0);
 			}
 
 		} else {
@@ -352,20 +323,20 @@ public class SaleForm extends JPanel {
 
 	private void addBookToSaleTable() {
 
-		showSale[0] = String.valueOf(vno.size() + 1);// show no
+		showSale[0] = String.valueOf(vno.size() + 1);
 
 		vid.addElement(book.getId());
 
-		showSale[1] = book.getName();// show name
+		showSale[1] = book.getName();
 		vno.addElement(showSale[1]);
-		showSale[2] = txtStockAmount.getText();// show quantity
+		showSale[2] = txtStockAmount.getText();
 		totalquantity = Integer.valueOf(showSale[2]) + (book.getStockamount());
 		book.setStockamount(totalquantity);
 
-		showSale[3] = txtPrice.getText();// show price
+		showSale[3] = txtPrice.getText();
 
 		int totalamount = (Integer.valueOf(showSale[2]) * Integer.valueOf(showSale[3]));
-		showSale[4] = String.valueOf(totalamount);// show total amount
+		showSale[4] = String.valueOf(totalamount);
 		vtotalPrice.addElement((showSale[4]));
 		vtotalquantity.addElement(showSale[2]);
 
@@ -387,18 +358,18 @@ public class SaleForm extends JPanel {
 			System.out.println("0.05 double value " + s);
 			Integer ii = (int) (Integer.valueOf(i) - (Math.round(s)));
 			System.out.println("subtraction value " + ii);
-			lbltotalprice.setText(ii.toString());// show total amount
+			lbltotalprice.setText(ii.toString());
 		} else {
 
-			lbltotalprice.setText(sumAmount(vtotalPrice, 1));// show total amount
+			lbltotalprice.setText(sumAmount(vtotalPrice, 1));
 		}
 	}
 
 	private String sumAmount(Vector<String> storeQTY2, int t) {
-		// TODO Auto-generated method stub
+
 		long sum = 0;
 		for (int i = 0; i < storeQTY2.size(); i++) {
-			sum += Long.parseLong((String) storeQTY2.elementAt(i));
+			sum += Long.parseLong(storeQTY2.elementAt(i));
 			System.out.println("inside for loop sum resutl " + sum);
 
 		}
@@ -442,8 +413,8 @@ public class SaleForm extends JPanel {
 		cboCustomer.addActionListener(new ActionListener() {
 			private int totalamount;
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
 
 				totalamount = customerService.sumCustomerAmountForOneMonth(cboCustomer.getSelectedItem().toString());
 				System.out.println("Total Amount " + totalamount);
@@ -452,69 +423,60 @@ public class SaleForm extends JPanel {
 				} else {
 					lbldisplaydiscount.setText("0");
 				}
-				
+
 			}
 		});
 
 		cboCategory = new JComboBox<String>();
 		cLayout.setComboBox(cboCategory);
-		
+
 		cboCategory.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				 if(cboCategory.getSelectedIndex()==0) {
-					 loadAllBooks(Optional.empty());
-				 }else {
-					 loadAllBooksByCategory(cboCategory.getSelectedItem().toString());
-				 }
-				
-			
+				if (cboCategory.getSelectedIndex() == 0) {
+					loadAllBooks(Optional.empty());
+				} else {
+					loadAllBooksByCategory(cboCategory.getSelectedItem().toString());
+				}
+
 			}
 		});
 
-		// 
-
 		JLabel lblcustomer = new JLabel("Customer");
 		cLayout.setLabel(lblcustomer);
-//		lblcustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel lblCategory = new JLabel("Category");
 		cLayout.setLabel(lblCategory);
-//		lblCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel lblQuantity = new JLabel("Quantity");
 		cLayout.setLabel(lblQuantity);
-//		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		txtStockAmount = new JTextField();
 		cLayout.setTextField(txtStockAmount);
-		
+
 		txtStockAmount.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				addBookAction();
 			}
 		});
-//		txtStockAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
-//		txtStockAmount.setColumns(10);
 
 		JLabel lblPrice = new JLabel("Price");
 		cLayout.setLabel(lblPrice);
-//		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		txtPrice = new JTextField();
 		txtPrice.setEditable(false);
 		cLayout.setTextField(txtPrice);
-//		txtPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
-//		txtPrice.setColumns(10);
 
 		lblBookID = new JLabel("");
 		cLayout.setLabel(lblBookID);
-//		lblBookID.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JButton btnedit = new JButton("Update");
 		cLayout.setButton(btnedit);
 		btnedit.setVisible(false);
-		
+
 		btnedit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (tbldisplaysaleitem.getSelectedRow() < 0) {
@@ -538,19 +500,18 @@ public class SaleForm extends JPanel {
 					deleteRow();
 					addBookToSaleTable();
 					calculateDiscountPrice();
-					// lbltotalprice.setText(sumAmount(vtotalPrice, 1));
+
 					lbltotalquantity.setText(sumAmount(vtotalquantity, 1));
 					clearform();
 				}
 			}
 		});
-//		btnedit.setMargin(new Insets(2, 2, 2, 2));
-//		btnedit.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JButton btnremove = new JButton("Remove");
 		cLayout.setButton(btnremove);
 		btnremove.setVisible(false);
 		btnremove.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (tbldisplaysaleitem.getSelectedRow() < 0) {
 					JOptionPane.showMessageDialog(null, "Please select book to delete!");
@@ -563,13 +524,12 @@ public class SaleForm extends JPanel {
 			}
 
 		});
-//		btnremove.setMargin(new Insets(2, 2, 2, 2));
-//		btnremove.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		btnaddbook = new JButton("Add Book");
 		cLayout.setButton(btnaddbook);
 		btnaddbook.setMnemonic('a');
 		btnaddbook.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				addBookAction();
 
@@ -577,43 +537,35 @@ public class SaleForm extends JPanel {
 
 		});
 
-//		btnaddbook.setMargin(new Insets(2, 2, 2, 2));
-//		btnaddbook.setFont(new Font("Tahoma", Font.BOLD, 14));
-
 		txtsearchbook = new JTextField("");
 		cLayout.setTextField(txtsearchbook);
 		txtsearchbook.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtsearchbook.getText().isEmpty()) {
+				if (txtsearchbook.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Enter Book Name!");
 					txtsearchbook.requestFocus();
-				}else {
+				} else {
 					searchBook();
 				}
-				
 
 			}
 		});
-//		txtsearchbook.setName("");
-//		txtsearchbook.setFont(new Font("Tahoma", Font.BOLD, 14));
-//		txtsearchbook.setColumns(10);
 
 		JButton btnSearch = new JButton("Search");
 		cLayout.setButton(btnSearch);
 		btnSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtsearchbook.getText().isEmpty()) {
+				if (txtsearchbook.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Enter Book Name!");
 					txtsearchbook.requestFocus();
-				}else {
+				} else {
 					searchBook();
 				}
-				
 
 			}
 		});
-//		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-//		btnSearch.setMargin(new Insets(2, 2, 2, 2));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
@@ -624,17 +576,10 @@ public class SaleForm extends JPanel {
 		tbldisplaysaleitem = new JTable();
 		tbldisplaysaleitem.setBackground(Color.WHITE);
 		cLayout.setTable(tbldisplaysaleitem);
-//		tbldisplaysaleitem.setFont(new Font("Tahoma", Font.BOLD, 14));
-//		tbldisplaysaleitem.setBackground(new Color(255, 250, 240));
-//		tbldisplaysaleitem.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//		tbldisplaysaleitem.setForeground(Color.DARK_GRAY);
+
 		tbldisplaysaleitem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbldisplaysaleitem.setDefaultEditor(Object.class, null);
 		tbldisplaysaleitem.setAutoCreateRowSorter(true);
-//		JTableHeader jtableheader = tbldisplaysaleitem.getTableHeader();
-//		jtableheader.setBackground(SystemColor.textHighlight);
-//		jtableheader.setForeground(Color.white);
-//		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		this.tbldisplaysaleitem.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
 			if (!tbldisplaysaleitem.getSelectionModel().isSelectionEmpty()) {
@@ -644,19 +589,16 @@ public class SaleForm extends JPanel {
 				btnremove.setVisible(true);
 				btnaddbook.setVisible(false);
 				btnshowAll.setVisible(false);
-				// String id =
-				// tbldisplaysaleitem.getValueAt(tbldisplaysaleitem.getSelectedRow(),
-				// 0).toString();
+
 				int i = tbldisplaysaleitem.getSelectedRow();
 				System.out.println("Show selected data " + (String) tbldisplaysaleitem.getValueAt(i, 4));
-				// book.setId(((String)tbldisplaysaleitem.getValueAt(i, 1)));
-				// System.out.println("Book ID in click action" + book.getId());
+
 				txtStockAmount.setText((String) tbldisplaysaleitem.getValueAt(i, 2));
 				txtStockAmount.requestFocus();
 				txtStockAmount.selectAll();
 				txtPrice.setText((String) tbldisplaysaleitem.getValueAt(i, 3));
 				lblBookID.setText(vid.elementAt(i));
-				//cboCategory.setSelectedItem(book.getCategory().getName());
+
 				book = bookService.findById(vid.elementAt(i));
 				System.out.println(
 						"Sale Item Table Book ID " + lblBookID.getText() + " Quantity = " + book.getStockamount());
@@ -671,11 +613,10 @@ public class SaleForm extends JPanel {
 
 		lblemployee = new JLabel("Employee Name");
 		cLayout.setLabel(lblemployee);
-//		lblemployee.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		tblshowbooklist = new JTable();
 		tblshowbooklist.setBackground(Color.WHITE);
-//		tblshowbooklist.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 		cLayout.setTable(tblshowbooklist);
 
 		this.tblshowbooklist.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
@@ -696,20 +637,19 @@ public class SaleForm extends JPanel {
 				lblshowBookCover.setHorizontalAlignment(SwingConstants.CENTER);
 
 				lblBookID.setText(book.getId());
-				// txtStockAmount.setText(String.valueOf(book.getStockamount()));
+
 				txtStockAmount.requestFocus();
 
 				txtPrice.setText(String.valueOf(book.getSale_price()));
-				// txtPrice.setEditable(false);
+
 				System.out.println("Customer CBO Selected Return value : " + book.getCategory().getName());
-				// cboCustomer.setSelectedItem(book.getCustomer().getName());
-				// cboEmployee.setSelectedItem(employee.getName());
 
 			}
 		});
 
 		if (tblshowbooklist.getSelectedColumnCount() < 0) {
 			cboCategory.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 
 					if (cboCategory.getSelectedIndex() == 0) {
@@ -724,23 +664,19 @@ public class SaleForm extends JPanel {
 		}
 
 		scrollPane.setViewportView(tblshowbooklist);
-//		jtableheader = tblshowbooklist.getTableHeader();
-//		jtableheader.setBackground(SystemColor.textHighlight);
-//		jtableheader.setForeground(Color.WHITE);
-//		jtableheader.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		tableselection();
 
 		btnshowAll = new JButton("Show All");
 		cLayout.setButton(btnshowAll);
 		btnshowAll.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				loadAllBooks(Optional.empty());
 				clearform();
 			}
 		});
-//		btnshowAll.setMargin(new Insets(2, 2, 2, 2));
-//		btnshowAll.setFont(new Font("Tahoma", Font.BOLD, 14));
+
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -754,8 +690,6 @@ public class SaleForm extends JPanel {
 								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
 						.addGap(0)));
 
-
-
 		lblshowBookCover = new JLabel("Show Selected Book Cover");
 		cLayout.setLabel(lblshowBookCover);
 
@@ -764,111 +698,98 @@ public class SaleForm extends JPanel {
 		lblshowCustomer = new JLabel("Show Customer");
 		cLayout.setLabel(lblshowCustomer);
 		lblshowCustomer.setVisible(false);
-//		lblshowCustomer.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
-		
+
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(txtsearchbook, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-					.addGap(2)
-					.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(btnshowAll, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(1)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
-					.addGap(5))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(1)
+						.addComponent(txtsearchbook, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+						.addGap(2).addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(btnshowAll, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup().addGap(1)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE).addGap(5))
+				.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+								.createSequentialGroup().addGap(1)
 								.addComponent(cboCustomer, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(38)
-										.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(10)
-										.addComponent(lblshowCustomer, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-										.addGap(11)
-										.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED))))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(3)
-								.addComponent(lblBookID)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblQuantity, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(96)
-										.addComponent(txtStockAmount, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(96)
-										.addComponent(txtPrice, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE))
-									.addComponent(lblPrice, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(10)
-								.addComponent(btnaddbook, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-								.addGap(16)
-								.addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-								.addGap(10)
-								.addComponent(btnremove, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(1)
-							.addComponent(lblcustomer, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(254)))
-					.addGap(60)
-					.addComponent(lblshowBookCover, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-					.addGap(74))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(6)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup().addGap(38).addComponent(lblCategory,
+												GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_panel.createSequentialGroup().addGap(10)
+												.addComponent(lblshowCustomer, GroupLayout.DEFAULT_SIZE, 124,
+														Short.MAX_VALUE)
+												.addGap(11)
+												.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 109,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED))))
+								.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(lblBookID)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblQuantity, GroupLayout.PREFERRED_SIZE, 100,
+														GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_panel.createSequentialGroup().addGap(96).addComponent(
+														txtStockAmount, GroupLayout.PREFERRED_SIZE, 182,
+														GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_panel.createSequentialGroup().addGap(96).addComponent(
+														txtPrice, GroupLayout.PREFERRED_SIZE, 182,
+														GroupLayout.PREFERRED_SIZE))
+												.addComponent(lblPrice, GroupLayout.PREFERRED_SIZE, 100,
+														GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_panel.createSequentialGroup().addGap(10)
+										.addComponent(btnaddbook, GroupLayout.PREFERRED_SIZE, 100,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(16)
+										.addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 100,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(10).addComponent(btnremove, GroupLayout.PREFERRED_SIZE, 100,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGroup(
+								gl_panel.createSequentialGroup().addGap(1)
+										.addComponent(lblcustomer, GroupLayout.PREFERRED_SIZE, 100,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(254)))
+						.addGap(60).addComponent(lblshowBookCover, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+						.addGap(74)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
+				.createSequentialGroup().addGap(6)
+				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblcustomer, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-							.addGap(11)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblshowCustomer, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addGap(11)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblshowCustomer, GroupLayout.PREFERRED_SIZE, 32,
+										GroupLayout.PREFERRED_SIZE)
 								.addComponent(cboCustomer, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-							.addGap(9)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGap(9)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblQuantity, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblBookID, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(1)
-									.addComponent(txtStockAmount, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
-							.addGap(10)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblQuantity, GroupLayout.PREFERRED_SIZE, 30,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblBookID, GroupLayout.PREFERRED_SIZE, 42,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addGap(1).addComponent(txtStockAmount,
+										GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+						.addGap(10)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(txtPrice, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblPrice, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-							.addGap(17)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGap(17)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnaddbook, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnedit, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnremove, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(lblshowBookCover, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
-					.addGap(9)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(2)
-							.addComponent(txtsearchbook, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+				.addGap(9)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup().addGap(2).addComponent(txtsearchbook,
+								GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnshowAll, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(27)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-					.addGap(5))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(48)
-					.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(401, Short.MAX_VALUE))
-		);
+				.addGap(27).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE).addGap(5))
+				.addGroup(gl_panel.createSequentialGroup().addGap(48)
+						.addComponent(cboCategory, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(401, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 
 		JPanel pnshowsaleitem = new JPanel();
@@ -879,6 +800,7 @@ public class SaleForm extends JPanel {
 		btnSave.setMnemonic('s');
 
 		btnSave.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (vno.size() == 0) {
 					JOptionPane.showMessageDialog(null, "There is no item for sale!");
@@ -895,9 +817,9 @@ public class SaleForm extends JPanel {
 						saleService.createSale(savedata1);
 						customerService.updateCustomerLatestDateUse(cboCustomer.getSelectedItem().toString());
 						for (int i = 0; i < vno.size(); i++) {
-							savedata2[0] = (String) tbldisplaysaleitem.getValueAt(i, 2);// get quantity
-							savedata2[1] = (String) tbldisplaysaleitem.getValueAt(i, 3);// get price
-							savedata2[2] = (String) vid.elementAt(i);
+							savedata2[0] = (String) tbldisplaysaleitem.getValueAt(i, 2);
+							savedata2[1] = (String) tbldisplaysaleitem.getValueAt(i, 3);
+							savedata2[2] = vid.elementAt(i);
 							System.out.println("Book id " + i + " show " + (savedata2[2]));
 							if (lbldisplaydiscount.getText().equals("5")) {
 								saleService.createSaleDetails(savedata2, 1);
@@ -926,16 +848,12 @@ public class SaleForm extends JPanel {
 			}
 
 		});
-//		btnSave.setMargin(new Insets(2, 2, 2, 2));
-//		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel lblTotalAmount = new JLabel("Total Amount");
 		cLayout.setLabel(lblTotalAmount);
-//		lblTotalAmount.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		JLabel lblTotalQuantity = new JLabel("Total Quantity");
 		cLayout.setLabel(lblTotalQuantity);
-//		lblTotalQuantity.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		lbltotalquantity = new JLabel("0");
 		lbltotalquantity.setForeground(UIManager.getColor("ToolBar.dockingForeground"));
@@ -960,10 +878,9 @@ public class SaleForm extends JPanel {
 		lblTotalQuantity_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		JLabel lblNewLabel = new JLabel("Price Before Discount");
-		//cLayout.setLabel(lblNewLabel);
 
 		lblbeforeprice = new JLabel("0");
-		
+
 		GroupLayout gl_pnshowsaleitem = new GroupLayout(pnshowsaleitem);
 		gl_pnshowsaleitem.setHorizontalGroup(gl_pnshowsaleitem.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnshowsaleitem.createSequentialGroup()
@@ -1064,7 +981,6 @@ public class SaleForm extends JPanel {
 	}
 
 	private void tableselection() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -1108,18 +1024,18 @@ public class SaleForm extends JPanel {
 	}
 
 	private boolean check(String name, Vector<String> vno) {
-		// TODO Auto-generated method stub
+
 		System.out.print("Vecoter Data ");
 		for (int i = 0; i < vno.size(); i++) {
-			System.out.print(" " + (String) vno.elementAt(i));
-			if (name.equals((String) vno.elementAt(i)))
+			System.out.print(" " + vno.elementAt(i));
+			if (name.equals(vno.elementAt(i)))
 				return true;
 		}
 		return false;
 	}
 
 	protected void searchBook() {
-		// TODO Auto-generated method stub
+
 		String keyword = txtsearchbook.getText();
 
 		loadAllBooks(Optional.of(originalBookList.stream()
@@ -1134,7 +1050,6 @@ public class SaleForm extends JPanel {
 
 	private void initializeDependency() {
 		this.customerService = new CustomerService();
-		this.employeeService = new EmployeeService();
 		this.categoryService = new CategoryService();
 		this.bookService = new BookService();
 		this.employee = new Employee();
@@ -1143,16 +1058,13 @@ public class SaleForm extends JPanel {
 
 	private void loadCategoryForComboBox() {
 		cboCategory.addItem("- Select -");
-		// System.out.println("Cate count " +
-		// categoryService.findAllCategories().size());
+
 		this.categoryList = this.categoryService.findAllCategories();
 		this.categoryList.forEach(c -> cboCategory.addItem(c.getName()));
 	}
 
 	private void loadCustomerForComboBox() {
 		cboCustomer.addItem("- Select -");
-		// System.out.println("pub count " +
-		// customerService.findAllCustomers().size());
 
 		this.customerList = this.customerService.findbyactive();
 		this.customerList.forEach(p -> cboCustomer.addItem(p.getId()));
@@ -1176,46 +1088,53 @@ public class SaleForm extends JPanel {
 			textfield.setText(enteredText);
 		}
 	}
-	
+
 	class AutoCompleteComboBox extends JComboBox {
-		   public int caretPos = 0;
-		   public JTextField tfield = null;
-		   public AutoCompleteComboBox(List<Customer> customerList) {
-		      super();
-		      setEditor(new BasicComboBoxEditor());
-		      setEditable(true);
-		   }
-		   public void setSelectedIndex(int index) {
-		      super.setSelectedIndex(index);
-		      tfield.setText(getItemAt(index).toString());
-		      tfield.setSelectionEnd(caretPos + tfield.getText().length());
-		      tfield.moveCaretPosition(caretPos);
-		   }
-		   public void setEditor(ComboBoxEditor editor) {
-		      super.setEditor(editor);
-		      if(editor.getEditorComponent() instanceof JTextField) {
-		         tfield = (JTextField) editor.getEditorComponent();
-		         tfield.addKeyListener((KeyListener) new KeyAdapter() {
-		            public void keyReleased(KeyEvent ke) {
-		               char key = ke.getKeyChar();
-		               if (!(Character.isLetterOrDigit(key) || Character.isSpaceChar(key) )) return;
-		               caretPos = tfield.getCaretPosition();
-		               String text="";
-		               try {
-		                  text = tfield.getText(0, caretPos);
-		               } catch (javax.swing.text.BadLocationException e) {
-		                  e.printStackTrace();
-		               }
-		               for (int i=0; i < getItemCount(); i++) {
-		                  String element = (String) getItemAt(i);
-		                  if (element.startsWith(text)) {
-		                     setSelectedIndex(i);
-		                     return;
-		                  }
-		               }
-		            }
-		         });
-		      }
-		   }
+		public int caretPos = 0;
+		public JTextField tfield = null;
+
+		public AutoCompleteComboBox(List<Customer> customerList) {
+			super();
+			setEditor(new BasicComboBoxEditor());
+			setEditable(true);
 		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			super.setSelectedIndex(index);
+			tfield.setText(getItemAt(index).toString());
+			tfield.setSelectionEnd(caretPos + tfield.getText().length());
+			tfield.moveCaretPosition(caretPos);
+		}
+
+		@Override
+		public void setEditor(ComboBoxEditor editor) {
+			super.setEditor(editor);
+			if (editor.getEditorComponent() instanceof JTextField) {
+				tfield = (JTextField) editor.getEditorComponent();
+				tfield.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent ke) {
+						char key = ke.getKeyChar();
+						if (!(Character.isLetterOrDigit(key) || Character.isSpaceChar(key)))
+							return;
+						caretPos = tfield.getCaretPosition();
+						String text = "";
+						try {
+							text = tfield.getText(0, caretPos);
+						} catch (javax.swing.text.BadLocationException e) {
+							e.printStackTrace();
+						}
+						for (int i = 0; i < getItemCount(); i++) {
+							String element = (String) getItemAt(i);
+							if (element.startsWith(text)) {
+								setSelectedIndex(i);
+								return;
+							}
+						}
+					}
+				});
+			}
+		}
+	}
 }

@@ -11,25 +11,23 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import database_config.DBconnector;
-import entities.Author;
 import entities.Book;
-import entities.Category;
-import repositories.*;
-import entities.Publisher;
 import entities.Purchase;
 import entities.PurchaseDetails;
+import repositories.BookRepo;
+import repositories.PurchaseRepo;
 import shared.exception.AppException;
-import shared.mapper.*;
+import shared.mapper.BookMapper;
+import shared.mapper.GeneratePrimaryKey;
+import shared.mapper.PurchaseMapper;
 
 public class BookService implements BookRepo, PurchaseRepo {
 
 	private final DBconnector dbConfig = new DBconnector();
 	private final BookMapper bookMapper = new BookMapper();
-	
-	private final PurchaseMapper purchaseMapper = new PurchaseMapper();
-	private GeneratePrimaryKey genPrimaryKey= new GeneratePrimaryKey();
 
-//	private PurchaseService purchaseService= new PurchaseService();
+	private final PurchaseMapper purchaseMapper = new PurchaseMapper();
+	private GeneratePrimaryKey genPrimaryKey = new GeneratePrimaryKey();
 
 	public void saveBooks(Book book) {
 		try {
@@ -63,6 +61,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 		}
 	}
 
+	@Override
 	public void updateBooks(String id, Book book) {
 		try {
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
@@ -91,12 +90,11 @@ public class BookService implements BookRepo, PurchaseRepo {
 		}
 	}
 
+	@Override
 	public List<Book> findAllBooks() {
 		List<Book> bookList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-
-//			String query = "SELECT * FROM book";
 
 			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
 					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
@@ -123,8 +121,6 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-//			String query = "SELECT * FROM book";
-
 			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
 					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
 					+ "ON author.id = book.author_id ORDER BY book.id DESC;";
@@ -144,9 +140,8 @@ public class BookService implements BookRepo, PurchaseRepo {
 		}
 		return bookList;
 	}
-	
-	
 
+	@Override
 	public Book findById(String bookID) {
 		Book book = new Book();
 
@@ -168,7 +163,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 		return book;
 	}
-	
+
 	public Book findByName(String name) {
 		Book book = new Book();
 
@@ -193,7 +188,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 	@Override
 	public List<Book> findBookByCategoryID(String categoryId) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -202,8 +197,6 @@ public class BookService implements BookRepo, PurchaseRepo {
 		List<Book> bookList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-
-//				String query = "SELECT * FROM book";
 
 			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
 					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
@@ -225,16 +218,15 @@ public class BookService implements BookRepo, PurchaseRepo {
 		}
 		return bookList;
 	}
-	
+
 	public List<Book> findBookByAuthorName(String authorname) {
-		
+
 		AuthorService authService = new AuthorService();
 		String id = authService.findByName(authorname);
 
 		List<Book> bookList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-
 
 			String query = "SELECT * FROM book\n" + "INNER JOIN category\n" + "ON category.id = book.category_id\n"
 					+ "INNER JOIN publisher\n" + "ON publisher.id = book.publisher_id\n" + "INNER JOIN author\n"
@@ -246,7 +238,6 @@ public class BookService implements BookRepo, PurchaseRepo {
 				Book book = new Book();
 
 				bookList.add(this.bookMapper.mapToProduct(book, rs));
-				
 
 			}
 
@@ -254,28 +245,25 @@ public class BookService implements BookRepo, PurchaseRepo {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 
 		}
-		
-		return bookList;
-		
 
-		
+		return bookList;
+
 	}
 
 	@Override
 	public List<Book> findBookByPublisherID(String publisherId) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void createBooks(Book book) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deletBooks(String id) {
-		// TODO Auto-generated method stub
+
 		try {
 
 			if (findPurchaseDetailsListByProductId(id).size() > 0) {
@@ -292,44 +280,40 @@ public class BookService implements BookRepo, PurchaseRepo {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
 		}
-		
-		
-		
+
 	}
 
 	@Override
 	public void createPurchase(Purchase purchase) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void createPurchaseDetails(List<PurchaseDetails> purchaseDetailsList) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public Purchase findPurchaseById(String id) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public List<Purchase> findAllPurchases() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public List<Purchase> findPurchaseListBySupplierId(String supplierId) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public List<Purchase> findPurchaseListByEmployeeId(String employeeId) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -357,13 +341,13 @@ public class BookService implements BookRepo, PurchaseRepo {
 
 	@Override
 	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	public int CountBook() {
-		int bookcount =0;
-		
+		int bookcount = 0;
+
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
 			String query = "select count(*) from book;";
@@ -374,7 +358,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return bookcount;
 	}
 

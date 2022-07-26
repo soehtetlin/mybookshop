@@ -1,8 +1,6 @@
 package shared.checker;
 
-import javax.swing.JOptionPane;
 import java.util.Vector;
-import database_config.DBconnector;
 
 public class Checking {
 	public static boolean IsNull(String str) {
@@ -66,21 +64,13 @@ public class Checking {
 			return false;
 		else if (!IsAllDigit(strqp))
 			return false;
-//        else
-//        {
-//            mySQLQueries mysql=new mySQLQueries();
-//            String q=mysql.getItemData(id)[5];
-//            if(Integer.parseInt(strqp)>Integer.parseInt(q))
-//                return false;
-//            else
-//                return true;
-//        }
+
 		return false;
 	}
 
 	public static boolean IsContain(String s, Vector str) {
 		for (int i = 0; i < str.size(); i++)
-			if (s.equals((String) str.elementAt(i)))
+			if (s.equals(str.elementAt(i)))
 				return true;
 		return false;
 	}

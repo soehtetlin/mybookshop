@@ -1,21 +1,18 @@
 package shared.mapper;
 
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import entities.Author;
 import entities.Book;
 import entities.Category;
 import entities.Employee;
+import entities.Publisher;
 import entities.Purchase;
 import entities.PurchaseDetails;
-import entities.Publisher;
 import repositories.BookRepo;
 import repositories.PurchaseRepo;
-import services.BookService;
-import services.PurchaseService;
-import java.sql.ResultSet;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Locale;
 
 public class PurchaseMapper {
 
@@ -92,30 +89,29 @@ public class PurchaseMapper {
 	public PurchaseDetails mapAllPurchaseDetails(PurchaseDetails purchaseDetails, ResultSet rs) {
 		try {
 			Purchase puchase = new Purchase();
-			puchase.setId(rs.getString("purchase_id"));// 1
-			puchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchase.purchase_date"), // 2
+			puchase.setId(rs.getString("purchase_id"));
+			puchase.setPurchaseDate(LocalDateTime.parse(rs.getString("purchase.purchase_date"),
 					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Book book = new Book();
-			book.setName(rs.getString("book_name"));// 3
+			book.setName(rs.getString("book_name"));
 
 			Publisher publisher = new Publisher();
-			publisher.setName(rs.getString("publisher_name"));// 4
+			publisher.setName(rs.getString("publisher_name"));
 
 			Employee employee = new Employee();
-			employee.setName(rs.getString("employee_name"));// 5
+			employee.setName(rs.getString("employee_name"));
 
-			purchaseDetails.setQuantity(rs.getInt("quantity"));// 6
+			purchaseDetails.setQuantity(rs.getInt("quantity"));
 
-			//book.setPrice(rs.getInt("book.price"));// 7
 			purchaseDetails.setPrice(rs.getInt("purchase_price"));
 
 			Author author = new Author();
-			author.setName(rs.getString("author_name"));// 8
+			author.setName(rs.getString("author_name"));
 
 			Category category = new Category();
-			category.setName(rs.getString("category_name"));// 9
+			category.setName(rs.getString("category_name"));
 
-			puchase.setDescription(rs.getString("purchase_description"));// 10
+			puchase.setDescription(rs.getString("purchase_description"));
 
 			book.setPublisher(publisher);
 			book.setAuthor(author);

@@ -1,26 +1,34 @@
 package forms;
 
-import entities.Employee;
-import services.AuthService;
-//import services.AuthService;
-import services.EmployeeService;
-import shared.utils.CurrentUserHolder;
-
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.*;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.ActionEvent;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class CredentialInfoForm {
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+
+import entities.Employee;
+import services.AuthService;
+import services.EmployeeService;
+import shared.utils.CurrentUserHolder;
+
+public class LoginForm {
 
 	public JFrame frame;
 	private Employee employee;
@@ -35,9 +43,10 @@ public class CredentialInfoForm {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
-					CredentialInfoForm window = new CredentialInfoForm();
+					LoginForm window = new LoginForm();
 
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -50,7 +59,7 @@ public class CredentialInfoForm {
 	/**
 	 * Create the application.
 	 */
-	public CredentialInfoForm() {
+	public LoginForm() {
 		initialize();
 		initializeDependency();
 	}
@@ -60,7 +69,7 @@ public class CredentialInfoForm {
 		this.authService = new AuthService();
 	}
 
-	public CredentialInfoForm(Employee employee) {
+	public LoginForm(Employee employee) {
 		this.employee = employee;
 		initialize();
 		initializeDependency();
@@ -72,7 +81,8 @@ public class CredentialInfoForm {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(400, 150, 629, 459);
-		frame.addWindowFocusListener((WindowFocusListener) new WindowAdapter() {
+		frame.addWindowFocusListener(new WindowAdapter() {
+			@Override
 			public void windowGainedFocus(WindowEvent e) {
 				txtUserName.requestFocusInWindow();
 			}
@@ -98,7 +108,6 @@ public class CredentialInfoForm {
 		Image img = new ImageIcon(this.getClass().getResource("/login.png")).getImage().getScaledInstance(275, 343,
 				Image.SCALE_SMOOTH);
 		lblImage.setIcon(new ImageIcon(img));
-//		imageIcon = new ImageIcon(new ImageIcon(photo.toString()).getImage().getScaledInstance(160, 115, Image.SCALE_SMOOTH));
 
 		GroupLayout gl_imgPanel = new GroupLayout(imgPanel);
 		gl_imgPanel.setHorizontalGroup(gl_imgPanel.createParallelGroup(Alignment.LEADING)
@@ -121,6 +130,7 @@ public class CredentialInfoForm {
 
 		txtUserName = new JTextField();
 		txtUserName.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				passwordField.requestFocus();
 			}
@@ -134,9 +144,10 @@ public class CredentialInfoForm {
 
 		passwordField = new JPasswordField();
 		passwordField.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnLogin.requestFocus();
-				
+
 			}
 		});
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -147,8 +158,9 @@ public class CredentialInfoForm {
 		lblMessage.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 		btnLogin = new JButton("Login");
-		
+
 		btnLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (null != employee) {
 					employee.setUsername(txtUserName.getText());
@@ -157,7 +169,7 @@ public class CredentialInfoForm {
 					if (!employee.getUsername().isBlank() && !employee.getPassword().isBlank()) {
 						employeeService.updateEmployee(String.valueOf(employee.getId()), employee);
 						frame.setVisible(false);
-						EmployeeFormNew employeeForm = new EmployeeFormNew();
+						EmployeeForm employeeForm = new EmployeeForm();
 						employeeForm.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Fill required fields");
@@ -184,72 +196,57 @@ public class CredentialInfoForm {
 
 		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
+
 		JCheckBox chckboxshowpwd = new JCheckBox("Show Password");
 		chckboxshowpwd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(chckboxshowpwd.isSelected()) {
-					passwordField.setEchoChar((char)0);
-					
-				}else {
+				if (chckboxshowpwd.isSelected()) {
+					passwordField.setEchoChar((char) 0);
+
+				} else {
 					passwordField.setEchoChar('●');
 				}
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(3)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
+						.addGap(3)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(72)
-									.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(3)
-							.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(chckboxshowpwd)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addGap(72).addComponent(lblNewLabel,
+										GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_panel.createSequentialGroup().addGap(3).addComponent(lblPassword,
+								GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup().addComponent(chckboxshowpwd)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(passwordField, Alignment.LEADING)
-							.addComponent(txtUserName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(49)
-							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(66)
-							.addComponent(lblUsername, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
-					.addGap(8)
-					.addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addGap(13)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(10)
-							.addComponent(lblMessage, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(chckboxshowpwd)))
-					.addGap(10)
-					.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(67, Short.MAX_VALUE))
-		);
+								.addComponent(passwordField, Alignment.LEADING).addComponent(txtUserName,
+										Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+						.addGroup(gl_panel.createSequentialGroup().addGap(49).addComponent(btnLogin,
+								GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup().addGap(66).addComponent(lblUsername,
+										GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
+						.addGap(8).addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addGap(10)
+						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addGap(13)
+						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup().addGap(10).addComponent(lblMessage,
+										GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(chckboxshowpwd)))
+						.addGap(10).addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(67, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 		frame.getContentPane().setLayout(groupLayout);
 	}

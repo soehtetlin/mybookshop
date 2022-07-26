@@ -1,8 +1,8 @@
 package shared.mapper;
 
-import entities.Employee;
-
 import java.sql.ResultSet;
+
+import entities.Employee;
 
 public class EmployeeMapper {
 
@@ -17,8 +17,7 @@ public class EmployeeMapper {
 			employee.setPassword(rs.getString("password"));
 			employee.setage(rs.getInt("age"));
 			employee.setgender(rs.getString("gender"));
-			// employee.setRole(rs.getString(""));
-			// employee.setActive(rs.getBoolean("active"));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

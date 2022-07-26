@@ -1,79 +1,49 @@
 package forms;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import entities.Author;
-import entities.Book;
-import entities.Category;
-import services.AuthorService;
-import services.BookService;
-import services.CategoryService;
-
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.EventQueue;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.ColorUIResource;
-import forms.CreateLayoutProperties;
-import forms.JpanelLoader;
-
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-
-import javax.swing.JComboBox;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import entities.Author;
+import entities.Book;
+import services.AuthorService;
+import services.BookService;
 
 public class BookListForm extends JPanel {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private JLabel lbladd;
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JButton btnAdd;
@@ -85,14 +55,10 @@ public class BookListForm extends JPanel {
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
 	private BookForm bookForm = new BookForm();
 	private Book book = new Book();
-	private JLabel showPhoto = new JLabel();
 	private AuthorService authorService = new AuthorService();
-	private CategoryService categoryService = new CategoryService();
-	private List<Category> categoryList;
 	private List<Author> authorList;
 
 	private JTextField txtSearch;
-
 
 	public BookListForm() {
 		setBackground(Color.WHITE);
@@ -119,10 +85,9 @@ public class BookListForm extends JPanel {
 
 		JLabel lblFilter = new JLabel("Filter By : ");
 		cLayout.setLabel(lblFilter);
-//		loadCategoryForComboBox();
 
-		cboAuthors = new JComboBox();
 		cboAuthors.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (cboAuthors.getSelectedIndex() == 0) {
 					loadAllBooks(Optional.empty());
@@ -132,7 +97,6 @@ public class BookListForm extends JPanel {
 			}
 		});
 		cLayout.setComboBox(cboAuthors);
-//		loadAuthorForComboBox();
 
 		btnAdd = new JButton("Add New Book");
 		cLayout.setButton(btnAdd);
@@ -147,6 +111,7 @@ public class BookListForm extends JPanel {
 
 		txtSearch = new JTextField();
 		txtSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				searchBook();
 			}
@@ -156,14 +121,15 @@ public class BookListForm extends JPanel {
 		JButton btnSearch = new JButton("Search By Book Name");
 		cLayout.setButton(btnSearch);
 		btnSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtSearch.getText().isEmpty()) {
+				if (txtSearch.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Enter Book Name!");
 					txtSearch.requestFocus();
-				}else {
+				} else {
 					searchBook();
 				}
-				
+
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -198,7 +164,7 @@ public class BookListForm extends JPanel {
 	}
 
 	protected void searchBook() {
-		// TODO Auto-generated method stub
+
 		String keyword = txtSearch.getText();
 
 		loadAllBooks(Optional.of(originalBookList.stream()
@@ -227,7 +193,7 @@ public class BookListForm extends JPanel {
 		table.getTableHeader().setForeground(new Color(245, 245, 245));
 		table.getTableHeader().setPreferredSize(new Dimension(80, 35));
 		table.setRowHeight(65);
-		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		scrollPane.setViewportView(table);
@@ -262,8 +228,6 @@ public class BookListForm extends JPanel {
 		table.getColumnModel().getColumn(9).setCellRenderer(new DeleteButtonRenderer());
 		table.getColumnModel().getColumn(9).setCellEditor(new DeleteButtonEditor(new JTextField()));
 
-		// scroll
-
 	}
 
 	private void loadAllBooksByAuthors(String s) {
@@ -290,8 +254,6 @@ public class BookListForm extends JPanel {
 		table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 		table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
 
-
-
 	}
 
 	private void loadAllBooks(Optional<List<Book>> optionalBook) {
@@ -312,7 +274,6 @@ public class BookListForm extends JPanel {
 			row[6] = e.getShelf_number();
 			row[7] = e.getRemark();
 
-
 			dtm.addRow(row);
 		});
 		this.table.setModel(dtm);
@@ -320,6 +281,7 @@ public class BookListForm extends JPanel {
 
 	private void buttonOnClick() {
 		btnAdd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				jloader.jPanelLoader(panel, bookForm);
 			}
@@ -328,11 +290,14 @@ public class BookListForm extends JPanel {
 
 	private class ImagerRender extends DefaultTableCellRenderer {
 
-		
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		public Component getTableCellRendererComponent(JTable arg0, Object photo, boolean arg2, boolean arg3, int arg4,
 				int arg5) {
-
 
 			ImageIcon imageIcon = null;
 
@@ -342,10 +307,7 @@ public class BookListForm extends JPanel {
 			return new JLabel(imageIcon);
 		}
 
-
 	}
-
-
 
 	private void loadAuthorForComboBox() {
 		cboAuthors.addItem("All Author");
@@ -356,6 +318,11 @@ public class BookListForm extends JPanel {
 	}
 
 	class ButtonRenderer extends JButton implements TableCellRenderer {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
 
 		public ButtonRenderer() {
 			setOpaque(true);
@@ -389,7 +356,6 @@ public class BookListForm extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
 					String id = table.getValueAt(table.getSelectedRow(), 1).toString();
 					book = bookService.findById(id);
 					jloader.jPanelLoader(panel, new BookForm(book));
@@ -402,50 +368,40 @@ public class BookListForm extends JPanel {
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object obj, boolean isSelected, int row,
 				int column) {
-			// TODO Auto-generated method stub
-
-			// set text to button , set clicked to true
 			lbl = (obj == null) ? "" : obj.toString();
 			System.out.println("lbl " + lbl);
 			btn.setText(lbl);
 
 			clicked = true;
 			return btn;
-			// return super.getTableCellEditorComponent(table, obj, isSelected, row,
-			// column);
 		}
 
 		@Override
 		public Object getCellEditorValue() {
-			// TODO Auto-generated method stub
 
 			if (clicked) {
 				JOptionPane.showMessageDialog(btn, lbl + "Clicked");
 			}
 
-			// set it to false now that its click
 			clicked = false;
 			return new String(lbl);
 		}
 
 		@Override
 		public boolean stopCellEditing() {
-			// TODO Auto-generated method stub
-			// set clicked to false first
+
 			return super.stopCellEditing();
 		}
 
 		@Override
 		protected void fireEditingStopped() {
-			// TODO Auto-generated method stub
+
 			super.fireEditingStopped();
 		}
 
 	}
 
-
 	class DeleteButtonRenderer extends JButton implements TableCellRenderer {
-
 
 		public DeleteButtonRenderer() {
 			setOpaque(true);
@@ -462,7 +418,6 @@ public class BookListForm extends JPanel {
 			setBackground(Color.red);
 			return this;
 		}
-
 
 	}
 
@@ -482,7 +437,7 @@ public class BookListForm extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 
 					JOptionPane.showMessageDialog(null, "Are you sure you want to delte!!!");
-					// TODO Auto-generated method stub
+
 					String id = table.getValueAt(table.getSelectedRow(), 1).toString();
 					bookService.deletBooks(id);
 
@@ -497,41 +452,34 @@ public class BookListForm extends JPanel {
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object obj, boolean isSelected, int row,
 				int column) {
-			// TODO Auto-generated method stub
-
-			// set text to button , set clicked to true
 			lbl = (obj == null) ? "" : obj.toString();
 			System.out.println("lbl " + lbl);
 			btndelete.setText(lbl);
 
 			clicked = true;
 			return btndelete;
-//			return super.getTableCellEditorComponent(table, obj, isSelected, row, column);
 		}
 
 		@Override
 		public Object getCellEditorValue() {
-			// TODO Auto-generated method stub
 
 			if (clicked) {
 				JOptionPane.showMessageDialog(btndelete, lbl + "Clicked");
 			}
 
-			// set it to false now that its click
 			clicked = false;
 			return new String(lbl);
 		}
 
 		@Override
 		public boolean stopCellEditing() {
-			// TODO Auto-generated method stub
-			// set clicked to false first
+
 			return super.stopCellEditing();
 		}
 
 		@Override
 		protected void fireEditingStopped() {
-			// TODO Auto-generated method stub
+
 			super.fireEditingStopped();
 		}
 

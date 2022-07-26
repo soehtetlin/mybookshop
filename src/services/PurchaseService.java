@@ -1,11 +1,5 @@
 package services;
 
-import database_config.DBconnector;
-import entities.*;
-import repositories.BookRepo;
-import repositories.PurchaseRepo;
-import shared.mapper.PurchaseMapper;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +8,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
+import database_config.DBconnector;
+import entities.Book;
+import entities.Employee;
+import entities.Publisher;
+import entities.Purchase;
+import entities.PurchaseDetails;
+import repositories.PurchaseRepo;
+import shared.mapper.PurchaseMapper;
 
 public class PurchaseService implements PurchaseRepo {
 
@@ -36,6 +37,7 @@ public class PurchaseService implements PurchaseRepo {
 
 	}
 
+	@Override
 	public void createPurchase(Purchase purchase) {
 		try {
 			System.out.println("Gnerereted ID " + purchase.getId());
@@ -77,6 +79,7 @@ public class PurchaseService implements PurchaseRepo {
 		}
 	}
 
+	@Override
 	public void createPurchaseDetails(List<PurchaseDetails> purchaseDetailsList) {
 
 		purchaseDetailsList.forEach(pd -> {
@@ -151,6 +154,7 @@ public class PurchaseService implements PurchaseRepo {
 		return id;
 	}
 
+	@Override
 	public List<PurchaseDetails> findPurchaseDetailsListByProductId(String bookID) {
 		List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
@@ -176,6 +180,7 @@ public class PurchaseService implements PurchaseRepo {
 		return purchaseDetailsList;
 	}
 
+	@Override
 	public Purchase findPurchaseById(String id) {
 		Purchase purchase = new Purchase();
 
@@ -197,6 +202,7 @@ public class PurchaseService implements PurchaseRepo {
 		return purchase;
 	}
 
+	@Override
 	public List<Purchase> findAllPurchases() {
 
 		List<Purchase> purchaseList = new ArrayList<>();
@@ -226,18 +232,6 @@ public class PurchaseService implements PurchaseRepo {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-//			String query = "select purchase.id,purchase.purchase_date,book.name as book_name,\r\n"
-//					+ "publisher.name as publisher_name,\r\n" + "employee.name as employee_name,\r\n"
-//					+ "purchase_detail.quantity,purchase_detail.purchase_price,author.name as author_name,\r\n"
-//					+ "category.name as category_name,\r\n" + "purchase.description as purchase_description\r\n"
-//					+ "from purchase \r\n"
-//					+ "inner join purchase_detail on purchase.id = purchase_detail.purchase_id \r\n"
-//					+ "inner join employee on employee.id = purchase.employee_id\r\n"
-//					+ "inner join book on book.id = purchase_detail.book_id\r\n"
-//					+ "inner join publisher on publisher.id = book.publisher_id\r\n"
-//					+ "inner join author on author.id = book.author_id\r\n"
-//					+ "inner join category on category.id = book.category_id order by purchase.purchase_date desc;";
-			
 			String query = "select publisher.name as publisher_name,purchase.id as purchase_id\r\n"
 					+ ",purchase.purchase_date,book.name as book_name,employee.name as employee_name,\r\n"
 					+ "purchase_detail.purchase_price,purchase_detail.quantity,author.name as author_name,category.name as category_name, purchase.description as purchase_description  from purchase inner join purchase_detail on purchase_detail.purchase_id = purchase.id \r\n"
@@ -260,18 +254,15 @@ public class PurchaseService implements PurchaseRepo {
 		return purchaseList;
 
 	}
-	
-	
+
 	public List<PurchaseDetails> findPurchaseDetailByPublisher(String name) {
-		
-		
+
 		PublisherService publisherService = new PublisherService();
 		Publisher publisher = publisherService.findByName(name);
-		
+
 		System.out.println("Return publisher name :" + publisher.getName());
 		System.out.println("Return publisher id :" + publisher.getId());
 
-
 		List<PurchaseDetails> purchaseList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
@@ -283,7 +274,8 @@ public class PurchaseService implements PurchaseRepo {
 					+ "inner join book on purchase_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
 					+ "inner join category on category.id = book.category_id\r\n"
 					+ "inner join publisher on publisher.id = purchase.publisher_id \r\n"
-					+ "left join employee on purchase.employee_id = employee.id where purchase.publisher_id='"+publisher.getId()+"' order by purchase.purchase_date desc;";
+					+ "left join employee on purchase.employee_id = employee.id where purchase.publisher_id='"
+					+ publisher.getId() + "' order by purchase.purchase_date desc;";
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -298,15 +290,11 @@ public class PurchaseService implements PurchaseRepo {
 		return purchaseList;
 
 	}
-	
-	
-public List<PurchaseDetails> findPurchaseDetailByEmployee(String name) {
-		
-		
+
+	public List<PurchaseDetails> findPurchaseDetailByEmployee(String name) {
+
 		PublisherService publisherService = new PublisherService();
 		Employee employee = employeeService.findEmployeeByName(name);
-		
-	
 
 		List<PurchaseDetails> purchaseList = new ArrayList<>();
 
@@ -319,7 +307,8 @@ public List<PurchaseDetails> findPurchaseDetailByEmployee(String name) {
 					+ "inner join book on purchase_detail.book_id = book.id inner join author on author.id = book.author_id\r\n"
 					+ "inner join category on category.id = book.category_id\r\n"
 					+ "inner join publisher on publisher.id = purchase.publisher_id \r\n"
-					+ "left join employee on purchase.employee_id = employee.id where purchase.employee_id='"+employee.getId()+"' order by purchase.purchase_date desc;";
+					+ "left join employee on purchase.employee_id = employee.id where purchase.employee_id='"
+					+ employee.getId() + "' order by purchase.purchase_date desc;";
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -335,24 +324,24 @@ public List<PurchaseDetails> findPurchaseDetailByEmployee(String name) {
 
 	}
 
+	public int TotalPurchase() {
+		int purchasetotal = 0;
 
-public int TotalPurchase() {
-	int purchasetotal =0;
-	
-	try (Statement st = this.dbConfig.getConnection().createStatement()) {
+		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-		String query = "select sum(purchase_price*quantity) from purchase_detail inner join purchase on purchase.id = purchase_detail.purchase_id where day(purchase.purchase_date)=day(localtime());";
+			String query = "select sum(purchase_price*quantity) from purchase_detail inner join purchase on purchase.id = purchase_detail.purchase_id where day(purchase.purchase_date)=day(localtime());";
 
-		ResultSet rs = st.executeQuery(query);
-		rs.next();
-		purchasetotal = rs.getInt("sum(purchase_price*quantity)");
-	} catch (Exception e) {
-		e.printStackTrace();
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			purchasetotal = rs.getInt("sum(purchase_price*quantity)");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return purchasetotal;
 	}
-	
-	return purchasetotal;
-}
 
+	@Override
 	public List<PurchaseDetails> findAllPurchaseDetailsByPurchaseId(String purchaseId) {
 
 		List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
@@ -423,6 +412,7 @@ public int TotalPurchase() {
 		return purchaseList;
 	}
 
+	@Override
 	public List<Purchase> findPurchaseListByEmployeeId(String employeeId) {
 		List<Purchase> purchaseList = new ArrayList<>();
 

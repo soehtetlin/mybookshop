@@ -16,12 +16,11 @@ import database_config.DBconnector;
 import entities.Employee;
 import entities.Publisher;
 import entities.Purchase;
-import services.AuthorService;
 import shared.exception.AppException;
 import shared.mapper.GeneratePrimaryKey;
 
 public class PublisherService {
-	
+
 	private GeneratePrimaryKey genPrimaryKey = new GeneratePrimaryKey();
 
 	private final DBconnector dbConfig = new DBconnector();
@@ -45,7 +44,7 @@ public class PublisherService {
 			JOptionPane.showMessageDialog(null, "Record Saved Successfully.");
 
 		} catch (SQLException e) {
-			// if (e instanceof MySQLIntegrityConstraintViolationException)
+
 			if (e instanceof SQLIntegrityConstraintViolationException) {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}

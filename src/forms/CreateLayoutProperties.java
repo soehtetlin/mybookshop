@@ -3,13 +3,9 @@ package forms;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -51,8 +47,6 @@ public class CreateLayoutProperties {
 
 	public void setButton(JButton button) {
 		button.setBounds(new Rectangle(600, 0, 0, 0));
-//		button.setMargin(new Insets(2, 1, 2, 1));
-//		button.setIconTextGap(1);
 		button.setBorderPainted(false);
 		button.setForeground(SystemColor.textHighlightText);
 		button.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,29 +57,18 @@ public class CreateLayoutProperties {
 		button.setBorder(new LineBorder(new Color(0, 0, 0)));
 		button.setRequestFocusEnabled(false);
 
-		// Image img=new
-		// ImageIcon(this.getClass().getResource("/add-20.png")).getImage();
-		// button.setIcon(new ImageIcon(img));
-		// button.setAlignmentX(CENTER_ALIGNMENT);
-		// button.setBounds(600, 13, 115, 29);
-		// button.setHorizontalAlignment(SwingConstants.RIGHT);
-
 	}
 
 	public void setNoColorButton(JButton button) {
 		button.setBounds(new Rectangle(600, 0, 0, 0));
-//		button.setMargin(new Insets(2, 1, 2, 1));
-//		button.setIconTextGap(1);
+
 		button.setBorderPainted(false);
-//		button.setForeground(SystemColor.textHighlightText);
+
 		button.setHorizontalAlignment(SwingConstants.CENTER);
 		button.setBackground(Color.WHITE);
 		button.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button.setOpaque(true);
 		button.setRequestFocusEnabled(false);
-
-//		button.setForeground(Color.WHITE);
-//		button.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 	}
 
@@ -100,7 +83,7 @@ public class CreateLayoutProperties {
 		table.setFocusable(false);
 
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 		table.setAutoCreateRowSorter(true);
@@ -112,9 +95,6 @@ public class CreateLayoutProperties {
 		table.getTableHeader().setPreferredSize(new Dimension(70, 30));
 
 		table.setRowHeight(40);
-
-//		tblPublisher.setBackground(new Color(255, 250, 240));
-//		tblPublisher.setForeground(Color.DARK_GRAY);
 
 	}
 

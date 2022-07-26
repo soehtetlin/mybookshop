@@ -1,39 +1,28 @@
 package forms;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.Color;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import entities.Publisher;
 import services.PublisherService;
-import shared.checker.Checking;
-
-import javax.swing.JButton;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PublisherForm extends JPanel {
 
@@ -252,15 +241,15 @@ public class PublisherForm extends JPanel {
 	private void buttonOnClick() {
 
 		btnSave.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Publisher publisher = new Publisher();
-				
+
 				if (txtSupName.getText().equals("") || txtSupMail.getText().equals("")
-||txtSupPhone.getText().equals("") || txtSupAddress.getText().equals("")) 
-				{
+						|| txtSupPhone.getText().equals("") || txtSupAddress.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 
-				}else {
+				} else {
 					publisher.setName(txtSupName.getText());
 					publisher.setAddress(txtSupAddress.getText());
 					publisher.setContact_no(txtSupPhone.getText());
@@ -268,8 +257,8 @@ public class PublisherForm extends JPanel {
 					pubService.savePublisher(publisher);
 					clearForm();
 					loadAllPublishers(Optional.empty());
-				} 
-			
+				}
+
 			}
 		});
 
@@ -277,7 +266,7 @@ public class PublisherForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				if (publisher != null && publisher.getId() != null) {
 
 					publisher.setName(txtSupName.getText());
@@ -309,7 +298,7 @@ public class PublisherForm extends JPanel {
 					pubService.deletePublisher(String.valueOf(publisher.getId()));
 					clearForm();
 					buttonVisible();
-//					loadAllPublishers(Optional.empty());
+
 					publisher = null;
 				} else {
 					JOptionPane.showMessageDialog(null, "Choose Publisher!");

@@ -1,11 +1,5 @@
 package services;
 
-import database_config.DBconnector;
-import entities.*;
-import repositories.*;
-
-import shared.mapper.SaleMapper;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import database_config.DBconnector;
+import entities.Book;
+import entities.Customer;
+import entities.Employee;
+import entities.Sale;
+import entities.SaleDetails;
+import repositories.SaleRepo;
+import shared.mapper.SaleMapper;
 
 public class SaleService implements SaleRepo {
 
@@ -35,6 +38,7 @@ public class SaleService implements SaleRepo {
 		this.saleMapper.setBookRepo(new BookService());
 	}
 
+	@Override
 	public void createSale(Sale sale) {
 		try {
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
@@ -58,7 +62,7 @@ public class SaleService implements SaleRepo {
 			sale.setId(generateID("id", "Sale", "SL"));
 
 			emp = employeeService.findEmployeeByName(data[2]);
-			// customer = customerService.findByName(data[0]);
+
 			PreparedStatement ps = this.dbConfig.getConnection()
 					.prepareStatement("INSERT INTO sale (id,sale_date, employee_id, customer_id) VALUES (?, ?, ?, ?)");
 			ps.setString(1, sale.getId());
@@ -75,6 +79,7 @@ public class SaleService implements SaleRepo {
 		}
 	}
 
+	@Override
 	public void createSaleDetails(List<SaleDetails> saleDetailsList) {
 
 		saleDetailsList.forEach(pd -> {
@@ -102,19 +107,16 @@ public class SaleService implements SaleRepo {
 		});
 
 	}
-	
+
 	public List<SaleDetails> findtoptenbooks() {
 		List<SaleDetails> saleDetailsList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-//			String query = "SELECT * FROM book";
-
 			String query = "select book.photo,book.name,sum(quantity)"
 					+ " from sale_detail inner join book on book.id = sale_detail.book_id"
 					+ " inner join sale on sale.id = sale_detail.vouncher_id "
-					+ "where month(sale.sale_date)=month(localtime())"
-					+ " group by book_id  "
+					+ "where month(sale.sale_date)=month(localtime())" + " group by book_id  "
 					+ "order by sum(quantity) desc limit 10;";
 			ResultSet rs = st.executeQuery(query);
 
@@ -132,15 +134,12 @@ public class SaleService implements SaleRepo {
 		return saleDetailsList;
 	}
 
-
 	public void createSaleDetails(String[] data, int status) {
 
 		try {
 			int newprice = 0;
 			Book storedBook = bookService.findById(data[2]);
-			// storedBook.setPrice(Integer.valueOf(data[1]));
-			// storedBook.setSale_price(((Integer.valueOf(data[1]) / 10) +
-			// Integer.valueOf(data[1])));
+
 			storedBook.setStockamount(storedBook.getStockamount() - Integer.valueOf(data[0]));
 
 			bookService.updateBooks(storedBook.getId(), storedBook);
@@ -185,6 +184,7 @@ public class SaleService implements SaleRepo {
 		return id;
 	}
 
+	@Override
 	public List<SaleDetails> findSaleDetailsListByProductId(String bookID) {
 		List<SaleDetails> saleDetailsList = new ArrayList<>();
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
@@ -209,20 +209,15 @@ public class SaleService implements SaleRepo {
 
 		return saleDetailsList;
 	}
-	
-	
-public List<SaleDetails> findSaleDetailByEmployee(String name) {
-		
-		
+
+	public List<SaleDetails> findSaleDetailByEmployee(String name) {
+
 		CustomerService customerService = new CustomerService();
 		Employee employee = employeeService.findEmployeeByName(name);
-		
-	
 
 		List<SaleDetails> saleList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-
 
 			String query = "select sale.id as sale_id,author.name as author_name,category.name as category_name,sale_detail.sale_price,customer.name as customer_name,\r\n"
 					+ "sale.sale_date,sale_detail.quantity,book.name as book_name,employee.name as employee_name\r\n"
@@ -231,8 +226,8 @@ public List<SaleDetails> findSaleDetailByEmployee(String name) {
 					+ "inner join customer on customer.id = sale.customer_id\r\n"
 					+ "inner join book on book.id = sale_detail.book_id\r\n"
 					+ "inner join category on book.category_id = category.id \r\n"
-					+ "inner join author on book.author_id = author.id\r\n"
-					+ "where employee.id ='"+employee.getId()+"' order by sale.sale_date desc;";
+					+ "inner join author on book.author_id = author.id\r\n" + "where employee.id ='" + employee.getId()
+					+ "' order by sale.sale_date desc;";
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -248,17 +243,15 @@ public List<SaleDetails> findSaleDetailByEmployee(String name) {
 
 	}
 
-	
-public List<SaleDetails> findSaleDetailByCustomer(String name) {
+	public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		System.out.println("Name Customer " + name);
-		
+
 		CustomerService customerService = new CustomerService();
 		Customer customer = customerService.findByName(name);
 		System.out.println("Customer ID " + customer.getId());
 		System.out.println("Return customer name :" + customer.getName());
 		System.out.println("Return customer id :" + customer.getId());
 
-
 		List<SaleDetails> saleList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
@@ -270,10 +263,9 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 					+ "inner join customer on customer.id = sale.customer_id\r\n"
 					+ "inner join book on book.id = sale_detail.book_id\r\n"
 					+ "inner join category on book.category_id = category.id \r\n"
-					+ "inner join author on book.author_id = author.id\r\n"
-					+ "where customer.id ='"+customer.getId()+"' order by sale.sale_date desc;";
-			
-			
+					+ "inner join author on book.author_id = author.id\r\n" + "where customer.id ='" + customer.getId()
+					+ "' order by sale.sale_date desc;";
+
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -288,10 +280,10 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		return saleList;
 
 	}
-	
+
 	public int TotalSale() {
-		int saletotal =0;
-		
+		int saletotal = 0;
+
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
 			String query = "select sum(sale_price*quantity) from sale_detail inner join sale on sale.id = sale_detail.vouncher_id where day(sale.sale_date)=day(localtime());";
@@ -302,10 +294,11 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return saletotal;
 	}
 
+	@Override
 	public Sale findSaleById(String id) {
 		Sale sale = new Sale();
 
@@ -326,6 +319,7 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		return sale;
 	}
 
+	@Override
 	public List<Sale> findAllSales() {
 
 		List<Sale> saleList = new ArrayList<>();
@@ -354,28 +348,6 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-//			String query = "select sale_detail.id,sale_detail.sale_date,book.name,\r\n"
-//					+ "customer.name as customer_name,\r\n"
-//					+ "employee.name as employee_name,\r\n"
-//					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
-//					+ "sale.description as sale_description\r\n"
-//					+ "from sale \r\n"
-//					+ "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
-//					+ "inner join employee on employee.id = sale.employee_id\r\n"
-//					+ "inner join book on book.id = sale_detail.book_id\r\n"
-//					+ "inner join customer on customer.id = book.customer_id\r\n"
-//					+ "inner join author on author.id = book.author_id";
-
-//			String query = "select sale.id,sale.sale_date,book.name,\r\n" + "customer.name as customer_name,\r\n"
-//					+ "employee.name as employee_name,\r\n"
-//					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
-//					+ "category.name as category_name,\r\n" + "sale.description as sale_description\r\n"
-//					+ "from sale \r\n" + "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
-//					+ "inner join employee on employee.id = sale.employee_id\r\n"
-//					+ "inner join book on book.id = sale_detail.book_id\r\n"
-//					+ "inner join customer on customer.id = book.customer_id\r\n"
-//					+ "inner join author on author.id = book.author_id\r\n"
-//					+ "inner join category on category.id = book.category_id order by sale.sale_date desc;";
 			String query = "select customer.name as customer_name,sale.id as sale_id\r\n"
 					+ ",sale.sale_date,book.name as book_name,employee.name as employee_name,\r\n"
 					+ "sale_detail.sale_price,sale_detail.quantity,author.name as author_name,category.name as category_name  from sale inner join sale_detail on sale_detail.vouncher_id = sale.id \r\n"
@@ -397,31 +369,6 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		}
 		return saleList;
 
-		// System.out.println("inside purchse service sale id : " + saleList);}
-		// System.out.println("sizeo of return purhasedetail : " + saleList.size());
-		// System.out.println(saleList.get(0));
-
-		// String[] requestNos = new String[saleList.size()];
-
-//		for (int i = 0; i < saleList.size(); i++) {
-//		    requestNos[i] = saleList.get(i).getId();
-//		    System.out.println("Sale sevice purcahseliest purchsseid : " + requestNos[i]);
-//		}
-//		saleList.forEach(e -> {
-//			Object[] row = new Object[10];
-//			row[0] = e.getSale().getId();
-//			System.out.println("Indside purchse servcie salelist loop sale id : " + e.getSale().getId());
-//			row[1] = e.getSale().getSaleDate();
-//			row[2] = e.getBook().getName();
-//			row[3] = e.getBook().getCustomer().getName();
-//			row[4] = e.getSale().getEmployee().getName();
-//			row[5] = e.getQuantity();
-//			row[6] = e.getBook().getPrice();
-//			row[7] = e.getBook().getAuthor().getName();
-//			row[8] = e.getBook().getCategory().getName();
-//			row[9] = e.getSale().getDescription();
-//		});
-
 	}
 
 	public List<SaleDetails> loadAllSaleDetailsbyCustomerID(String customerid) {
@@ -429,18 +376,6 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		List<SaleDetails> saleList = new ArrayList<>();
 
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
-
-//			String query = "select sale_detail.id,sale_detail.sale_date,book.name,\r\n"
-//					+ "customer.name as customer_name,\r\n"
-//					+ "employee.name as employee_name,\r\n"
-//					+ "sale_detail.quantity,book.price,author.name as author_name,\r\n"
-//					+ "sale.description as sale_description\r\n"
-//					+ "from sale \r\n"
-//					+ "inner join sale_detail on sale.id = sale_detail.sale_id \r\n"
-//					+ "inner join employee on employee.id = sale.employee_id\r\n"
-//					+ "inner join book on book.id = sale_detail.book_id\r\n"
-//					+ "inner join customer on customer.id = book.customer_id\r\n"
-//					+ "inner join author on author.id = book.author_id";
 
 			String query = "select customer.name as customer_name,sale.id as sale_id\r\n"
 					+ ",sale.sale_date,book.name as book_name,employee.name as employee_name,\r\n"
@@ -451,13 +386,6 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 					+ "left join employee on sale.employee_id = employee.id order by sale.sale_date desc where customer.name='\"\r\n"
 					+ "					+ customerid + \"'";
 
-			
-
-			
-			
-			
-			
-			
 			ResultSet rs = st.executeQuery(query);
 
 			while (rs.next()) {
@@ -471,33 +399,9 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		}
 		return saleList;
 
-		// System.out.println("inside purchse service sale id : " + saleList);}
-		// System.out.println("sizeo of return purhasedetail : " + saleList.size());
-		// System.out.println(saleList.get(0));
-
-		// String[] requestNos = new String[saleList.size()];
-
-//		for (int i = 0; i < saleList.size(); i++) {
-//		    requestNos[i] = saleList.get(i).getId();
-//		    System.out.println("Sale sevice purcahseliest purchsseid : " + requestNos[i]);
-//		}
-//		saleList.forEach(e -> {
-//			Object[] row = new Object[10];
-//			row[0] = e.getSale().getId();
-//			System.out.println("Indside purchse servcie salelist loop sale id : " + e.getSale().getId());
-//			row[1] = e.getSale().getSaleDate();
-//			row[2] = e.getBook().getName();
-//			row[3] = e.getBook().getCustomer().getName();
-//			row[4] = e.getSale().getEmployee().getName();
-//			row[5] = e.getQuantity();
-//			row[6] = e.getBook().getPrice();
-//			row[7] = e.getBook().getAuthor().getName();
-//			row[8] = e.getBook().getCategory().getName();
-//			row[9] = e.getSale().getDescription();
-//		});
-
 	}
 
+	@Override
 	public List<SaleDetails> findAllSaleDetailsBySaleId(String saleId) {
 
 		List<SaleDetails> saleDetailsList = new ArrayList<>();
@@ -568,6 +472,7 @@ public List<SaleDetails> findSaleDetailByCustomer(String name) {
 		return saleList;
 	}
 
+	@Override
 	public List<Sale> findSaleListByEmployeeId(String employeeId) {
 		List<Sale> saleList = new ArrayList<>();
 

@@ -1,20 +1,36 @@
 package forms;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.FileDialog;
-import shared.checker.*;
-import javax.swing.JFrame;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileView;
-import javax.swing.table.DefaultTableModel;
 
 import entities.Author;
 import entities.Book;
@@ -24,74 +40,23 @@ import services.AuthorService;
 import services.BookService;
 import services.CategoryService;
 import services.PublisherService;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-
-import java.awt.Rectangle;
-import java.awt.Label;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import java.awt.SystemColor;
-import java.awt.Window;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import javax.swing.ButtonGroup;
+import shared.checker.Checking;
 
 public class BookForm extends JPanel {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * Create the panel.
 	 */
-	private JPanel contentPane;
 	private JTextField txtBookName;
 	private JTextField txtShelfNo;
 	private JTextField txtRemark;
 	private JTable tblBooks;
 	private JLabel lblAddPhoto;
 	JButton btnSave, btnCancel, btnUpdate, btnDelete;
-	private DefaultTableModel dtm = new DefaultTableModel();
 	JComboBox<String> cboAuthor, cboCategory, cboPublisher;
 
 	private List<Category> categoryList;
@@ -104,9 +69,6 @@ public class BookForm extends JPanel {
 	private BookService bookService;
 	private Book book = new Book();
 	private CreateLayoutProperties cLayout = new CreateLayoutProperties();
-
-	private List<Book> originalBookList = new ArrayList<>();
-	private JTextField textField;
 	String path = "C:\\KMD\\Eclipse Git Clone\\BookShop\\img\\DCR.png", storPath = null;
 
 	String filename = null;
@@ -142,7 +104,6 @@ public class BookForm extends JPanel {
 	}
 
 	private void setData() {
-		// TODO Auto-generated method stub
 
 		cboAuthor.setSelectedItem(book.getAuthor().getName());
 		System.out.println("CBO Author Name " + book.getAuthor().getName());
@@ -161,8 +122,8 @@ public class BookForm extends JPanel {
 		} else if (book.getPhoto().isEmpty() || book.getPhoto() == null) {
 
 			lblAddPhoto.setOpaque(true);
-			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/defautcover.jpg")).getImage()
-					.getScaledInstance(171, 169, Image.SCALE_DEFAULT));
+			ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource("/defautcover.jpg"))
+					.getImage().getScaledInstance(171, 169, Image.SCALE_DEFAULT));
 			lblAddPhoto.setIcon(imageIcon);
 
 		}
@@ -200,12 +161,9 @@ public class BookForm extends JPanel {
 		cLayout.setButton(btnCancel);
 
 		JPanel panelItemList = new JPanel();
-		// panelItemList.setBounds(267, 0, 428, 445);
-//				add(panelItemList);
 		panelItemList.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		// scrollPane.setBounds(0, 0, 428, 445);
 		panelItemList.add(scrollPane);
 
 		tblBooks = new JTable();
@@ -284,7 +242,6 @@ public class BookForm extends JPanel {
 					try {
 
 						destinationFile = new File("resources/" + filename);
-						// destinationFile.mkdir();
 
 						try {
 							img = ImageIO.read(new File(path));
@@ -398,10 +355,9 @@ public class BookForm extends JPanel {
 						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
 				.addGap(10)));
-//		gl_panel.setAutoCreateGaps(true);
-//		gl_panel.setAutoCreateContainerGaps(true);
+
 		panel.setLayout(gl_panel);
-		// textField.setColumns(10);
+
 		GroupLayout gl_photoPanel = new GroupLayout(photoPanel);
 		gl_photoPanel.setHorizontalGroup(gl_photoPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_photoPanel.createSequentialGroup().addGap(24)
@@ -475,11 +431,10 @@ public class BookForm extends JPanel {
 
 	private void buttonOnClick() {
 		btnSave.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					
-					
 
 					toSaveBookDataFromForm();
 
@@ -496,12 +451,9 @@ public class BookForm extends JPanel {
 						}
 					}
 				} catch (NullPointerException ex) {
-					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, "Enter Required Field!");
 
 				} catch (NumberFormatException e2) {
-					// TODO: handle exception
-					// e2.getClass();
 
 					JOptionPane.showMessageDialog(null, e2.getMessage());
 				}
@@ -514,7 +466,7 @@ public class BookForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				if (book != null && book.getId() != null) {
 
 					toSaveBookDataFromForm();
@@ -538,7 +490,7 @@ public class BookForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				clearForm();
 				BookListForm booklistform = new BookListForm();
 				jLoader.jPanelLoader(BookForm.this, booklistform);
@@ -553,10 +505,6 @@ public class BookForm extends JPanel {
 
 				if (book != null) {
 
-//							pubService.deletePublisher(publisher.getId());
-//							clearForm();
-//							loadAllPublishers(Optional.empty());
-//							publisher=null;
 				} else {
 					JOptionPane.showMessageDialog(null, "Choose Publisher!");
 				}
@@ -565,15 +513,6 @@ public class BookForm extends JPanel {
 
 		});
 
-//				lblAddPhoto.addActionListener(new ActionListener() {
-//
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						// TODO Auto-generated method stub
-//				
-//					}
-//					
-//				}
 	}
 
 	private void toSaveBookDataFromForm() {
@@ -603,9 +542,5 @@ public class BookForm extends JPanel {
 				.filter(p -> p.getName().equals(cboPublisher.getSelectedItem())).findFirst();
 		book.setPublisher(selectedPublisher.orElse(null));
 	}
-//		}catch (Exception e) {
-//			// TODO: handle exception
-//			JOptionPane.showMessageDialog(null, "Please");
-//		}
 
 }

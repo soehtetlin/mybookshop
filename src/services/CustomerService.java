@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +13,7 @@ import javax.swing.JOptionPane;
 
 import database_config.DBconnector;
 import entities.Customer;
-import entities.Publisher;
-import entities.Purchase;
-import entities.PurchaseDetails;
 import repositories.CustomerRepo;
-import shared.exception.AppException;
 import shared.mapper.CustomerMapper;
 import shared.mapper.GeneratePrimaryKey;
 
@@ -57,20 +52,18 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
 
-			ps.executeUpdate();
-
 			ps.close();
-			
+
 			JOptionPane.showMessageDialog(null, "Record Saved Successfully.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int CountCustomer() {
-		int customercount =0;
-		
+		int customercount = 0;
+
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
 			String query = "select count(*) from customer;";
@@ -81,13 +74,12 @@ public class CustomerService implements CustomerRepo {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return customercount;
 	}
 
 	@Override
 	public void updateCustomer(String cusId, Customer customer) {
-		// TODO Auto-generated method stub
 
 		try {
 
@@ -105,7 +97,6 @@ public class CustomerService implements CustomerRepo {
 			ps.setInt(8, customer.getActive());
 			ps.setString(9, cusId);
 
-			ps.executeUpdate();
 			ps.close();
 		} catch (Exception e) {
 			if (e instanceof SQLIntegrityConstraintViolationException)
@@ -117,7 +108,6 @@ public class CustomerService implements CustomerRepo {
 	}
 
 	public void updateCustomerLatestDateUse(String cusId) {
-		// TODO Auto-generated method stub
 
 		try {
 
@@ -129,7 +119,6 @@ public class CustomerService implements CustomerRepo {
 
 			ps.setString(3, cusId);
 
-			ps.executeUpdate();
 			ps.close();
 		} catch (Exception e) {
 			if (e instanceof SQLIntegrityConstraintViolationException)
@@ -149,7 +138,6 @@ public class CustomerService implements CustomerRepo {
 
 			ps.setString(2, customerId);
 
-			ps.executeUpdate();
 			ps.close();
 
 		} catch (Exception e) {
@@ -162,7 +150,6 @@ public class CustomerService implements CustomerRepo {
 
 	@Override
 	public void detleteCustomer(Customer customer) {
-		// TODO Auto-generated method stub
 
 		try {
 			LocalDateTime expiredDate = customer.getExpired_date();
@@ -173,18 +160,6 @@ public class CustomerService implements CustomerRepo {
 			if (expiredDate.compareTo(toDeleteDate) < 0) {
 
 			}
-
-//			List<Purchase> purchaseByPublisherId = findPurchaseListByPublisherId(pubId);
-//
-//			if (purchaseByPublisherId.size() > 0) {
-//				throw new AppException("This publisher cannot be deleted");
-//			}
-//
-//			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement("DELETE FROM publisher WHERE id = ?");
-//			ps.setString(1, pubId);
-//
-//			ps.executeUpdate();
-//			ps.close();
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "You cannot delete this publisher");
@@ -213,7 +188,6 @@ public class CustomerService implements CustomerRepo {
 		}
 		return customerList;
 	}
-	
 
 	public List<Customer> findbyactive() {
 
@@ -236,7 +210,6 @@ public class CustomerService implements CustomerRepo {
 		return customerList;
 	}
 
-
 	public Customer findAllCustomersByCustomerName(String cid) {
 
 		Customer customer = new Customer();
@@ -256,7 +229,7 @@ public class CustomerService implements CustomerRepo {
 		}
 		return customer;
 	}
-	
+
 	public Customer findByName(String name) {
 		Customer customer = new Customer();
 
@@ -284,7 +257,7 @@ public class CustomerService implements CustomerRepo {
 
 	@Override
 	public Customer findCustomerById(String id) {
-		// TODO Auto-generated method stub
+
 		Customer customer = new Customer();
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 

@@ -6,10 +6,6 @@ public class Employee extends PersonInfo {
 
 	private String password;
 
-	// private UserRole role;
-
-	// private boolean active;
-
 	public Employee() {
 		super();
 	}
@@ -18,17 +14,8 @@ public class Employee extends PersonInfo {
 		super();
 		this.username = username;
 		this.password = password;
-		// this.role = role;
-		// this.active = active;
+
 	}
-
-//	public boolean isActive() {
-//		return active;
-//	}
-
-//	public void setActive(boolean active) {
-//		this.active = active;
-//	}
 
 	public String getUsername() {
 		return username;
@@ -45,13 +32,5 @@ public class Employee extends PersonInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-//	public UserRole getRole() {
-//		return role;
-//	}
-//
-//	public void setRole(UserRole role) {
-//		this.role = role;
-//	}
 
 }

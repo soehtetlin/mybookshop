@@ -1,12 +1,12 @@
 package forms;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -22,31 +24,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
-import entities.Author;
-import entities.Book;
 import entities.Customer;
-import entities.Purchase;
-
-import services.BookService;
 import services.CustomerService;
 import shared.checker.Checking;
 
-import java.awt.Component;
-import javax.swing.SwingConstants;
-//import com.toedter.calendar.JDateChooser;
-import javax.swing.JTextField;
-import javax.swing.DefaultComboBoxModel;
-
-public class CustomerListFormNew extends JPanel {
+public class CustomerListForm extends JPanel {
 
 	private JTable table;
 	public JPanel panel;
@@ -72,7 +61,7 @@ public class CustomerListFormNew extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CustomerListFormNew() {
+	public CustomerListForm() {
 		setBackground(Color.WHITE);
 		this.customerService = new CustomerService();
 
@@ -392,7 +381,6 @@ public class CustomerListFormNew extends JPanel {
 
 				btnSave.setVisible(false);
 				btnUpdate.setVisible(true);
-//				btnDelete.setVisible(true);
 
 				String id = table.getValueAt(table.getSelectedRow(), 0).toString();
 				System.out.println("Selsct id " + id + ", " + table.getSelectedRow());
@@ -550,7 +538,6 @@ public class CustomerListFormNew extends JPanel {
 
 	private void searchCustomer() {
 
-		// TODO Auto-generated method stub
 		String keyword = txtSearch.getText();
 
 		loadAllCustomers(Optional.of(originalCustomerList.stream()
@@ -564,9 +551,7 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-//				if (!customer.getName().isBlank() && customer.getAddress() != null && customer.getContact_no().getCategory() != null
-//						&& book.getPublisher() != null) {
+
 				if (txtCustomerName.getText().equals("") || txtAddress.getText().equals("")
 						|| txtAddress.getText().equals("") || txtContactNo.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Enter Required Field!");
@@ -587,11 +572,10 @@ public class CustomerListFormNew extends JPanel {
 					customer.setActive(1);
 					LocalDateTime registerDate = LocalDateTime.now();
 					LocalDateTime expireDate = registerDate.plusYears(2);
-	//
-//					
+
 					customer.setRegister_date(registerDate);
 					customer.setExpired_date(expireDate);
-//					
+
 					customer.setLast_date_use(registerDate);
 					customerService.saveCustomer(customer);
 					System.out.println("To Save " + customer.getRegister_date());
@@ -599,11 +583,7 @@ public class CustomerListFormNew extends JPanel {
 					loadAllCustomers(Optional.empty());
 
 				}
-//						&& book.getPublisher() != null) {
 
-					
-
-				
 			}
 
 		});
@@ -612,7 +592,6 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 
 				customer.setName(txtCustomerName.getText());
 				customer.setAddress(txtAddress.getText());
@@ -626,11 +605,10 @@ public class CustomerListFormNew extends JPanel {
 
 				LocalDateTime registerDate = LocalDateTime.now();
 				LocalDateTime expireDate = registerDate.plusYears(2);
-//
-//				
+
 				customer.setRegister_date(registerDate);
 				customer.setExpired_date(expireDate);
-//				
+
 				customer.setLast_date_use(registerDate);
 
 				if (!customer.getName().isBlank() && !customer.getContact_no().isBlank()) {
@@ -651,7 +629,7 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				clearForm();
 				buttonVisible();
 			}
@@ -661,7 +639,6 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -670,7 +647,7 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				searchCustomer();
 			}
 		});
@@ -679,7 +656,7 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				searchCustomer();
 			}
 		});
@@ -688,7 +665,7 @@ public class CustomerListFormNew extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				filterByComboBox();
 			}
 		});
@@ -697,7 +674,7 @@ public class CustomerListFormNew extends JPanel {
 
 class IconRenderer extends DefaultTableCellRenderer {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	Image imgActive = new ImageIcon(this.getClass().getResource("/active-24.png")).getImage();
@@ -706,7 +683,6 @@ class IconRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
-		// TODO Auto-generated method stub
 
 		if (value.toString().equals("1")) {
 			return new JLabel(new ImageIcon(imgActive));

@@ -1,24 +1,18 @@
 package shared.mapper;
 
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import entities.Author;
 import entities.Book;
 import entities.Category;
 import entities.Customer;
 import entities.Employee;
-import entities.Publisher;
 import entities.Sale;
 import entities.SaleDetails;
-import entities.Sale;
-import entities.Customer;
-import repositories.*;
-
-import services.BookService;
-import services.SaleService;
-import java.sql.ResultSet;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Locale;
+import repositories.BookRepo;
+import repositories.SaleRepo;
 
 public class SaleMapper {
 
@@ -89,7 +83,7 @@ public class SaleMapper {
 
 		return saleDetails;
 	}
-	
+
 	public SaleDetails mapToSaleDetailstopten(SaleDetails saleDetails, ResultSet rs) {
 		try {
 			saleDetails.setQuantity(rs.getInt("sum(quantity)"));
@@ -104,46 +98,39 @@ public class SaleMapper {
 		return saleDetails;
 	}
 
-
 	public SaleDetails mapAllSaleDetails(SaleDetails saleDetails, ResultSet rs) {
 		try {
 			Sale sale = new Sale();
-			sale.setId(rs.getString("sale_id"));// 1
-			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale.sale_date"), // 2
+			sale.setId(rs.getString("sale_id"));
+			sale.setSaleDate(LocalDateTime.parse(rs.getString("sale.sale_date"),
 					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			Book book = new Book();
-			book.setName(rs.getString("book_name"));// 3
+			book.setName(rs.getString("book_name"));
 
 			Customer customer = new Customer();
-			customer.setName(rs.getString("customer_name"));// 4
+			customer.setName(rs.getString("customer_name"));
 			sale.setCustomer(customer);
 
 			Employee employee = new Employee();
-			employee.setName(rs.getString("employee_name"));// 5
+			employee.setName(rs.getString("employee_name"));
 
-			saleDetails.setQuantity(rs.getInt("quantity"));// 6
+			saleDetails.setQuantity(rs.getInt("quantity"));
 
-			saleDetails.setPrice(rs.getInt("sale_price"));// 7
+			saleDetails.setPrice(rs.getInt("sale_price"));
 			System.out.println("Price id : 	" + book.getPrice());
 
-
 			Author author = new Author();
-			author.setName(rs.getString("author_name"));// 8
+			author.setName(rs.getString("author_name"));
 
 			Category category = new Category();
-			category.setName(rs.getString("category_name"));// 9
-			
-//			Publisher publisher = new Publisher();
-//			publisher.setName(rs.getString("publisher_name"));
-
+			category.setName(rs.getString("category_name"));
 
 			book.setAuthor(author);
 			book.setCategory(category);
-			//book.setPublisher(publisher);
+
 			sale.setEmployee(employee);
 			saleDetails.setBook(book);
 			saleDetails.setSale(sale);
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();

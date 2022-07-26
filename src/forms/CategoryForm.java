@@ -1,7 +1,6 @@
 package forms;
 
-import javax.swing.JPanel;
-
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,22 +11,20 @@ import java.util.stream.Collectors;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import entities.Author;
 import entities.Category;
 import services.CategoryService;
-
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.Color;
 
 public class CategoryForm extends JPanel {
 
@@ -228,7 +225,6 @@ public class CategoryForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 
 				if (txtCategoryName.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Please Enter Name!");
@@ -250,7 +246,7 @@ public class CategoryForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				if (category != null && category.getId() != null) {
 
 					category.setName(txtCategoryName.getText());
@@ -294,7 +290,7 @@ public class CategoryForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				txtCategoryName.setText("");
 				loadAllCategories(Optional.empty());
 				buttonVisible();
@@ -303,6 +299,7 @@ public class CategoryForm extends JPanel {
 		});
 
 		btnSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				searchCategory();
 			}
@@ -312,7 +309,7 @@ public class CategoryForm extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				searchCategory();
 			}
 		});
