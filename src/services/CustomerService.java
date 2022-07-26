@@ -36,14 +36,6 @@ public class CustomerService implements CustomerRepo {
 		try {
 
 			customer.setId(generateClass.generateID("id", "Customer", "CS"));
-			System.out.println("Customer iD " + customer.getId());
-			System.out.println("Customer Name " + customer.getName());
-			System.out.println("Customer Contact " + customer.getContact_no());
-			System.out.println("Customer register " + customer.getRegister_date());
-			System.out.println("Customer last date " + customer.getLast_date_use());
-			System.out.println("Customer expire " + customer.getExpired_date());
-			System.out.println("Customer iD " + customer.getId());
-			System.out.println("Customer iD " + customer.getId());
 
 			PreparedStatement ps = this.dbConfig.getConnection().prepareStatement(
 					"INSERT INTO customer (id, name, contact_no, email, address, register_date, expired_date, last_date_use, active) "
@@ -59,6 +51,7 @@ public class CustomerService implements CustomerRepo {
 
 			ps.setString(8, String.valueOf(customer.getLast_date_use()));
 			ps.setInt(9, customer.getActive());
+			ps.executeUpdate();
 
 			ps.close();
 
@@ -102,7 +95,6 @@ public class CustomerService implements CustomerRepo {
 			ps.setString(5, String.valueOf(customer.getRegister_date()));
 			ps.setString(6, String.valueOf(customer.getExpired_date()));
 			ps.setString(7, String.valueOf(customer.getLast_date_use()));
-			System.out.println("UPdaet cus id " + cusId);
 			ps.setInt(8, customer.getActive());
 			ps.setString(9, cusId);
 			ps.executeUpdate();

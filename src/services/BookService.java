@@ -322,7 +322,7 @@ public class BookService implements BookRepo, PurchaseRepo {
 		List<PurchaseDetails> purchaseDetailList = new ArrayList<>();
 		try (Statement st = this.dbConfig.getConnection().createStatement()) {
 
-			String query = "SELECT * FROM purchase_detial WHERE book_id = " + bookId + ";";
+			String query = "SELECT * FROM purchase_detail WHERE book_id = " + bookId + ";";
 
 			ResultSet rs = st.executeQuery(query);
 

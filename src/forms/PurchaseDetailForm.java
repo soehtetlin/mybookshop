@@ -5,7 +5,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -32,8 +31,6 @@ import entities.Employee;
 import entities.Publisher;
 import entities.Purchase;
 import entities.PurchaseDetails;
-import services.BookService;
-import services.CategoryService;
 import services.EmployeeService;
 import services.PublisherService;
 import services.PurchaseService;
@@ -43,10 +40,6 @@ public class PurchaseDetailForm extends JPanel {
 	private JTextField txtSearchPurchase;
 	private PublisherService publisherService;
 	private EmployeeService employeeService;
-	private CategoryService categoryService;
-	private BookService bookService;
-	private Employee employee;
-	private Book book;
 	private DefaultTableModel dtm = new DefaultTableModel();
 	private List<PurchaseDetails> purchaseList = new ArrayList<>();
 	private PurchaseService purchaseServices;
@@ -75,10 +68,6 @@ public class PurchaseDetailForm extends JPanel {
 	private void initializeDependency() {
 		this.publisherService = new PublisherService();
 		this.employeeService = new EmployeeService();
-		this.categoryService = new CategoryService();
-		this.bookService = new BookService();
-		this.employee = new Employee();
-		this.book = new Book();
 		this.purchaseServices = new PurchaseService();
 
 	}
@@ -248,16 +237,15 @@ public class PurchaseDetailForm extends JPanel {
 		});
 		btnSearchBook.setMnemonic('s');
 		btnSearchBook.setMargin(new Insets(2, 2, 2, 2));
-		btnSearchBook.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		cLayout.setButton(btnSearchBook);
 		txtSearchPurchase = new JTextField();
-		txtSearchPurchase.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setTextField(txtSearchPurchase);
 		txtSearchPurchase.setColumns(10);
 
 		JLabel lblPublisher = new JLabel("Publisher");
-		lblPublisher.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		cLayout.setLabel(lblPublisher);
 		cboPublisher = new JComboBox<String>();
+		cLayout.setComboBox(cboPublisher);
 		cboPublisher.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -272,9 +260,9 @@ public class PurchaseDetailForm extends JPanel {
 		});
 
 		JLabel lblEmployee = new JLabel("Employee");
-		lblEmployee.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		cLayout.setLabel(lblEmployee);
 		cboEmployee = new JComboBox<String>();
+		cLayout.setComboBox(cboEmployee);
 		cboEmployee.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -288,17 +276,19 @@ public class PurchaseDetailForm extends JPanel {
 		});
 
 		JButton btnShowAll = new JButton("Show All");
+		cLayout.setButton(btnShowAll);
 		btnShowAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				txtSearchPurchase.setText("");
+				cboPublisher.setSelectedIndex(0);
+				cboEmployee.setSelectedIndex(0);
 				loadAllPurchase(Optional.empty());
 			}
 		});
 		btnShowAll.setMnemonic('a');
 		btnShowAll.setMargin(new Insets(2, 2, 2, 2));
 		btnShowAll.setFont(new Font("Tahoma", Font.BOLD, 14));
-		Date date = new Date();
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
 				groupLayout.createSequentialGroup().addGap(10)

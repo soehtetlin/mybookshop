@@ -25,14 +25,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import entities.Book;
-import entities.Category;
 import entities.Customer;
 import entities.Employee;
 import entities.Sale;
 import entities.SaleDetails;
-import services.BookService;
-import services.CategoryService;
 import services.CustomerService;
 import services.EmployeeService;
 import services.SaleService;
@@ -42,15 +38,10 @@ public class SaleDetailForm extends JPanel {
 	private JTextField txtSearchSale;
 	private CustomerService customerService;
 	private EmployeeService employeeService;
-	private CategoryService categoryService;
-	private BookService bookService;
-	private Employee employee;
-	private Book book;
 	private DefaultTableModel dtm = new DefaultTableModel();
 	private List<SaleDetails> saleList = new ArrayList<>();
 	private SaleService saleServices;
 	private JComboBox<String> cboCustomer, cboEmployee;
-	private List<Category> categoryList;
 	private List<Employee> employeelist;
 	private List<Customer> customerList;
 	private List<Sale> saleListName;
@@ -72,10 +63,6 @@ public class SaleDetailForm extends JPanel {
 	private void initializeDependency() {
 		this.customerService = new CustomerService();
 		this.employeeService = new EmployeeService();
-		this.categoryService = new CategoryService();
-		this.bookService = new BookService();
-		this.employee = new Employee();
-		this.book = new Book();
 		this.saleServices = new SaleService();
 
 	}
@@ -267,16 +254,16 @@ public class SaleDetailForm extends JPanel {
 		});
 		btnSearchBook.setMnemonic('s');
 		btnSearchBook.setMargin(new Insets(2, 2, 2, 2));
-		btnSearchBook.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setButton(btnSearchBook);
 
 		txtSearchSale = new JTextField();
-		txtSearchSale.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cLayout.setTextField(txtSearchSale);
 		txtSearchSale.setColumns(10);
 
 		JLabel lblCustomer = new JLabel("Customer");
-		lblCustomer.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		cLayout.setLabel(lblCustomer);
 		cboCustomer = new JComboBox<String>();
+		cLayout.setComboBox(cboCustomer);
 		cboCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -291,9 +278,9 @@ public class SaleDetailForm extends JPanel {
 		});
 
 		JLabel lblEmployee = new JLabel("Employee");
-		lblEmployee.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		cLayout.setLabel(lblEmployee);
 		cboEmployee = new JComboBox<String>();
+		cLayout.setComboBox(cboEmployee);
 		cboEmployee.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -307,10 +294,14 @@ public class SaleDetailForm extends JPanel {
 		});
 
 		JButton btnShowAll = new JButton("Show All");
+		cLayout.setButton(btnShowAll);
 		btnShowAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
+				txtSearchSale.setText("");
+				cboCustomer.setSelectedIndex(0);
+				cboEmployee.setSelectedIndex(0);
 				loadAllSale(Optional.empty());
 			}
 		});
